@@ -97,13 +97,61 @@ Santekatte, Udupi – 576105</textarea>
           <legend>Invitation Text & Scriptures</legend>
 
           <div class="form-group">
-            <label for="welcomeText">Welcome Eyebrow</label>
+            <label for="welcomeText">Welcome Eyebrow (Screen 1)</label>
             <input type="text" id="welcomeText" name="welcome_text" value="Welcome to" placeholder="e.g. Welcome to">
           </div>
 
           <div class="form-group">
+            <label for="inviteEyebrow">Invitation Eyebrow (Screen 2)</label>
+            <input type="text" id="inviteEyebrow" name="invite_eyebrow" value="With Grateful Hearts," placeholder="e.g. With Grateful Hearts,">
+          </div>
+
+          <div class="form-group">
             <label for="inviteText">Invitation Statement</label>
-            <textarea id="inviteText" name="invite_text" rows="3" placeholder="e.g. invite you and your family to bless our new beginning">invite you and your family to bless our new beginning.</textarea>
+            <textarea id="inviteText" name="invite_text" rows="2" placeholder="e.g. invite you and your family to bless our new beginning">invite you and your family to bless our new beginning.</textarea>
+          </div>
+
+          <!-- RSVP Customizer -->
+          <div style="margin: 10px 0; border: 1px dashed var(--border-color); padding: 16px; border-radius: var(--radius-md); background: var(--bg-primary);">
+            <h4 style="font-size:12px; text-transform:uppercase; margin-bottom:12px; color:var(--color-maroon);">RSVP Options Customization</h4>
+            
+            <div class="form-row" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label for="rsvpOption1Title">Option 1 Title (Attending)</label>
+                <input type="text" id="rsvpOption1Title" name="rsvp_option1_title" value="Gladly attending">
+              </div>
+              <div class="form-group">
+                <label for="rsvpOption1Subtitle">Option 1 Subtitle</label>
+                <input type="text" id="rsvpOption1Subtitle" name="rsvp_option1_subtitle" value="We will be there!">
+              </div>
+            </div>
+
+            <div class="form-row" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label for="rsvpOption2Title">Option 2 Title (Maybe)</label>
+                <input type="text" id="rsvpOption2Title" name="rsvp_option2_title" value="Will try to come">
+              </div>
+              <div class="form-group">
+                <label for="rsvpOption2Subtitle">Option 2 Subtitle</label>
+                <input type="text" id="rsvpOption2Subtitle" name="rsvp_option2_subtitle" value="Trying our best!">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rsvpOption3Title">Option 3 Title (Send Blessings)</label>
+                <input type="text" id="rsvpOption3Title" name="rsvp_option3_title" value="Sending blessings">
+              </div>
+              <div class="form-group">
+                <label for="rsvpOption3Subtitle">Option 3 Subtitle</label>
+                <input type="text" id="rsvpOption3Subtitle" name="rsvp_option3_subtitle" value="In our prayers always.">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="modalContactBlessing">RSVP Modal Header Tagline</label>
+            <input type="text" id="modalContactBlessing" name="modal_contact_blessing" value="Your blessing means the world to us">
           </div>
 
           <!-- Bible Verse Toggle -->
@@ -121,7 +169,7 @@ Santekatte, Udupi – 576105</textarea>
           <div class="conditional-fields" id="bibleVerseFields">
             <div class="form-group">
               <label for="bibleVerse">Scripture / Quote Text</label>
-              <textarea id="bibleVerse" name="bible_verse" rows="3" placeholder="e.g. Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty.">Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty.</textarea>
+              <textarea id="bibleVerse" name="bible_verse" rows="3" placeholder="e.g. Whoever dwells in the shelter of the Most High...">Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty.</textarea>
             </div>
             <div class="form-group">
               <label for="bibleRef">Citation / Reference</label>
@@ -137,6 +185,16 @@ Santekatte, Udupi – 576105</textarea>
           <div class="form-group">
             <label for="closingSubtext">Closing Subtext</label>
             <input type="text" id="closingSubtext" name="closing_subtext" value="Thank you for becoming part of ours." placeholder="e.g. Thank you for becoming part of ours.">
+          </div>
+
+          <div class="form-group">
+            <label for="hostsTagline">Hosts Thank You Tagline (Screen 3)</label>
+            <input type="text" id="hostsTagline" name="hosts_tagline" value="With Love & Gratitude">
+          </div>
+
+          <div class="form-group">
+            <label for="seeYouBtnText">See You Soon Button Text (Screen 3)</label>
+            <input type="text" id="seeYouBtnText" name="see_you_btn_text" value="See You Soon">
           </div>
 
           <!-- Presents in blessings only Toggle -->

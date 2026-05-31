@@ -113,7 +113,7 @@
       </div>
 
       <div class="invitation-content">
-        <p class="invitation-eyebrow reveal reveal-d1">With Grateful Hearts,</p>
+        <p class="invitation-eyebrow reveal reveal-d1" id="invitationEyebrow">With Grateful Hearts,</p>
         <p class="invitation-hosts reveal reveal-d2" id="invitationHosts">Hosts</p>
         <p class="invitation-invite reveal reveal-d2" id="invitationInvite">invite you to bless our new home.</p>
         <h2 class="invitation-name reveal reveal-d3" id="invitationName">NORAH</h2>
@@ -201,13 +201,13 @@
         <!-- Hosts -->
         <div class="hosts-card reveal reveal-d4">
           <p class="hosts-card__names" id="hostsCardNames">Hosts Names</p>
-          <p class="hosts-card__tagline">With Love &amp; Gratitude</p>
+          <p class="hosts-card__tagline" id="hostsCardTagline">With Love &amp; Gratitude</p>
         </div>
 
         <!-- CTA -->
         <button class="cta-final reveal reveal-d5" id="seeYouBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-          See You Soon
+          <span id="seeYouBtnText">See You Soon</span>
         </button>
 
         <p class="presence-note reveal reveal-d5" id="presenceNote" style="color:#FFFFFF;text-shadow:0 2px 12px rgba(0,0,0,0.7),0 0 4px rgba(0,0,0,0.4);">"Presents in blessings only"</p>
@@ -245,24 +245,24 @@
         <a class="rsvp-option" id="rsvpAttending" href="" target="_blank" rel="noopener" role="button">
           <div class="rsvp-option__icon rsvp-option__icon--heart">&hearts;</div>
           <div class="rsvp-option__text">
-            <div class="rsvp-option__title">Gladly attending</div>
-            <div class="rsvp-option__subtitle">We will be there!</div>
+            <div class="rsvp-option__title" id="rsvpOption1Title">Gladly attending</div>
+            <div class="rsvp-option__subtitle" id="rsvpOption1Subtitle">We will be there!</div>
           </div>
           <span class="rsvp-option__arrow">&rsaquo;</span>
         </a>
         <a class="rsvp-option" id="rsvpMaybe" href="" target="_blank" rel="noopener" role="button">
           <div class="rsvp-option__icon">&#9786;</div>
           <div class="rsvp-option__text">
-            <div class="rsvp-option__title">Will try to come</div>
-            <div class="rsvp-option__subtitle">Trying our best!</div>
+            <div class="rsvp-option__title" id="rsvpOption2Title">Will try to come</div>
+            <div class="rsvp-option__subtitle" id="rsvpOption2Subtitle">Trying our best!</div>
           </div>
           <span class="rsvp-option__arrow">&rsaquo;</span>
         </a>
         <a class="rsvp-option" id="rsvpBlessings" href="" target="_blank" rel="noopener" role="button">
           <div class="rsvp-option__icon">&#9775;</div>
           <div class="rsvp-option__text">
-            <div class="rsvp-option__title">Sending blessings</div>
-            <div class="rsvp-option__subtitle">In our prayers always.</div>
+            <div class="rsvp-option__title" id="rsvpOption3Title">Sending blessings</div>
+            <div class="rsvp-option__subtitle" id="rsvpOption3Subtitle">In our prayers always.</div>
           </div>
           <span class="rsvp-option__arrow">&rsaquo;</span>
         </a>
@@ -270,7 +270,7 @@
 
       <!-- Contact -->
       <div class="modal-contact">
-        <p class="modal-contact__blessing">Your blessing means the world to us</p>
+        <p class="modal-contact__blessing" id="modalContactBlessing">Your blessing means the world to us</p>
         <div class="gold-divider gold-divider--compact" aria-hidden="true">
           <span></span><span class="gold-divider__dot">&hearts;</span><span></span>
         </div>

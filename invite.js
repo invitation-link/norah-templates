@@ -119,6 +119,7 @@
     // Populate Fields
     document.getElementById('doorWelcome').textContent = data.welcome_text || 'Welcome to';
     document.getElementById('doorTitle').textContent = data.home_name;
+    document.getElementById('invitationEyebrow').textContent = data.invite_eyebrow || 'With Grateful Hearts,';
     document.getElementById('invitationHosts').textContent = data.hosts;
     document.getElementById('invitationInvite').innerHTML = data.invite_text ? data.invite_text.replace(/\n/g, '<br>') : 'invite you to bless our new home.';
     document.getElementById('invitationName').textContent = data.home_name;
@@ -154,7 +155,18 @@
     document.getElementById('closingSubquote').innerHTML = data.closing_subtext ? data.closing_subtext.replace(/\n/g, '<br>') : 'Thank you for becoming part of ours.';
     
     document.getElementById('hostsCardNames').textContent = data.hosts;
+    document.getElementById('hostsCardTagline').textContent = data.hosts_tagline || 'With Love & Gratitude';
+    document.getElementById('seeYouBtnText').textContent = data.see_you_btn_text || 'See You Soon';
     document.getElementById('modalContactName').textContent = data.hosts;
+
+    // RSVP Options Custom Texts
+    document.getElementById('rsvpOption1Title').textContent = data.rsvp_option1_title || 'Gladly attending';
+    document.getElementById('rsvpOption1Subtitle').textContent = data.rsvp_option1_subtitle || 'We will be there!';
+    document.getElementById('rsvpOption2Title').textContent = data.rsvp_option2_title || 'Will try to come';
+    document.getElementById('rsvpOption2Subtitle').textContent = data.rsvp_option2_subtitle || 'Trying our best!';
+    document.getElementById('rsvpOption3Title').textContent = data.rsvp_option3_title || 'Sending blessings';
+    document.getElementById('rsvpOption3Subtitle').textContent = data.rsvp_option3_subtitle || 'In our prayers always.';
+    document.getElementById('modalContactBlessing').textContent = data.modal_contact_blessing || 'Your blessing means the world to us';
 
     // Presents in blessings only
     if (data.show_presence_note && data.presence_note) {
