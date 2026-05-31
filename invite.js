@@ -14,7 +14,8 @@
     doorOpened: false,
     audio: null,
     audioPlaying: false,
-    data: null
+    data: null,
+    isPreviewMode: false
   };
 
   document.addEventListener('DOMContentLoaded', init);
@@ -35,6 +36,7 @@
       // Check if we are in preview mode inside the builder iframe
       const params = new URLSearchParams(window.location.search);
       if (params.get('mode') === 'preview') {
+        state.isPreviewMode = true;
         // Wait for postMessage updates
         window.addEventListener('message', function(event) {
           if (event.data && event.data.type === 'preview') {
@@ -116,24 +118,35 @@
     document.getElementById('bgInvite').src = data.bg_image_invite || 'https://norah-housewarming.vercel.app/assets/images/bg-curtain-flowers.webp';
     document.getElementById('bgClosing').src = data.bg_image_closing || 'https://norah-housewarming.vercel.app/assets/images/bg-evening-warmth.webp';
 
+    function safeSetText(id, text, isHtml = false) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (document.activeElement === el) return; // do not overwrite if user is currently typing
+      if (isHtml) {
+        el.innerHTML = text;
+      } else {
+        el.textContent = text;
+      }
+    }
+
     // Populate Fields
-    document.getElementById('doorWelcome').textContent = data.welcome_text || 'Welcome to';
-    document.getElementById('doorTitle').textContent = data.home_name;
-    document.getElementById('invitationEyebrow').textContent = data.invite_eyebrow || 'With Grateful Hearts,';
-    document.getElementById('invitationHosts').textContent = data.hosts;
-    document.getElementById('invitationInvite').innerHTML = data.invite_text ? data.invite_text.replace(/\n/g, '<br>') : 'invite you to bless our new home.';
-    document.getElementById('invitationName').textContent = data.home_name;
-    document.getElementById('modalTitle').textContent = data.home_name;
+    safeSetText('doorWelcome', data.welcome_text || 'Welcome to');
+    safeSetText('doorTitle', data.home_name);
+    safeSetText('invitationEyebrow', data.invite_eyebrow || 'With Grateful Hearts,');
+    safeSetText('invitationHosts', data.hosts);
+    safeSetText('invitationInvite', data.invite_text ? data.invite_text.replace(/\n/g, '<br>') : 'invite you to bless our new home.', true);
+    safeSetText('invitationName', data.home_name);
+    safeSetText('modalTitle', data.home_name);
 
     // Date/Time
     const dateFormatted = formatDate(data.event_date);
-    document.getElementById('detailDate').textContent = dateFormatted;
-    document.getElementById('detailTime').textContent = data.event_time;
-    document.getElementById('detailTimeExtra').textContent = "Followed by Celebrations";
+    safeSetText('detailDate', dateFormatted);
+    safeSetText('detailTime', data.event_time);
+    safeSetText('detailTimeExtra', "Followed by Celebrations");
 
     // Venue
-    document.getElementById('detailVenueName').textContent = data.venue_name || '';
-    document.getElementById('detailVenueAddress').innerHTML = data.venue_address ? data.venue_address.replace(/\n/g, '<br>') : '';
+    safeSetText('detailVenueName', data.venue_name || '');
+    safeSetText('detailVenueAddress', data.venue_address ? data.venue_address.replace(/\n/g, '<br>') : '', true);
     
     if (data.venue_maps_url) {
       document.getElementById('directionsBtn').href = data.venue_maps_url;
@@ -145,32 +158,32 @@
     // Closing Screen
     if (data.show_bible_verse && data.bible_verse) {
       document.getElementById('doorScripture').style.display = 'block';
-      document.getElementById('scriptureText').innerHTML = `&ldquo;${data.bible_verse}&rdquo;`;
-      document.getElementById('scriptureRef').textContent = data.bible_ref ? `— ${data.bible_ref}` : '';
+      safeSetText('scriptureText', `“${data.bible_verse}”`);
+      safeSetText('scriptureRef', data.bible_ref ? `— ${data.bible_ref}` : '');
     } else {
       document.getElementById('doorScripture').style.display = 'none';
     }
 
-    document.getElementById('closingQuote').innerHTML = data.closing_quote ? data.closing_quote.replace(/\n/g, '<br>') : 'A home is made of moments and people.';
-    document.getElementById('closingSubquote').innerHTML = data.closing_subtext ? data.closing_subtext.replace(/\n/g, '<br>') : 'Thank you for becoming part of ours.';
+    safeSetText('closingQuote', data.closing_quote ? data.closing_quote.replace(/\n/g, '<br>') : 'A home is made of moments and people.', true);
+    safeSetText('closingSubquote', data.closing_subtext ? data.closing_subtext.replace(/\n/g, '<br>') : 'Thank you for becoming part of ours.', true);
     
-    document.getElementById('hostsCardNames').textContent = data.hosts;
-    document.getElementById('hostsCardTagline').textContent = data.hosts_tagline || 'With Love & Gratitude';
-    document.getElementById('seeYouBtnText').textContent = data.see_you_btn_text || 'See You Soon';
-    document.getElementById('modalContactName').textContent = data.hosts;
+    safeSetText('hostsCardNames', data.hosts);
+    safeSetText('hostsCardTagline', data.hosts_tagline || 'With Love & Gratitude');
+    safeSetText('seeYouBtnText', data.see_you_btn_text || 'See You Soon');
+    safeSetText('modalContactName', data.hosts);
 
     // RSVP Options Custom Texts
-    document.getElementById('rsvpOption1Title').textContent = data.rsvp_option1_title || 'Gladly attending';
-    document.getElementById('rsvpOption1Subtitle').textContent = data.rsvp_option1_subtitle || 'We will be there!';
-    document.getElementById('rsvpOption2Title').textContent = data.rsvp_option2_title || 'Will try to come';
-    document.getElementById('rsvpOption2Subtitle').textContent = data.rsvp_option2_subtitle || 'Trying our best!';
-    document.getElementById('rsvpOption3Title').textContent = data.rsvp_option3_title || 'Sending blessings';
-    document.getElementById('rsvpOption3Subtitle').textContent = data.rsvp_option3_subtitle || 'In our prayers always.';
-    document.getElementById('modalContactBlessing').textContent = data.modal_contact_blessing || 'Your blessing means the world to us';
+    safeSetText('rsvpOption1Title', data.rsvp_option1_title || 'Gladly attending');
+    safeSetText('rsvpOption1Subtitle', data.rsvp_option1_subtitle || 'We will be there!');
+    safeSetText('rsvpOption2Title', data.rsvp_option2_title || 'Will try to come');
+    safeSetText('rsvpOption2Subtitle', data.rsvp_option2_subtitle || 'Trying our best!');
+    safeSetText('rsvpOption3Title', data.rsvp_option3_title || 'Sending blessings');
+    safeSetText('rsvpOption3Subtitle', data.rsvp_option3_subtitle || 'In our prayers always.');
+    safeSetText('modalContactBlessing', data.modal_contact_blessing || 'Your blessing means the world to us');
 
     // Presents in blessings only
     if (data.show_presence_note && data.presence_note) {
-      document.getElementById('presenceNote').textContent = `"${data.presence_note}"`;
+      safeSetText('presenceNote', `"${data.presence_note}"`);
       document.getElementById('presenceNote').style.display = 'block';
     } else {
       document.getElementById('presenceNote').style.display = 'none';
@@ -188,6 +201,60 @@
       document.getElementById('rsvpAttending').href = `https://wa.me/${cleanPhone}?text=Hi%20${hostEscaped}!%20🏡%20We%20will%20gladly%20be%20there%20for%20the%20housewarming%20of%20${homeEscaped}!%20❤️`;
       document.getElementById('rsvpMaybe').href = `https://wa.me/${cleanPhone}?text=Hi%20${hostEscaped}!%20🏡%20We%20will%20try%20our%20best%20to%20make%20it%20to%20the%20housewarming!%20😊`;
       document.getElementById('rsvpBlessings').href = `https://wa.me/${cleanPhone}?text=Hi%20${hostEscaped}!%20🏡%20Sending%20our%20blessings%20and%20prayers%20for%20your%20beautiful%20new%20home%20${homeEscaped}!%20🙏`;
+    }
+
+    // Make elements editable if in preview mode
+    if (state.isPreviewMode) {
+      const editables = {
+        'doorWelcome': 'welcome_text',
+        'doorTitle': 'home_name',
+        'invitationEyebrow': 'invite_eyebrow',
+        'invitationHosts': 'hosts',
+        'invitationInvite': 'invite_text',
+        'detailTime': 'event_time',
+        'detailVenueName': 'venue_name',
+        'detailVenueAddress': 'venue_address',
+        'scriptureText': 'bible_verse',
+        'scriptureRef': 'bible_ref',
+        'closingQuote': 'closing_quote',
+        'closingSubquote': 'closing_subtext',
+        'hostsCardTagline': 'hosts_tagline',
+        'seeYouBtnText': 'see_you_btn_text',
+        'rsvpOption1Title': 'rsvp_option1_title',
+        'rsvpOption1Subtitle': 'rsvp_option1_subtitle',
+        'rsvpOption2Title': 'rsvp_option2_title',
+        'rsvpOption2Subtitle': 'rsvp_option2_subtitle',
+        'rsvpOption3Title': 'rsvp_option3_title',
+        'rsvpOption3Subtitle': 'rsvp_option3_subtitle',
+        'modalContactBlessing': 'modal_contact_blessing',
+        'presenceNote': 'presence_note'
+      };
+
+      for (const [id, field] of Object.entries(editables)) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.contentEditable = "true";
+          el.style.outline = "none";
+          el.style.borderBottom = "1px dashed var(--gold)";
+          el.style.minWidth = "24px";
+          el.style.cursor = "text";
+          
+          if (!el.dataset.hasEditListener) {
+            el.dataset.hasEditListener = "true";
+            el.addEventListener('input', () => {
+              let val = el.innerText || el.textContent;
+              // Clean formatting wrappers if editing quote fields
+              if (id === 'scriptureText') {
+                val = val.replace(/^“|”$/g, '');
+              }
+              if (id === 'presenceNote') {
+                val = val.replace(/^"|"$/g, '');
+              }
+              window.parent.postMessage({ type: 'edit', field: field, value: val }, '*');
+            });
+          }
+        }
+      }
     }
 
     // Hide loader

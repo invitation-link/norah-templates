@@ -297,11 +297,19 @@
   let previewReady = false;
 
   function setupLivePreview() {
-    // Listen for iframe readiness
+    // Listen for iframe messages
     window.addEventListener('message', (event) => {
       if (event.data && event.data.type === 'preview_ready') {
         previewReady = true;
         updatePreview();
+      } else if (event.data && event.data.type === 'edit') {
+        const { field, value } = event.data;
+        const input = document.getElementsByName(field)[0] || document.getElementById(field);
+        if (input) {
+          input.value = value;
+          // Refresh other places in preview using the updated dataset
+          updatePreview();
+        }
       }
     });
 
