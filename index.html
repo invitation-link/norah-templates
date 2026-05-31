@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NORAH — Custom Invitation Builder</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C4A35A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z'/><path d='M9 21V12h6v9'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/builder.css">
+  
+  <!-- Supabase CDN Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="builder-container">
+    
+    <!-- LEFT PANEL: Configuration Form -->
+    <div class="form-panel">
+      <header class="builder-header">
+        <div class="logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+            <path d="M9 21V12h6v9"/>
+          </svg>
+          <h1>NORAH</h1>
+        </div>
+        <p class="subtitle">Design & publish your luxury cinematic housewarming invitation</p>
+      </header>
+
+      <!-- Step Navigation Indicator -->
+      <nav class="steps-nav">
+        <div class="step-dot active" data-step="1"><span>1</span>Details</div>
+        <div class="step-dot" data-step="2"><span>2</span>Content</div>
+        <div class="step-dot" data-step="3"><span>3</span>Design</div>
+        <div class="step-dot" data-step="4"><span>4</span>Share</div>
+      </nav>
+
+      <form id="builderForm">
+        
+        <!-- STEP 1: Core Details -->
+        <fieldset class="step-fieldset" id="step-1">
+          <legend>Event Details</legend>
+          
+          <div class="form-group">
+            <label for="homeName">Invitation Title / Home Name</label>
+            <input type="text" id="homeName" name="home_name" value="NORAH" required placeholder="e.g. NORAH or VILLA GRACE">
+          </div>
+
+          <div class="form-group">
+            <label for="hosts">Hosts</label>
+            <input type="text" id="hosts" name="hosts" value="Joylin & Noel Monis" required placeholder="e.g. Joylin & Noel Monis">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eventDate">Event Date</label>
+              <input type="date" id="eventDate" name="event_date" value="2026-07-25" required>
+            </div>
+            <div class="form-group">
+              <label for="eventTime">Event Time</label>
+              <input type="text" id="eventTime" name="event_time" value="12:00 PM Onwards" required placeholder="e.g. 12:00 PM Onwards">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="venueName">Venue Name</label>
+            <input type="text" id="venueName" name="venue_name" value="Flat No. 505, Kalkura Heights" required placeholder="e.g. Flat No. 505, Kalkura Heights">
+          </div>
+
+          <div class="form-group">
+            <label for="venueAddress">Venue Address</label>
+            <textarea id="venueAddress" name="venue_address" rows="3" required placeholder="e.g. Opp. Robosoft Technologies, NH66&#10;Santekatte, Udupi – 576105">Opp. Robosoft Technologies, NH66
+Santekatte, Udupi – 576105</textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="venueMapsUrl">Google Maps Link</label>
+            <input type="url" id="venueMapsUrl" name="venue_maps_url" value="https://maps.google.com/?q=Kalkura+Heights+Santekatte+Udupi" placeholder="e.g. https://maps.app.goo.gl/...">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">RSVP Contact Number (WhatsApp Enabled)</label>
+            <input type="tel" id="phone" name="phone" value="917259751804" required placeholder="e.g. 917259751804 (include country code, no space)">
+            <small>Must include country code without prefix (e.g. 91 for India, 1 for US)</small>
+          </div>
+
+          <div class="actions-row">
+            <span></span>
+            <button type="button" class="btn btn--primary next-step">Next: Content</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 2: Content & Scripture -->
+        <fieldset class="step-fieldset hidden" id="step-2">
+          <legend>Invitation Text & Scriptures</legend>
+
+          <div class="form-group">
+            <label for="welcomeText">Welcome Eyebrow</label>
+            <input type="text" id="welcomeText" name="welcome_text" value="Welcome to" placeholder="e.g. Welcome to">
+          </div>
+
+          <div class="form-group">
+            <label for="inviteText">Invitation Statement</label>
+            <textarea id="inviteText" name="invite_text" rows="3" placeholder="e.g. invite you and your family to bless our new beginning">invite you and your family to bless our new beginning.</textarea>
+          </div>
+
+          <!-- Bible Verse Toggle -->
+          <div class="form-toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="showBibleVerse" name="show_bible_verse" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <div>
+              <span class="toggle-label">Include Scripture / Quote</span>
+              <span class="toggle-desc">Displayed at the top of the closing screen</span>
+            </div>
+          </div>
+
+          <div class="conditional-fields" id="bibleVerseFields">
+            <div class="form-group">
+              <label for="bibleVerse">Scripture / Quote Text</label>
+              <textarea id="bibleVerse" name="bible_verse" rows="3" placeholder="e.g. Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty.">Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty.</textarea>
+            </div>
+            <div class="form-group">
+              <label for="bibleRef">Citation / Reference</label>
+              <input type="text" id="bibleRef" name="bible_ref" value="Psalm 91:1" placeholder="e.g. Psalm 91:1">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="closingQuote">Closing Quote</label>
+            <input type="text" id="closingQuote" name="closing_quote" value="A home is made of moments and people." placeholder="e.g. A home is made of moments and people.">
+          </div>
+
+          <div class="form-group">
+            <label for="closingSubtext">Closing Subtext</label>
+            <input type="text" id="closingSubtext" name="closing_subtext" value="Thank you for becoming part of ours." placeholder="e.g. Thank you for becoming part of ours.">
+          </div>
+
+          <!-- Presents in blessings only Toggle -->
+          <div class="form-toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="showPresenceNote" name="show_presence_note" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <div>
+              <span class="toggle-label">Include Gift Note</span>
+              <span class="toggle-desc">Displays a subtle reminder at the bottom of the invite</span>
+            </div>
+          </div>
+
+          <div class="conditional-fields" id="presenceNoteFields">
+            <div class="form-group">
+              <label for="presenceNote">Gift Note Text</label>
+              <input type="text" id="presenceNote" name="presence_note" value="Presents in blessings only" placeholder="e.g. Presents in blessings only">
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <button type="button" class="btn btn--secondary prev-step">Back</button>
+            <button type="button" class="btn btn--primary next-step">Next: Design</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3: Styling & Background Assets -->
+        <fieldset class="step-fieldset hidden" id="step-3">
+          <legend>Design Customization</legend>
+
+          <!-- Color System -->
+          <div class="color-selections">
+            <div class="form-group color-picker-group">
+              <label for="colorPrimary">Primary Color (Maroon)</label>
+              <div class="color-picker-wrapper">
+                <input type="color" id="colorPrimary" name="color_primary" value="#6B2036">
+                <input type="text" id="colorPrimaryHex" value="#6B2036" class="hex-text">
+              </div>
+            </div>
+
+            <div class="form-group color-picker-group">
+              <label for="colorAccent">Accent Color (Gold)</label>
+              <div class="color-picker-wrapper">
+                <input type="color" id="colorAccent" name="color_accent" value="#C4A35A">
+                <input type="text" id="colorAccentHex" value="#C4A35A" class="hex-text">
+              </div>
+            </div>
+          </div>
+
+          <!-- Media Preset Selector / Uploader -->
+          <div class="media-section">
+            <h3>Background Images (3 Screens)</h3>
+            
+            <div class="media-field">
+              <label>1. Screen 1 (Door Background)</label>
+              <div class="uploader-control">
+                <input type="file" id="fileDoor" accept="image/*" class="file-input">
+                <input type="hidden" id="bgImageDoor" name="bg_image_door" value="https://norah-housewarming.vercel.app/assets/images/door-scene.webp">
+                <button type="button" class="btn-upload btn-select-preset" data-screen="door">Choose Preset</button>
+                <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
+              </div>
+              <span class="selected-asset-name" id="labelDoor">Default Preset (door-scene.webp)</span>
+            </div>
+
+            <div class="media-field">
+              <label>2. Screen 2 (Invitation Background)</label>
+              <div class="uploader-control">
+                <input type="file" id="fileInvite" accept="image/*" class="file-input">
+                <input type="hidden" id="bgImageInvite" name="bg_image_invite" value="https://norah-housewarming.vercel.app/assets/images/bg-curtain-flowers.webp">
+                <button type="button" class="btn-upload btn-select-preset" data-screen="invite">Choose Preset</button>
+                <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
+              </div>
+              <span class="selected-asset-name" id="labelInvite">Default Preset (bg-curtain-flowers.webp)</span>
+            </div>
+
+            <div class="media-field">
+              <label>3. Screen 3 (Thank You Background)</label>
+              <div class="uploader-control">
+                <input type="file" id="fileClosing" accept="image/*" class="file-input">
+                <input type="hidden" id="bgImageClosing" name="bg_image_closing" value="https://norah-housewarming.vercel.app/assets/images/bg-evening-warmth.webp">
+                <button type="button" class="btn-upload btn-select-preset" data-screen="closing">Choose Preset</button>
+                <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
+              </div>
+              <span class="selected-asset-name" id="labelClosing">Default Preset (bg-evening-warmth.webp)</span>
+            </div>
+
+            <h3>Background Music</h3>
+            <div class="media-field">
+              <label>Background MP3/MP4 Audio Track</label>
+              <div class="uploader-control">
+                <input type="file" id="fileMusic" accept="audio/*" class="file-input">
+                <input type="hidden" id="bgMusicUrl" name="bg_music_url" value="https://norah-housewarming.vercel.app/assets/audio/bg-music.mp4">
+                <button type="button" class="btn-upload btn-select-preset" data-screen="music">Choose Preset</button>
+                <button type="button" class="btn-upload trigger-file-select">Upload Music</button>
+              </div>
+              <span class="selected-asset-name" id="labelMusic">Default Preset (bg-music.mp4)</span>
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <button type="button" class="btn btn--secondary prev-step">Back</button>
+            <button type="button" class="btn btn--primary next-step">Next: Publish</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 4: Share & Generate -->
+        <fieldset class="step-fieldset hidden" id="step-4">
+          <legend>Share & Publish</legend>
+
+          <div class="form-group">
+            <label for="slug">Custom Web Link Slug</label>
+            <div class="slug-input-wrapper">
+              <span class="domain-prefix" id="domainPrefix">norah-templates.vercel.app/invite/</span>
+              <input type="text" id="slug" name="slug" required placeholder="e.g. monis-house">
+            </div>
+            <small>This forms your unique link: e.g. /invite/monis-house</small>
+          </div>
+
+          <!-- Submit Button / Progress Indicator -->
+          <div class="publish-block">
+            <button type="submit" class="btn btn--large btn--primary" id="publishBtn">Generate Invitation Link</button>
+            
+            <div class="progress-bar-container hidden" id="publishProgress">
+              <div class="progress-bar-fill" id="progressFill"></div>
+              <span class="progress-label" id="progressLabel">Uploading assets...</span>
+            </div>
+          </div>
+
+          <!-- Success Screen -->
+          <div class="success-card hidden" id="successCard">
+            <div class="success-icon">✨</div>
+            <h3>Your Invitation is Live!</h3>
+            <p>Share your beautifully customized cinematic housewarming invitation card with your loved ones.</p>
+            
+            <div class="invite-link-box">
+              <input type="text" id="liveInviteLink" readonly>
+              <button type="button" id="copyLinkBtn">Copy Link</button>
+            </div>
+
+            <div class="success-actions">
+              <a href="" id="viewLiveBtn" target="_blank" class="btn btn--secondary">View Live Card</a>
+              <a href="" id="shareWhatsAppBtn" target="_blank" class="btn btn--whatsapp">Share on WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="actions-row success-back-row">
+            <button type="button" class="btn btn--secondary prev-step">Back</button>
+            <span></span>
+          </div>
+        </fieldset>
+
+      </form>
+    </div>
+
+    <!-- RIGHT PANEL: Live Mobile Preview -->
+    <div class="preview-panel">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <iframe id="previewIframe" src="/invite.html?mode=preview" frameborder="0"></iframe>
+        </div>
+      </div>
+      <div class="preview-label">Live Mobile Preview</div>
+    </div>
+
+  </div>
+
+  <!-- Preset Selector Modal -->
+  <div class="preset-modal-overlay" id="presetModal">
+    <div class="preset-modal">
+      <div class="preset-modal-header">
+        <h3>Choose Preset Asset</h3>
+        <button class="preset-modal-close" id="presetModalClose">&times;</button>
+      </div>
+      <div class="preset-grid" id="presetGrid">
+        <!-- Dynaimc preset options -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/builder.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/invite/:slug", "destination": "/invite.html" }
+  ]
+}

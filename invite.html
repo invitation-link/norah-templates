@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#FAF6F1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Invitation</title>
+
+  <!-- Favicon (inline SVG house) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C4A35A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z'/><path d='M9 21V12h6v9'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/invite.css">
+  
+  <!-- Supabase CDN Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loader" style="position:fixed; inset:0; background:#FAF6F1; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Playfair Display', serif;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#6B2036" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:64px; height:64px; animation: gentleFloat 3s ease-in-out infinite;">
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+      <path d="M9 21V12h6v9"/>
+    </svg>
+    <p style="margin-top:20px; color:#3D2B1F; letter-spacing: 2px; font-size:14px; font-style:italic;">Opening Invitation...</p>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Audio Toggle -->
+  <button class="audio-toggle" id="audioToggle" aria-label="Toggle background music">
+    <div class="audio-bars">
+      <span class="audio-bar"></span>
+      <span class="audio-bar"></span>
+      <span class="audio-bar"></span>
+      <span class="audio-bar"></span>
+    </div>
+  </button>
+
+  <!-- Door Transition Overlay -->
+  <div class="door-transition-overlay" id="doorTransition">
+    <div class="door-transition-cross" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:64px; height:64px; color:var(--gold);">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+        <path d="M9 21V12h6v9"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Petal Burst Container -->
+  <div class="petal-burst" id="petalBurst"></div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Heart Confetti Container -->
+  <div class="confetti-container" id="confettiContainer"></div>
+
+  <div id="app">
+
+    <!-- =============================================
+         SCREEN 1 - THE DOOR
+         ============================================= -->
+    <section class="screen" id="screen-door">
+      <div class="screen__bg">
+        <img id="bgDoor" src="" alt="" loading="eager">
+        <div class="sunlight-beam"></div>
+      </div>
+
+      <div class="door-content">
+        <div class="door-header">
+          <div class="door-cross fm fm-1" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px; color:var(--gold);">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+              <path d="M9 21V12h6v9"/>
+            </svg>
+          </div>
+
+          <!-- Welcome -->
+          <p class="door-eyebrow fm fm-2" id="doorWelcome">Welcome to</p>
+
+          <!-- NORAH -->
+          <h1 class="door-title fm fm-4" id="doorTitle">NORAH</h1>
+        </div>
+
+        <div class="door-footer fm fm-5">
+          <button class="door-cta-btn" id="doorCta" aria-label="Tap to open the door and enter">
+            <svg class="hand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+              <path d="M8 13V4.5a1.5 1.5 0 013 0V12"/>
+              <path d="M11 11.5v-2a1.5 1.5 0 013 0v2.5"/>
+              <path d="M14 10.5a1.5 1.5 0 013 0V12"/>
+              <path d="M17 11.5a1.5 1.5 0 013 0V16a6 6 0 01-6 6h-2 .208a6 6 0 01-5.012-2.7L7 19c-.312-.479-1.407-2.388-3.286-5.728a1.5 1.5 0 01.536-2.022 1.867 1.867 0 012.28.28L8 13"/>
+            </svg>
+            Tap to Open
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         SCREEN 2 - THE INVITATION
+         ============================================= -->
+    <section class="screen screen--hidden" id="screen-invitation">
+      <div class="screen__bg">
+        <img id="bgInvite" src="" alt="" loading="lazy">
+        <div class="sunlight-beam" style="animation-delay:-5s;"></div>
+      </div>
+
+      <div class="invitation-content">
+        <p class="invitation-eyebrow reveal reveal-d1">With Grateful Hearts,</p>
+        <p class="invitation-hosts reveal reveal-d2" id="invitationHosts">Hosts</p>
+        <p class="invitation-invite reveal reveal-d2" id="invitationInvite">invite you to bless our new home.</p>
+        <h2 class="invitation-name reveal reveal-d3" id="invitationName">NORAH</h2>
+
+        <!-- Details Card -->
+        <div class="details-card reveal reveal-d4">
+          <div class="detail-row">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <div class="detail-info">
+              <span class="detail-label">Date</span>
+              <span class="detail-value" id="detailDate">Saturday, 25th July 2026</span>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="detail-info">
+              <span class="detail-label">Time</span>
+              <span class="detail-value" id="detailTime">12:00 PM Onwards</span>
+              <span class="detail-extra" id="detailTimeExtra">Followed by Lunch</span>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="detail-info">
+              <span class="detail-label">Venue</span>
+              <span class="detail-value" id="detailVenueName">Flat No. 505, Kalkura Heights</span>
+              <span class="detail-extra" id="detailVenueAddress">Opp. Robosoft Technologies, NH66, Santekatte, Udupi</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="action-cards reveal reveal-d5">
+          <a class="action-card action-card--primary" id="rsvpBtn" href="javascript:void(0)" role="button">
+            <div class="action-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <span class="action-card__title">RSVP</span>
+            <span class="action-card__desc">Let us know you are coming</span>
+          </a>
+          <a class="action-card action-card--secondary" id="directionsBtn" href="" target="_blank" rel="noopener">
+            <div class="action-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <span class="action-card__title">Directions</span>
+            <span class="action-card__desc">Find your way</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         SCREEN 3 - THE CLOSING
+         ============================================= -->
+    <section class="screen screen--hidden" id="screen-closing">
+      <div class="screen__bg">
+        <img id="bgClosing" src="" alt="" loading="lazy">
+        <div class="sunlight-beam" style="animation-delay:-12s;"></div>
+        <div class="candle-glow candle-glow--1"></div>
+        <div class="candle-glow candle-glow--2"></div>
+      </div>
+
+      <div class="closing-content">
+        <!-- Bible Verse -->
+        <blockquote class="door-scripture reveal reveal-d1" id="doorScripture" style="margin-bottom: 32px;">
+          <p id="scriptureText">"Whoever dwells in the shelter of the Most High..."</p>
+          <cite id="scriptureRef">— Psalm 91:1</cite>
+        </blockquote>
+
+        <h2 class="closing-heading reveal reveal-d2">Thank You</h2>
+
+        <div class="gold-divider reveal reveal-d2" aria-hidden="true">
+          <span></span><span class="gold-divider__dot">&hearts;</span><span></span>
+        </div>
+
+        <p class="closing-quote reveal reveal-d3" id="closingQuote">A home is made of moments and people.</p>
+        <p class="closing-subquote reveal reveal-d3" id="closingSubquote">Thank you for becoming part of ours.</p>
+
+        <!-- Hosts -->
+        <div class="hosts-card reveal reveal-d4">
+          <p class="hosts-card__names" id="hostsCardNames">Hosts Names</p>
+          <p class="hosts-card__tagline">With Love &amp; Gratitude</p>
+        </div>
+
+        <!-- CTA -->
+        <button class="cta-final reveal reveal-d5" id="seeYouBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          See You Soon
+        </button>
+
+        <p class="presence-note reveal reveal-d5" id="presenceNote" style="color:#FFFFFF;text-shadow:0 2px 12px rgba(0,0,0,0.7),0 0 4px rgba(0,0,0,0.4);">"Presents in blessings only"</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- =============================================
+       RSVP MODAL
+       ============================================= -->
+  <div class="modal-overlay" id="rsvpModal">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-label="RSVP">
+      <div class="modal-handle"></div>
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+
+      <div class="modal-header">
+        <div class="cross-small" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px; color:var(--gold);">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+            <path d="M9 21V12h6v9"/>
+          </svg>
+        </div>
+        <h3 class="modal-title" id="modalTitle">NORAH</h3>
+        <div class="gold-divider gold-divider--compact" aria-hidden="true">
+          <span></span><span class="gold-divider__dot">&hearts;</span><span></span>
+        </div>
+        <p class="modal-subtitle">We can&rsquo;t wait to celebrate with you</p>
+      </div>
+
+      <h4 class="modal-question">Can we save a place for you?</h4>
+
+      <!-- RSVP Options -->
+      <div class="rsvp-options">
+        <a class="rsvp-option" id="rsvpAttending" href="" target="_blank" rel="noopener" role="button">
+          <div class="rsvp-option__icon rsvp-option__icon--heart">&hearts;</div>
+          <div class="rsvp-option__text">
+            <div class="rsvp-option__title">Gladly attending</div>
+            <div class="rsvp-option__subtitle">We will be there!</div>
+          </div>
+          <span class="rsvp-option__arrow">&rsaquo;</span>
+        </a>
+        <a class="rsvp-option" id="rsvpMaybe" href="" target="_blank" rel="noopener" role="button">
+          <div class="rsvp-option__icon">&#9786;</div>
+          <div class="rsvp-option__text">
+            <div class="rsvp-option__title">Will try to come</div>
+            <div class="rsvp-option__subtitle">Trying our best!</div>
+          </div>
+          <span class="rsvp-option__arrow">&rsaquo;</span>
+        </a>
+        <a class="rsvp-option" id="rsvpBlessings" href="" target="_blank" rel="noopener" role="button">
+          <div class="rsvp-option__icon">&#9775;</div>
+          <div class="rsvp-option__text">
+            <div class="rsvp-option__title">Sending blessings</div>
+            <div class="rsvp-option__subtitle">In our prayers always.</div>
+          </div>
+          <span class="rsvp-option__arrow">&rsaquo;</span>
+        </a>
+      </div>
+
+      <!-- Contact -->
+      <div class="modal-contact">
+        <p class="modal-contact__blessing">Your blessing means the world to us</p>
+        <div class="gold-divider gold-divider--compact" aria-hidden="true">
+          <span></span><span class="gold-divider__dot">&hearts;</span><span></span>
+        </div>
+        <p class="modal-contact__name" id="modalContactName">Hosts Names</p>
+        <a class="modal-contact__phone" id="modalContactPhone" href="">&#9742; Phone</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/invite.js"></script>
+</body>
+</html>
