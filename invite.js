@@ -41,6 +41,8 @@
         window.addEventListener('message', function(event) {
           if (event.data && event.data.type === 'preview') {
             renderInvitation(event.data.payload);
+          } else if (event.data && event.data.type === 'show_screen') {
+            showScreenInPreview(event.data.screen);
           }
         });
         // Request initial data from parent
@@ -271,6 +273,33 @@
     setupSeeYouButton();
     setupScrollProgress();
     setupEnvironmentalDepth();
+  }
+
+  function showScreenInPreview(screen) {
+    const door = document.getElementById('screen-door');
+    const invite = document.getElementById('screen-invitation');
+    const closing = document.getElementById('screen-closing');
+    if (!door || !invite || !closing) return;
+
+    if (screen === 'door') {
+      door.classList.remove('screen--hidden');
+      door.style.opacity = '1';
+      door.style.transform = 'scale(1)';
+      invite.classList.add('screen--hidden');
+      closing.classList.add('screen--hidden');
+    } else if (screen === 'invite') {
+      door.classList.add('screen--hidden');
+      invite.classList.remove('screen--hidden');
+      closing.classList.add('screen--hidden');
+      triggerReveals(invite);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    } else if (screen === 'closing') {
+      door.classList.add('screen--hidden');
+      invite.classList.add('screen--hidden');
+      closing.classList.remove('screen--hidden');
+      triggerReveals(closing);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
   }
 
   function formatDate(dateStr) {

@@ -78,6 +78,15 @@
       });
       currentStep = stepNum;
       updatePreview();
+
+      // Auto-navigate preview based on step
+      if (stepNum === 1) {
+        changePreviewScreen('invite');
+      } else if (stepNum === 2) {
+        changePreviewScreen('invite');
+      } else if (stepNum === 3) {
+        changePreviewScreen('door');
+      }
     }
 
     document.querySelectorAll('.next-step').forEach(btn => {
@@ -296,6 +305,12 @@
   const iframe = document.getElementById('previewIframe');
   let previewReady = false;
 
+  function changePreviewScreen(screen) {
+    if (previewReady && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({ type: 'show_screen', screen }, '*');
+    }
+  }
+
   function setupLivePreview() {
     // Listen for iframe messages
     window.addEventListener('message', (event) => {
@@ -318,6 +333,53 @@
     formInputs.forEach(input => {
       input.addEventListener('input', updatePreview);
       input.addEventListener('change', updatePreview);
+    });
+
+    // Setup focus listeners to switch preview screens automatically
+    const focusMapping = {
+      'welcomeText': 'door',
+      'homeName': 'door',
+      'inviteEyebrow': 'invite',
+      'hosts': 'invite',
+      'eventDate': 'invite',
+      'eventTime': 'invite',
+      'venueName': 'invite',
+      'venueAddress': 'invite',
+      'phone': 'invite',
+      'inviteText': 'invite',
+      'rsvpOption1Title': 'invite',
+      'rsvpOption1Subtitle': 'invite',
+      'rsvpOption2Title': 'invite',
+      'rsvpOption2Subtitle': 'invite',
+      'rsvpOption3Title': 'invite',
+      'rsvpOption3Subtitle': 'invite',
+      'modalContactBlessing': 'invite',
+      'bibleVerse': 'closing',
+      'bibleRef': 'closing',
+      'closingQuote': 'closing',
+      'closingSubtext': 'closing',
+      'hostsTagline': 'closing',
+      'seeYouBtnText': 'closing',
+      'presenceNote': 'closing'
+    };
+
+    for (const [id, screen] of Object.entries(focusMapping)) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('focus', () => {
+          changePreviewScreen(screen);
+        });
+      }
+    }
+
+    // Also trigger when selecting files or presets
+    document.querySelectorAll('.btn-select-preset, .trigger-file-select').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const screen = btn.dataset.screen;
+        if (screen === 'door' || screen === 'invite' || screen === 'closing') {
+          changePreviewScreen(screen);
+        }
+      });
     });
   }
 
