@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /builder
+Disallow: /invite/
+
+Sitemap: https://invite-link.com/sitemap.xml

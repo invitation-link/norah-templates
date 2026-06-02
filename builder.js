@@ -11,23 +11,188 @@
   let supabaseClient = null;
 
   // Preset assets definition
-  const PRESETS = {
-    door: [
-      { name: "Luxury Archway", url: "https://norah-housewarming.vercel.app/assets/images/door-scene.webp" },
-      { name: "Modern Coffee Corner", url: "https://norah-housewarming.vercel.app/morning_coffee_1779640869344.png" },
-      { name: "Cozy Welcoming Door", url: "https://norah-housewarming.vercel.app/welcoming_doorway_1779640920173.png" }
-    ],
-    invite: [
-      { name: "Elegant Flowers & Curtains", url: "https://norah-housewarming.vercel.app/assets/images/bg-curtain-flowers.webp" },
-      { name: "Family Dining Area", url: "https://norah-housewarming.vercel.app/family_dining_1779640885025.png" }
-    ],
-    closing: [
-      { name: "Warm Evening Candle Glow", url: "https://norah-housewarming.vercel.app/assets/images/bg-evening-warmth.webp" },
-      { name: "Peaceful Reading Corner", url: "https://norah-housewarming.vercel.app/reading_corner_1779640903563.png" }
-    ],
-    music: [
-      { name: "Instrumental Acoustic Guitar", url: "https://norah-housewarming.vercel.app/assets/audio/bg-music.mp4" }
-    ]
+  // Theme presets definitions for background assets
+  const THEME_PRESETS = {
+    housewarming: {
+      door: [
+        { name: "Luxury Archway", url: "https://invite-link.com/assets/images/door-scene.webp" },
+        { name: "Modern Coffee Corner", url: "https://invite-link.com/morning_coffee_1779640869344.png" },
+        { name: "Cozy Welcoming Door", url: "https://invite-link.com/welcoming_doorway_1779640920173.png" }
+      ],
+      invite: [
+        { name: "Elegant Flowers & Curtains", url: "https://invite-link.com/assets/images/bg-curtain-flowers.webp" },
+        { name: "Family Dining Area", url: "https://invite-link.com/family_dining_1779640885025.png" }
+      ],
+      closing: [
+        { name: "Warm Evening Candle Glow", url: "https://invite-link.com/assets/images/bg-evening-warmth.webp" },
+        { name: "Peaceful Reading Corner", url: "https://invite-link.com/reading_corner_1779640903563.png" }
+      ],
+      music: [
+        { name: "Instrumental Acoustic Guitar", url: "https://invite-link.com/assets/audio/bg-music.mp4" }
+      ]
+    },
+    wedding: {
+      door: [
+        { name: "Elegant Floral Entrance", url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800" },
+        { name: "White Wedding Arch", url: "https://images.unsplash.com/photo-1545232979-8bf34eb9757b?w=800" },
+        { name: "Classic Wedding Asset", url: "/assets/templates/wedding.png" }
+      ],
+      invite: [
+        { name: "Romantic Rose Petals", url: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800" },
+        { name: "Elegant Floral Curtain", url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800" }
+      ],
+      closing: [
+        { name: "Warm String Lights", url: "https://images.unsplash.com/photo-1507504038482-7621ef488c9e?w=800" },
+        { name: "Sunset Toast Sparkle", url: "https://images.unsplash.com/photo-1519225495810-7517c5009048?w=800" }
+      ],
+      music: [
+        { name: "Romantic Wedding Waltz", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" }
+      ]
+    },
+    birthday: {
+      door: [
+        { name: "Confetti Celebration Entry", url: "https://images.unsplash.com/photo-1530103862676-de3c9a59af38?w=800" },
+        { name: "Festive Birthday Balloons", url: "https://images.unsplash.com/photo-1464349172961-10442a8b2735?w=800" },
+        { name: "Birthday Asset", url: "/assets/templates/birthday.png" }
+      ],
+      invite: [
+        { name: "Colorful Streamers & Glitter", url: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800" },
+        { name: "Bright Party Background", url: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800" }
+      ],
+      closing: [
+        { name: "Golden Sparklers Night", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" },
+        { name: "Birthday Cake & Candles", url: "https://images.unsplash.com/photo-1533223251537-b248a37b301f?w=800" }
+      ],
+      music: [
+        { name: "Upbeat Party Anthem", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
+      ]
+    },
+    babyshower: {
+      door: [
+        { name: "Soft Pastel Clouds", url: "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800" },
+        { name: "Cute Baby Crib / Stroller", url: "https://images.unsplash.com/photo-1515488042361-404e9250afef?w=800" },
+        { name: "Baby Shower Asset", url: "/assets/templates/babyshower.png" }
+      ],
+      invite: [
+        { name: "Eucalyptus Leaves & Flowers", url: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800" },
+        { name: "Soft Pink & Blue Balloons", url: "https://images.unsplash.com/photo-1530103862676-de3c9a59af38?w=800" }
+      ],
+      closing: [
+        { name: "Warm Nursery Glow", url: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800" },
+        { name: "Cute Baby Teddy Bear", url: "https://images.unsplash.com/photo-1559251606-c623743a6d76?w=800" }
+      ],
+      music: [
+        { name: "Lullaby & Soft Harp Music", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
+      ]
+    }
+  };
+
+  // Default values for each theme
+  const THEME_DEFAULTS = {
+    housewarming: {
+      home_name: "NORAH",
+      welcome_text: "Welcome to",
+      invite_eyebrow: "With Grateful Hearts,",
+      invite_text: "invite you and your family to bless our new beginning.",
+      rsvp_option1_title: "Gladly attending",
+      rsvp_option1_subtitle: "We will be there!",
+      rsvp_option2_title: "Will try to come",
+      rsvp_option2_subtitle: "Trying our best!",
+      rsvp_option3_title: "Sending blessings",
+      rsvp_option3_subtitle: "In our prayers always.",
+      modal_contact_blessing: "Your blessing means the world to us",
+      bible_verse: "Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty.",
+      bible_ref: "Psalm 91:1",
+      closing_quote: "A home is made of moments and people.",
+      closing_subtext: "Thank you for becoming part of ours.",
+      hosts_tagline: "With Love & Gratitude",
+      see_you_btn_text: "See You Soon",
+      presence_note: "Presents in blessings only",
+      color_primary: "#6B2036",
+      color_accent: "#C4A35A",
+      bg_image_door: "https://invite-link.com/assets/images/door-scene.webp",
+      bg_image_invite: "https://invite-link.com/assets/images/bg-curtain-flowers.webp",
+      bg_image_closing: "https://invite-link.com/assets/images/bg-evening-warmth.webp",
+      bg_music_url: "https://invite-link.com/assets/audio/bg-music.mp4"
+    },
+    wedding: {
+      home_name: "FOREVER & ALWAYS",
+      welcome_text: "Welcome to the Wedding of",
+      invite_eyebrow: "Together with our Families,",
+      invite_text: "invite you to celebrate our union and new journey together.",
+      rsvp_option1_title: "Joyfully accept",
+      rsvp_option1_subtitle: "Can't wait to celebrate!",
+      rsvp_option2_title: "Regretfully decline",
+      rsvp_option2_subtitle: "Warmest wishes from afar.",
+      rsvp_option3_title: "Sending love & prayers",
+      rsvp_option3_subtitle: "Celebrating in spirit!",
+      modal_contact_blessing: "Your love and presence is the greatest gift",
+      bible_verse: "Love is patient, love is kind. It does not envy, it does not boast, it is not proud.",
+      bible_ref: "1 Corinthians 13:4",
+      closing_quote: "Two lives, two hearts, joined in one love.",
+      closing_subtext: "Thank you for sharing our special day.",
+      hosts_tagline: "With Eternal Love & Thanks",
+      see_you_btn_text: "Celebrate With Us",
+      presence_note: "No gifts please, only your blessings",
+      color_primary: "#541729",
+      color_accent: "#D4B978",
+      bg_image_door: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
+      bg_image_invite: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800",
+      bg_image_closing: "https://images.unsplash.com/photo-1507504038482-7621ef488c9e?w=800",
+      bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    },
+    birthday: {
+      home_name: "BIRTHDAY BASH",
+      welcome_text: "You are Invited to",
+      invite_eyebrow: "Let's Celebrate!",
+      invite_text: "invite you to join us for a fun-filled day of cake, games, and laughter.",
+      rsvp_option1_title: "Count me in!",
+      rsvp_option1_subtitle: "Ready for the party!",
+      rsvp_option2_title: "Maybe next time",
+      rsvp_option2_subtitle: "Will let you know.",
+      rsvp_option3_title: "Sending sweet wishes",
+      rsvp_option3_subtitle: "Hope it's the best day!",
+      modal_contact_blessing: "Come celebrate and make memories with us!",
+      bible_verse: "Count your life by smiles, not tears. Count your age by friends, not years.",
+      bible_ref: "John Lennon",
+      closing_quote: "Cheers to another trip around the sun!",
+      closing_subtext: "Let the birthday adventures begin.",
+      hosts_tagline: "Party Hard & Have Fun",
+      see_you_btn_text: "Let's Party!",
+      presence_note: "Your presence is our present!",
+      color_primary: "#1D4ED8",
+      color_accent: "#F59E0B",
+      bg_image_door: "https://images.unsplash.com/photo-1530103862676-de3c9a59af38?w=800",
+      bg_image_invite: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800",
+      bg_image_closing: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
+      bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+    },
+    babyshower: {
+      home_name: "LITTLE MIRACLE",
+      welcome_text: "Welcome to the Baby Shower of",
+      invite_eyebrow: "A Little One is on the Way!",
+      invite_text: "invite you to shower the parents-to-be with love and blessings.",
+      rsvp_option1_title: "Happily attending",
+      rsvp_option1_subtitle: "Can't wait to cuddle!",
+      rsvp_option2_title: "Warmly declining",
+      rsvp_option2_subtitle: "Wishing you the absolute best.",
+      rsvp_option3_title: "Sending baby love",
+      rsvp_option3_subtitle: "In our thoughts and hearts!",
+      modal_contact_blessing: "A grand adventure is about to begin",
+      bible_verse: "Every good and perfect gift is from above, coming down from the Father of the heavenly lights.",
+      bible_ref: "James 1:17",
+      closing_quote: "Ten little fingers, ten little toes, with love and grace, our family grows.",
+      closing_subtext: "Thank you for showering us with love.",
+      hosts_tagline: "With Warmth & Excitement",
+      see_you_btn_text: "Welcome Baby!",
+      presence_note: "Gifts are welcome but not required",
+      color_primary: "#EC4899",
+      color_accent: "#06B6D4",
+      bg_image_door: "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800",
+      bg_image_invite: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800",
+      bg_image_closing: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+      bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+    }
   };
 
   let currentStep = 1;
@@ -52,6 +217,7 @@
     setupLivePreview();
     setupSlugGenerator();
     setupPresetModal();
+    setupThemeSelector();
     setupFormSubmission();
   }
 
@@ -233,7 +399,8 @@
 
     function renderPresets(type) {
       grid.innerHTML = '';
-      const list = PRESETS[type] || [];
+      const selectedTheme = document.getElementById('templateTheme').value || 'housewarming';
+      const list = (THEME_PRESETS[selectedTheme] && THEME_PRESETS[selectedTheme][type]) || [];
       list.forEach(preset => {
         const card = document.createElement('div');
         card.className = `preset-card ${type === 'music' ? 'audio-preset-card' : ''}`;
@@ -273,6 +440,80 @@
 
         grid.appendChild(card);
       });
+    }
+  }
+
+  // --- Theme / Category switching logic ---
+  function applyTheme(theme) {
+    const defaults = THEME_DEFAULTS[theme];
+    if (!defaults) return;
+
+    // Apply values to inputs
+    document.getElementById('homeName').value = defaults.home_name;
+    document.getElementById('welcomeText').value = defaults.welcome_text;
+    document.getElementById('inviteEyebrow').value = defaults.invite_eyebrow;
+    document.getElementById('inviteText').value = defaults.invite_text;
+    document.getElementById('rsvpOption1Title').value = defaults.rsvp_option1_title;
+    document.getElementById('rsvpOption1Subtitle').value = defaults.rsvp_option1_subtitle;
+    document.getElementById('rsvpOption2Title').value = defaults.rsvp_option2_title;
+    document.getElementById('rsvpOption2Subtitle').value = defaults.rsvp_option2_subtitle;
+    document.getElementById('rsvpOption3Title').value = defaults.rsvp_option3_title;
+    document.getElementById('rsvpOption3Subtitle').value = defaults.rsvp_option3_subtitle;
+    document.getElementById('modalContactBlessing').value = defaults.modal_contact_blessing;
+    document.getElementById('bibleVerse').value = defaults.bible_verse;
+    document.getElementById('bibleRef').value = defaults.bible_ref;
+    document.getElementById('closingQuote').value = defaults.closing_quote;
+    document.getElementById('closingSubtext').value = defaults.closing_subtext;
+    document.getElementById('hostsTagline').value = defaults.hosts_tagline;
+    document.getElementById('seeYouBtnText').value = defaults.see_you_btn_text;
+    document.getElementById('presenceNote').value = defaults.presence_note;
+
+    // Color Pickers
+    document.getElementById('colorPrimary').value = defaults.color_primary;
+    document.getElementById('colorPrimaryHex').value = defaults.color_primary;
+    document.getElementById('colorAccent').value = defaults.color_accent;
+    document.getElementById('colorAccentHex').value = defaults.color_accent;
+
+    // Image/Audio hidden fields
+    document.getElementById('bgImageDoor').value = defaults.bg_image_door;
+    delete document.getElementById('bgImageDoor').dataset.tempUrl;
+    document.getElementById('labelDoor').textContent = `Default Preset (${defaults.bg_image_door.split('/').pop().split('?')[0]})`;
+
+    document.getElementById('bgImageInvite').value = defaults.bg_image_invite;
+    delete document.getElementById('bgImageInvite').dataset.tempUrl;
+    document.getElementById('labelInvite').textContent = `Default Preset (${defaults.bg_image_invite.split('/').pop().split('?')[0]})`;
+
+    document.getElementById('bgImageClosing').value = defaults.bg_image_closing;
+    delete document.getElementById('bgImageClosing').dataset.tempUrl;
+    document.getElementById('labelClosing').textContent = `Default Preset (${defaults.bg_image_closing.split('/').pop().split('?')[0]})`;
+
+    document.getElementById('bgMusicUrl').value = defaults.bg_music_url;
+    delete document.getElementById('bgMusicUrl').dataset.tempUrl;
+    document.getElementById('labelMusic').textContent = `Default Preset (${defaults.bg_music_url.split('/').pop().split('?')[0]})`;
+
+    // Clear file inputs
+    document.getElementById('fileDoor').value = '';
+    document.getElementById('fileInvite').value = '';
+    document.getElementById('fileClosing').value = '';
+    document.getElementById('fileMusic').value = '';
+
+    updatePreview();
+  }
+
+  function setupThemeSelector() {
+    const themeSelect = document.getElementById('templateTheme');
+    if (themeSelect) {
+      themeSelect.addEventListener('change', () => {
+        applyTheme(themeSelect.value);
+      });
+
+      // Parse query parameter to set template on load
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialTemplate = urlParams.get('template');
+      if (initialTemplate && THEME_DEFAULTS[initialTemplate]) {
+        themeSelect.value = initialTemplate;
+        applyTheme(initialTemplate);
+      }
     }
   }
 
@@ -538,7 +779,7 @@
 
     function resetPublishButton() {
       publishBtn.disabled = false;
-      publishBtn.textContent = "Generate Invitation Link";
+      publishBtn.textContent = "Generate Invite Link";
       progressContainer.classList.add('hidden');
     }
   }
