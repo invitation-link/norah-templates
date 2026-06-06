@@ -116,9 +116,9 @@
     }
 
     // Set Images (fallbacks to defaults if not set)
-    document.getElementById('bgDoor').src = data.bg_image_door || 'https://invite-link.com/assets/images/door-scene.webp';
-    document.getElementById('bgInvite').src = data.bg_image_invite || 'https://invite-link.com/assets/images/bg-curtain-flowers.webp';
-    document.getElementById('bgClosing').src = data.bg_image_closing || 'https://invite-link.com/assets/images/bg-evening-warmth.webp';
+    document.getElementById('bgDoor').src = data.bg_image_door || 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80';
+    document.getElementById('bgInvite').src = data.bg_image_invite || 'https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&q=80';
+    document.getElementById('bgClosing').src = data.bg_image_closing || 'https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=800&q=80';
 
     function safeSetText(id, text, isHtml = false) {
       const el = document.getElementById(id);
@@ -317,7 +317,7 @@
   function startMusic() {
     if (state.audio) return;
     var a = document.createElement('audio');
-    a.src = state.data.bg_music_url || 'https://invite-link.com/assets/audio/bg-music.mp4';
+    a.src = state.data.bg_music_url || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3';
     a.loop = true;
     a.volume = 0.35;
     a.setAttribute('playsinline', '');

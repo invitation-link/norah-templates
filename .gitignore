@@ -1,1 +1,19 @@
 .vercel
+node_modules
+package.json
+package-lock.json
+next.config.mjs
+next-env.d.ts
+tsconfig.json
+postcss.config.mjs
+
+# Local-only directories
+old_vercel_website/
+downloaded_vercel_project/
+paperclip/
+
+# Business docs (keep local)
+BUSINESS_PLAN.md
+
+# Large media files
+*.mp4

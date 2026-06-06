@@ -15,20 +15,20 @@
   const THEME_PRESETS = {
     housewarming: {
       door: [
-        { name: "Luxury Archway", url: "https://invite-link.com/assets/images/door-scene.webp" },
-        { name: "Modern Coffee Corner", url: "https://invite-link.com/morning_coffee_1779640869344.png" },
-        { name: "Cozy Welcoming Door", url: "https://invite-link.com/welcoming_doorway_1779640920173.png" }
+        { name: "Luxury Archway", url: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80" },
+        { name: "Modern Coffee Corner", url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80" },
+        { name: "Cozy Welcoming Door", url: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80" }
       ],
       invite: [
-        { name: "Elegant Flowers & Curtains", url: "https://invite-link.com/assets/images/bg-curtain-flowers.webp" },
-        { name: "Family Dining Area", url: "https://invite-link.com/family_dining_1779640885025.png" }
+        { name: "Elegant Flowers & Curtains", url: "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&q=80" },
+        { name: "Family Dining Area", url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" }
       ],
       closing: [
-        { name: "Warm Evening Candle Glow", url: "https://invite-link.com/assets/images/bg-evening-warmth.webp" },
-        { name: "Peaceful Reading Corner", url: "https://invite-link.com/reading_corner_1779640903563.png" }
+        { name: "Warm Evening Candle Glow", url: "https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=800&q=80" },
+        { name: "Peaceful Reading Corner", url: "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&q=80" }
       ],
       music: [
-        { name: "Instrumental Acoustic Guitar", url: "https://invite-link.com/assets/audio/bg-music.mp4" }
+        { name: "Instrumental Acoustic Guitar", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" }
       ]
     },
     wedding: {
@@ -110,10 +110,10 @@
       presence_note: "Presents in blessings only",
       color_primary: "#6B2036",
       color_accent: "#C4A35A",
-      bg_image_door: "https://invite-link.com/assets/images/door-scene.webp",
-      bg_image_invite: "https://invite-link.com/assets/images/bg-curtain-flowers.webp",
-      bg_image_closing: "https://invite-link.com/assets/images/bg-evening-warmth.webp",
-      bg_music_url: "https://invite-link.com/assets/audio/bg-music.mp4"
+      bg_image_door: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80",
+      bg_image_invite: "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&q=80",
+      bg_image_closing: "https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=800&q=80",
+      bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
     },
     wedding: {
       home_name: "FOREVER & ALWAYS",
