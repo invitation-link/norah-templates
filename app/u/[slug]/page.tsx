@@ -2,6 +2,7 @@ import { getTemplateById } from "@/app/components/templates/registry";
 import { InviteData } from "@/app/components/templates/types";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { SITE_URL } from "@/app/lib/site";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -25,24 +26,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const template = getTemplateById(slug);
     if (template) {
         return {
-            title: `${template.name} Demo | Invite Platform`,
+            title: `${template.name} Interactive Invitation Template`,
             description: template.description,
+            alternates: { canonical: `${SITE_URL}/u/${slug}` },
             openGraph: {
                 type: "website",
-                title: `${template.name} Demo`,
+                url: `${SITE_URL}/u/${slug}`,
+                siteName: "Invite Link",
+                title: `${template.name} Interactive Invitation Template`,
                 description: template.description,
-                images: [{ url: template.thumbnailUrl, width: 1200, height: 630 }],
+                images: [{ url: template.thumbnailUrl, width: 390, height: 844, alt: `${template.name} opening screen` }],
             },
+            twitter: { card: "summary_large_image", title: `${template.name} | Invite Link`, description: template.description, images: [template.thumbnailUrl] },
         };
     }
 
     return {
-        title: `You're Invited! 🎉`,
+        title: "You're Invited",
         description: "Open this interactive invitation to see a special message!",
+        robots: { index: false, follow: false },
         openGraph: {
             type: "website",
-            title: `🎁 You're Invited!`,
-            description: "Tap to open your special invitation ✨",
+            title: "You're Invited",
+            description: "Tap to open your special interactive invitation.",
             images: [
                 {
                     url: "/images/templates/birthday-thumb.png",
@@ -54,8 +60,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
         twitter: {
             card: "summary_large_image",
-            title: `🎁 You're Invited!`,
-            description: "Tap to open your special invitation ✨",
+            title: "You're Invited",
+            description: "Tap to open your special interactive invitation.",
             images: ["/images/templates/birthday-thumb.png"],
         },
     };

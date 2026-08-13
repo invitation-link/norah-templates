@@ -1,0 +1,9 @@
+.banner { position: fixed; z-index: 900; right: 18px; bottom: 18px; width: min(calc(100% - 36px), 460px); display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; padding: 18px; border-top: 3px solid #e6a719; background: #071a38; box-shadow: 0 24px 70px rgba(0,0,0,.3); color: white; }
+.banner strong { font-family: var(--font-playfair), Georgia, serif; font-size: 18px; }
+.banner p { margin: 5px 0 0; color: #c2ccd8; font-size: 11px; line-height: 1.5; }
+.banner p a { color: white; text-underline-offset: 3px; }
+.banner > div:last-child { display: flex; flex-direction: column-reverse; gap: 7px; }
+.banner button { min-height: 44px; padding: 0 14px; border: 1px solid rgba(255,255,255,.45); border-radius: 999px; background: transparent; color: white; cursor: pointer; font-size: 10px; font-weight: 800; white-space: nowrap; }
+.banner button:last-child { border-color: #e6a719; background: #e6a719; color: #071a38; }
+.banner button:focus-visible { outline: 3px solid #f2cc69; outline-offset: 3px; }
+@media (max-width: 560px) { .banner { left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); width: auto; grid-template-columns: 1fr; } .banner > div:last-child { flex-direction: row; } .banner button { flex: 1; } }

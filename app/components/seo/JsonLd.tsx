@@ -1,18 +1,14 @@
-import Script from 'next/script';
-
 interface JsonLdProps {
     data: Record<string, unknown> | Record<string, unknown>[];
 }
 
 export default function JsonLd({ data }: JsonLdProps) {
-    const jsonLdString = JSON.stringify(data);
+    const jsonLdString = JSON.stringify(data).replace(/</g, '\\u003c');
 
     return (
-        <Script
-            id="json-ld"
+        <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: jsonLdString }}
-            strategy="afterInteractive"
         />
     );
 }
@@ -26,15 +22,7 @@ export const schemas = {
         name: 'Invite Link',
         alternateName: 'Digital Invitation Maker',
         url: baseUrl,
-        description: 'Create stunning, interactive digital invitations for weddings, birthdays, and events. Free online invitation maker with WhatsApp sharing.',
-        potentialAction: {
-            '@type': 'SearchAction',
-            target: {
-                '@type': 'EntryPoint',
-                urlTemplate: `${baseUrl}/templates?search={search_term_string}`,
-            },
-            'query-input': 'required name=search_term_string',
-        },
+        description: 'Create interactive digital invitations for weddings, birthdays, housewarmings and celebrations, then share one link on WhatsApp.',
     }),
 
     // Organization schema
@@ -43,19 +31,15 @@ export const schemas = {
         '@type': 'Organization',
         name: 'Invite Link',
         url: baseUrl,
-        logo: `${baseUrl}/images/logo.png`,
-        description: 'India\'s premier digital invitation platform for creating interactive, WhatsApp-friendly event invitations.',
+        logo: `${baseUrl}/brand/invite-link-lockup.png`,
+        description: 'A digital invitation platform for creating interactive, WhatsApp-friendly event invitations.',
         contactPoint: {
             '@type': 'ContactPoint',
             telephone: '+91-9553966113',
             contactType: 'customer service',
             areaServed: 'IN',
-            availableLanguage: ['English', 'Hindi'],
+            availableLanguage: ['English', 'Hindi', 'Telugu'],
         },
-        sameAs: [
-            'https://instagram.com/invitationlink',
-            'https://twitter.com/invitationlink',
-        ],
     }),
 
     // FAQPage schema
@@ -106,11 +90,6 @@ export const schemas = {
             priceCurrency: 'INR',
             availability: 'https://schema.org/InStock',
         },
-        aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.8',
-            reviewCount: '150',
-        },
     }),
 
     // BreadcrumbList schema
@@ -137,11 +116,12 @@ export const schemas = {
             price: '0',
             priceCurrency: 'INR',
         },
-        aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.9',
-            reviewCount: '200',
-        },
         url: baseUrl,
+    }),
+    itemList: (name: string, items: { name: string; url: string; image: string }[]) => ({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name,
+        itemListElement: items.map((item, index) => ({ '@type': 'ListItem', position: index + 1, ...item })),
     }),
 };

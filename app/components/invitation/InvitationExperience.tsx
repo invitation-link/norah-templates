@@ -7,6 +7,7 @@ import { ArrowRight, Check, Sparkles, X } from "lucide-react";
 import { ComponentType, CSSProperties, useEffect, useState } from "react";
 import { InviteData, TemplateProps } from "@/app/components/templates/types";
 import styles from "./InvitationExperience.module.css";
+import { trackEvent } from "@/app/lib/analytics";
 
 type Props = {
   data: InviteData;
@@ -30,6 +31,7 @@ export default function InvitationExperience({ data, TemplateComponent, mode = "
     const key = `invite-link-growth-${data.slug}`;
     const current = JSON.parse(localStorage.getItem(key) || "{}");
     localStorage.setItem(key, JSON.stringify({ ...current, [event]: (current[event] || 0) + 1 }));
+    trackEvent(`invitation_${event}`, { invitation_slug: data.slug, invitation_type: data.type, plan: data.tier });
   };
 
   return (

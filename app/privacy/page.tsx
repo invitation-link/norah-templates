@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { SITE_URL } from "@/app/lib/site";
+import styles from "./Privacy.module.css";
+
+export const metadata: Metadata = { title: "Privacy", description: "How Invite Link handles account, invitation and anonymous analytics data.", alternates: { canonical: `${SITE_URL}/privacy` } };
+
+export default function PrivacyPage() { return <main className={styles.page}><nav><Link href="/">Invite Link</Link><Link href="/">Back home</Link></nav><article><span>Last updated 13 August 2026</span><h1>Privacy, in plain language.</h1><p>Invite Link collects only the information needed to create and operate invitations. Optional analytics help us improve the experience.</p><h2>Information you provide</h2><p>When production accounts are enabled, this may include your name, contact details, invitation content, event details and uploaded media.</p><h2>Analytics</h2><p>With your permission, Google Analytics 4 measures page usage and product events, while Microsoft Clarity provides session insights such as interactions and performance. Advertising storage and personalized advertising are disabled.</p><h2>Your choice</h2><p>You can decline analytics from the consent prompt. Essential browser storage may still be used to preserve an invitation draft you create on the device.</p><h2>Published invitations</h2><p>Anyone with a published invitation link may be able to view the invitation. Avoid including information you do not want recipients to access.</p><h2>Questions and deletion requests</h2><p>Contact Invite Link through the details shown on our About page to request access, correction or deletion of your information.</p><Link href="/about">Contact Invite Link</Link></article></main>; }

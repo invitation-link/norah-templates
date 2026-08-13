@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Home.module.css";
+import { trackEvent } from "./lib/analytics";
 
 type Template = {
   id: string;
@@ -179,6 +180,11 @@ export default function Home() {
     [category],
   );
 
+  const openPreview = (template: Template, placement: string) => {
+    trackEvent("template_preview_open", { template_id: template.id, template_category: template.category, placement });
+    setPreview(template);
+  };
+
   useEffect(() => {
     if (!preview) return;
     const previousOverflow = document.body.style.overflow;
@@ -230,7 +236,7 @@ export default function Home() {
             Choose a beautifully choreographed experience, personalize the details, and share one unforgettable link.
           </motion.p>
           <motion.div variants={reveal} transition={{ duration: 0.55 }} className={styles.heroActions}>
-            <Link href="/create" className={styles.primaryButton}>
+            <Link href="/create" className={styles.primaryButton} onClick={() => trackEvent("create_started", { placement: "hero" })}>
               Create your invite <ArrowRight size={19} aria-hidden="true" />
             </Link>
             <a href="#templates" className={styles.secondaryButton}>
@@ -259,7 +265,7 @@ export default function Home() {
               priority
               className={styles.posterImage}
             />
-            <button type="button" className={styles.posterPlay} onClick={() => setPreview(templates[0])}>
+            <button type="button" className={styles.posterPlay} onClick={() => openPreview(templates[0], "hero_poster")}>
               <span><Play size={18} fill="currentColor" aria-hidden="true" /></span>
               Watch it open
             </button>
@@ -287,10 +293,10 @@ export default function Home() {
       <section className={styles.occasionStrip} aria-label="Available occasions">
         <span>Made for life&apos;s best moments</span>
         <div>
-          <strong>Birthday</strong><i aria-hidden="true" />
-          <strong>Wedding</strong><i aria-hidden="true" />
-          <strong>Housewarming</strong><i aria-hidden="true" />
-          <strong>Baby shower</strong>
+          <Link href="/occasions/birthday">Birthday</Link><i aria-hidden="true" />
+          <Link href="/occasions/wedding">Wedding</Link><i aria-hidden="true" />
+          <Link href="/occasions/housewarming">Housewarming</Link><i aria-hidden="true" />
+          <Link href="/occasions/celebrations">Celebrations</Link>
         </div>
       </section>
 
@@ -309,7 +315,7 @@ export default function Home() {
               type="button"
               key={item}
               className={category === item ? styles.filterActive : ""}
-              onClick={() => setCategory(item)}
+              onClick={() => { setCategory(item); trackEvent("template_filter", { category: item }); }}
               aria-pressed={category === item}
             >
               {item}
@@ -332,7 +338,7 @@ export default function Home() {
                 <button
                   type="button"
                   className={styles.templateMedia}
-                  onClick={() => setPreview(template)}
+                  onClick={() => openPreview(template, "gallery_image")}
                   aria-label={`Preview ${template.name}`}
                 >
                   <Image
@@ -353,7 +359,7 @@ export default function Home() {
                     <h3>{template.name}</h3>
                     <p>{template.feeling}</p>
                   </div>
-                  <button type="button" onClick={() => setPreview(template)} aria-label={`Open ${template.name} live demo`}>
+                  <button type="button" onClick={() => openPreview(template, "gallery_details")} aria-label={`Open ${template.name} live demo`}>
                     <ChevronRight size={21} aria-hidden="true" />
                   </button>
                 </div>
@@ -438,7 +444,7 @@ export default function Home() {
         <div>
           <span className={styles.kicker}>Your next occasion deserves more</span>
           <h2>Make the invitation part of the memory.</h2>
-          <Link href="/create" className={styles.goldButton}>
+          <Link href="/create" className={styles.goldButton} onClick={() => trackEvent("create_started", { placement: "final_cta" })}>
             Start creating <ArrowRight size={19} aria-hidden="true" />
           </Link>
         </div>

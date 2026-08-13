@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import InvitationExperience from "@/app/components/invitation/InvitationExperience";
 import { useAuth } from "@/app/components/providers/AuthProvider";
 import { LoginModal } from "@/app/components/ui/LoginModal";
+import { trackEvent } from "@/app/lib/analytics";
 import { getTemplateById } from "@/app/components/templates/registry";
 import { InviteData } from "@/app/components/templates/types";
 import styles from "./Editor.module.css";
@@ -78,6 +79,10 @@ export default function EditorPage() {
     return () => window.clearTimeout(timer);
   }, [draft, templateId]);
 
+  useEffect(() => {
+    trackEvent("editor_step_view", { template_id: templateId, step_number: step + 1, step_name: steps[step] });
+  }, [step, templateId]);
+
   const TemplateComponent = template?.component;
   const shareUrl = useMemo(() => typeof window === "undefined" ? `/p/${templateId}/${draft.slug}` : `${window.location.origin}/p/${templateId}/${draft.slug}`, [draft.slug, templateId]);
 
@@ -86,6 +91,7 @@ export default function EditorPage() {
   const back = () => setStep((current) => Math.max(current - 1, 0));
   const saveDraft = () => {
     localStorage.setItem(`invite-link-draft-${templateId}`, JSON.stringify(draft));
+    trackEvent("draft_saved", { template_id: templateId, step_number: step + 1 });
     toast.success("Draft saved on this device");
   };
   const copyLink = async () => {
@@ -102,6 +108,7 @@ export default function EditorPage() {
   const finalizePublish = () => {
     localStorage.setItem(`invite-link-published-${draft.slug}`, JSON.stringify({ ...draft, templateId, publishedAt: new Date().toISOString() }));
     setPublished(true);
+    trackEvent("invitation_published", { template_id: templateId, plan: draft.tier, invitation_type: draft.type });
   };
   const publish = () => {
     const authEnabled = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
@@ -194,10 +201,10 @@ export default function EditorPage() {
               {step === 5 && <>
                 <ScreenHeading number="06" title="Choose how you publish" note="One invitation. One payment. No subscription." />
                 <div className={styles.plans}>
-                  <button type="button" onClick={() => update("tier", "FREE")} className={draft.tier === "FREE" ? styles.selectedPlan : ""}>
+                  <button type="button" onClick={() => { update("tier", "FREE"); trackEvent("plan_selected", { template_id: templateId, plan: "FREE" }); }} className={draft.tier === "FREE" ? styles.selectedPlan : ""}>
                     <span>Free</span><strong>₹0</strong><p>Complete interactive invite<br />Elegant Invite Link opening and end screen</p><em>{draft.tier === "FREE" ? <><Check size={15} /> Selected</> : "Choose free"}</em>
                   </button>
-                  <button type="button" onClick={() => update("tier", "PREMIUM")} className={draft.tier === "PREMIUM" ? styles.selectedPlan : ""}>
+                  <button type="button" onClick={() => { update("tier", "PREMIUM"); trackEvent("plan_selected", { template_id: templateId, plan: "PREMIUM", value: 299, currency: "INR" }); }} className={draft.tier === "PREMIUM" ? styles.selectedPlan : ""}>
                     <span><Crown size={15} /> Premium</span><strong>₹299</strong><p>No Invite Link promotion<br />Premium template and custom slug</p><em>{draft.tier === "PREMIUM" ? <><Check size={15} /> Selected</> : "Choose premium"}</em>
                   </button>
                 </div>
@@ -219,7 +226,7 @@ export default function EditorPage() {
                 </> : <div className={styles.published}>
                   <div className={styles.successMark}><Check size={32} /></div>
                   <span>Your live link</span><strong>{shareUrl}</strong>
-                  <div><button type="button" onClick={copyLink}><Clipboard size={17} /> Copy link</button><a href={`https://wa.me/?text=${encodeURIComponent(`You're invited! ${shareUrl}`)}`} target="_blank" rel="noreferrer"><MessageCircle size={17} /> Share on WhatsApp</a></div>
+                  <div><button type="button" onClick={copyLink}><Clipboard size={17} /> Copy link</button><a href={`https://wa.me/?text=${encodeURIComponent(`You're invited! ${shareUrl}`)}`} target="_blank" rel="noreferrer" onClick={() => trackEvent("share", { method: "WhatsApp", content_type: "invitation", item_id: draft.slug })}><MessageCircle size={17} /> Share on WhatsApp</a></div>
                   <Link href="/dashboard">Go to My Invitations <ArrowRight size={17} /></Link>
                 </div>}
               </>}

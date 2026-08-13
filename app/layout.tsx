@@ -1,184 +1,74 @@
-import type { Metadata } from "next";
-import { Inter, Playfair_Display, Great_Vibes } from "next/font/google";
-import "./globals.css";
-import SmoothScroll from "./components/providers/SmoothScroll";
-import { AuthProvider } from "./components/providers/AuthProvider";
+import type { Metadata, Viewport } from "next";
+import { Great_Vibes, Inter, Playfair_Display } from "next/font/google";
 import { Toaster } from "sonner";
+import AnalyticsConsent from "./components/analytics/AnalyticsConsent";
 import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 import MicrosoftClarity from "./components/analytics/MicrosoftClarity";
+import { AuthProvider } from "./components/providers/AuthProvider";
+import SmoothScroll from "./components/providers/SmoothScroll";
 import JsonLd, { schemas } from "./components/seo/JsonLd";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "./lib/site";
+import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
-const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"], variable: "--font-script" });
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://invite-platform-navy.vercel.app";
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", display: "swap" });
+const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"], variable: "--font-script", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
-
-  // Primary SEO
-  title: {
-    default: "Invite Link — Interactive Invitations Made to Be Felt",
-    template: "%s | Invite Link",
-  },
-  description: "Choose a beautifully designed interactive invitation, personalize your occasion, publish one link and share it instantly on WhatsApp.",
-
-  // Keywords for search engines
+  metadataBase: new URL(SITE_URL),
+  title: { default: "Invite Link — Interactive Digital Invitation Maker", template: "%s | Invite Link" },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
   keywords: [
-    "digital invitation",
-    "online invitation maker",
-    "free invitation maker",
-    "digital wedding invitation",
-    "birthday e-invite",
-    "WhatsApp invitation",
-    "digital invitation India",
-    "housewarming invitation online",
-    "griha pravesh invitation",
-    "baby shower e-invite",
-    "corporate event invitation",
-    "interactive invitation",
-    "RSVP invitation",
-    "wedding card online",
-    "birthday invitation card maker",
-    "free digital invitation templates",
-    "shaadi invitation online",
-    "mundan invitation card",
-    "haldi invitation",
-    "sangeet invitation",
+    "interactive digital invitation", "online invitation maker", "WhatsApp invitation",
+    "digital wedding invitation India", "birthday invitation maker", "housewarming invitation online",
+    "griha pravesh invitation", "baby shower invitation", "wedding e invite", "RSVP invitation link",
   ],
-
-  // Authors and Publisher
-  authors: [{ name: "Invite Link" }],
-  creator: "Invite Link",
-  publisher: "Invite Link",
-
-  // Robots configuration
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "Digital Invitations",
   robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      noimageindex: false,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+    index: true, follow: true,
+    googleBot: { index: true, follow: true, noimageindex: false, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
-
-  // Icons
-  icons: {
-    icon: "/brand/invite-link-mark.png",
-    apple: "/brand/invite-link-mark.png",
-  },
-
-  // Category
-  category: "Technology",
-
-  // Verification codes
-  verification: {
-    google: "zmhEQSNhOqwPCoXEHraIkf_yloiE9WsmfocctZ-z2ZQ",
-  },
-
-  // Open Graph
+  icons: { icon: "/brand/invite-link-mark.png", apple: "/brand/invite-link-mark.png" },
+  manifest: "/manifest.webmanifest",
+  verification: { google: "zmhEQSNhOqwPCoXEHraIkf_yloiE9WsmfocctZ-z2ZQ" },
   openGraph: {
-    type: "website",
-    locale: "en_IN",
-    alternateLocale: ["en_US", "hi_IN"],
-    url: baseUrl,
-    siteName: "Invite Link",
+    type: "website", locale: "en_IN", url: SITE_URL, siteName: SITE_NAME,
     title: "Invite Link — Don't Just Send an Invitation. Make Them Feel Invited.",
-    description: "Beautifully choreographed invitation experiences you can personalize, publish and share in one link.",
-    images: [
-      {
-        url: "/images/invite-link-og.png",
-        width: 1200,
-        height: 630,
-        alt: "Invite Link — Interactive invitations made to be felt",
-        type: "image/png",
-      },
-    ],
+    description: "Choose a beautifully choreographed invitation, personalize it and share one unforgettable link on WhatsApp.",
+    images: [{ url: "/images/invite-link-og.png", width: 1200, height: 630, alt: "Invite Link interactive digital invitation maker", type: "image/png" }],
   },
-
-  // Twitter Card
   twitter: {
-    card: "summary_large_image",
-    site: "@invitationlink",
-    creator: "@invitationlink",
-    title: "Invite Link — Interactive Invitations Made to Be Felt",
-    description: "Choose, personalize and share a beautifully choreographed invitation experience.",
-    images: ["/images/invite-link-og.png"],
+    card: "summary_large_image", title: "Invite Link — Interactive Invitations Made to Be Felt",
+    description: "Choose, personalize and share a beautifully choreographed invitation experience.", images: ["/images/invite-link-og.png"],
   },
-
-  // Alternate languages
-  alternates: {
-    canonical: baseUrl,
-    languages: {
-      "en-IN": baseUrl,
-      "en-US": baseUrl,
-    },
-  },
-
-  // App links
-  appLinks: {
-    web: {
-      url: baseUrl,
-      should_fallback: true,
-    },
-  },
-
-  // Other metadata
-  other: {
-    "google-site-verification": "zmhEQSNhOqwPCoXEHraIkf_yloiE9WsmfocctZ-z2ZQ",
-    "theme-color": "#071A38",
-    "apple-mobile-web-app-capable": "yes",
-    "apple-mobile-web-app-status-bar-style": "black-translucent",
-  },
+  alternates: { canonical: SITE_URL },
+  other: { "apple-mobile-web-app-capable": "yes", "apple-mobile-web-app-status-bar-style": "black-translucent" },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  // Combined schema for homepage
-  const combinedSchema = [
-    schemas.webSite(baseUrl),
-    schemas.organization(baseUrl),
-    schemas.softwareApplication(baseUrl),
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#071A38", colorScheme: "light" };
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const schema = [
+    schemas.webSite(SITE_URL),
+    schemas.organization(SITE_URL),
+    schemas.softwareApplication(SITE_URL),
+    schemas.howTo("How to create an interactive digital invitation", ["Choose an occasion and interactive template.", "Personalize names, date, venue, photos and message.", "Publish one link and share it on WhatsApp."]),
   ];
-
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const clarityId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
   return (
-    <html lang="en">
-      <head>
-        {/* Preconnect to important third-party domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://images.unsplash.com" />
-
-        {/* DNS Prefetch for performance */}
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-      </head>
+    <html lang="en-IN">
+      <head><link rel="dns-prefetch" href="https://www.googletagmanager.com" /><link rel="dns-prefetch" href="https://www.clarity.ms" /></head>
       <body className={`${inter.variable} ${playfair.variable} ${greatVibes.variable} antialiased font-sans`}>
-        {/* Structured Data */}
-        <JsonLd data={combinedSchema} />
-
-        {/* Analytics */}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        )}
-        {process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID && (
-          <MicrosoftClarity projectId={process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID} />
-        )}
-
-        <AuthProvider>
-          <SmoothScroll>
-            {children}
-            <Toaster position="top-center" richColors />
-          </SmoothScroll>
-        </AuthProvider>
+        <JsonLd data={schema} />
+        {gaId && <GoogleAnalytics measurementId={gaId} />}
+        {clarityId && <MicrosoftClarity projectId={clarityId} />}
+        {(gaId || clarityId) && <AnalyticsConsent />}
+        <AuthProvider><SmoothScroll>{children}<Toaster position="top-center" richColors /></SmoothScroll></AuthProvider>
       </body>
     </html>
   );

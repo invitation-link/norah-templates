@@ -1,38 +1,10 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
+import { SITE_URL } from "./lib/site";
 
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://invite-platform-navy.vercel.app';
-
-    return {
-        rules: [
-            {
-                userAgent: '*',
-                allow: '/',
-                disallow: ['/api/', '/admin/', '/_next/', '/private/'],
-            },
-            // Allow AI crawlers explicitly
-            {
-                userAgent: 'GPTBot',
-                allow: '/',
-            },
-            {
-                userAgent: 'ChatGPT-User',
-                allow: '/',
-            },
-            {
-                userAgent: 'Claude-Web',
-                allow: '/',
-            },
-            {
-                userAgent: 'Anthropic-AI',
-                allow: '/',
-            },
-            {
-                userAgent: 'PerplexityBot',
-                allow: '/',
-            },
-        ],
-        sitemap: `${baseUrl}/sitemap.xml`,
-        host: baseUrl,
-    };
+  return {
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/api/", "/dashboard/", "/editor/", "/p/", "/i/", "/demo/"] }],
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
+  };
 }

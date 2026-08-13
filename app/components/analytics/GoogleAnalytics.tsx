@@ -1,58 +1,48 @@
-'use client';
+"use client";
 
-import Script from 'next/script';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
+import Script from "next/script";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
 
-declare global {
-    interface Window {
-        gtag: (...args: any[]) => void;
-        dataLayer: any[];
-    }
+function RouteMeasurement() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const query = searchParams.toString();
+    const pagePath = `${pathname}${query ? `?${query}` : ""}`;
+    window.gtag?.("event", "page_view", {
+      page_title: document.title,
+      page_location: window.location.href,
+      page_path: pagePath,
+    });
+  }, [pathname, searchParams]);
+
+  return null;
 }
 
-function GoogleAnalyticsContent({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    useEffect(() => {
-        const url = pathname + searchParams.toString();
-        if (typeof window.gtag !== 'undefined') {
-            window.gtag('config', GA_MEASUREMENT_ID, {
-                page_path: url,
-            });
-        }
-    }, [pathname, searchParams, GA_MEASUREMENT_ID]);
-
-    return (
-        <>
-            <Script
-                strategy="afterInteractive"
-                src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-            />
-            <Script
-                id="google-analytics"
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                    __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', '${GA_MEASUREMENT_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-                }}
-            />
-        </>
-    );
-}
-
-export default function GoogleAnalytics(props: { GA_MEASUREMENT_ID: string }) {
-    return (
-        <Suspense fallback={null}>
-            <GoogleAnalyticsContent {...props} />
-        </Suspense>
-    );
+export default function GoogleAnalytics({ measurementId }: { measurementId: string }) {
+  return (
+    <>
+      <Script id="google-consent-and-config" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          var analyticsConsent = localStorage.getItem('invite-link-analytics-consent') === 'granted' ? 'granted' : 'denied';
+          gtag('consent', 'default', {
+            analytics_storage: analyticsConsent,
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            wait_for_update: 500
+          });
+          gtag('js', new Date());
+          gtag('config', '${measurementId}', { send_page_view: false, anonymize_ip: true });
+        `}
+      </Script>
+      <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`} />
+      <Suspense fallback={null}><RouteMeasurement /></Suspense>
+    </>
+  );
 }

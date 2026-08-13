@@ -2,12 +2,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Sparkles, Heart, Globe, Zap, Users } from 'lucide-react';
 import JsonLd, { schemas } from '@/app/components/seo/JsonLd';
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://invite-platform-navy.vercel.app';
+import { SITE_URL } from '@/app/lib/site';
 
 export const metadata: Metadata = {
-    title: 'About Us - Our Story',
-    description: 'Learn about Invitation Link - India\'s premier digital invitation platform. We make creating beautiful, interactive invitations easy, eco-friendly, and free for everyone.',
+    title: 'About Invite Link',
+    description: 'Learn why Invite Link creates interactive, WhatsApp-friendly digital invitations for weddings, birthdays, housewarmings and celebrations.',
     keywords: [
         'about invitation link',
         'digital invitation company',
@@ -15,16 +14,18 @@ export const metadata: Metadata = {
         'eco-friendly invitations',
     ],
     openGraph: {
-        title: 'About Invitation Link',
-        description: 'India\'s premier digital invitation platform. Beautiful invitations, free forever.',
+        title: 'About Invite Link',
+        description: 'Interactive digital invitations designed to make every guest feel invited.',
+        url: `${SITE_URL}/about`,
     },
+    alternates: { canonical: `${SITE_URL}/about` },
 };
 
 export default function AboutPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
             {/* JSON-LD Structured Data */}
-            <JsonLd data={schemas.organization(baseUrl)} />
+            <JsonLd data={[schemas.organization(SITE_URL), schemas.breadcrumb([{ name: 'Home', url: SITE_URL }, { name: 'About', url: `${SITE_URL}/about` }])]} />
 
             {/* Header */}
             <nav className="fixed w-full z-40 bg-white/80 backdrop-blur-xl border-b border-black/5 py-4">
@@ -33,7 +34,7 @@ export default function AboutPage() {
                         <span className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white">
                             <Sparkles size={18} />
                         </span>
-                        Invitation Link
+                            Invite Link
                     </Link>
                     <Link href="/" className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black transition-colors">
                         <ArrowLeft size={16} /> Back to Home
@@ -53,8 +54,8 @@ export default function AboutPage() {
                             </span>
                         </h1>
                         <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                            We believe every celebration deserves an invitation that's as special as the event itself.
-                            That's why we created Invitation Link.
+                            We believe every celebration deserves an invitation that&apos;s as special as the event itself.
+                            That&apos;s why we created Invite Link.
                         </p>
                     </div>
 
@@ -64,8 +65,8 @@ export default function AboutPage() {
                             <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
                             <p className="text-gray-600 leading-relaxed mb-4">
                                 Invitation Link started with a simple observation: traditional paper invitations are beautiful,
-                                but they don't fit our digital lives. Sending a PDF over WhatsApp feels impersonal, and
-                                creating a fancy invitation shouldn't require design skills or expensive software.
+                                but they don&apos;t fit our digital lives. Sending a PDF over WhatsApp feels impersonal, and
+                                creating a fancy invitation shouldn&apos;t require design skills or expensive software.
                             </p>
                             <p className="text-gray-600 leading-relaxed mb-4">
                                 We set out to solve this by creating a platform where anyone can craft stunning,
@@ -74,8 +75,8 @@ export default function AboutPage() {
                                 Indians actually communicate.
                             </p>
                             <p className="text-gray-600 leading-relaxed">
-                                Today, thousands of families across India use Invitation Link for their weddings,
-                                birthdays, housewarmings, and celebrations. We're proud to be part of their special moments.
+                                Invite Link is designed for families sharing weddings, birthdays, housewarmings and celebrations.
+                                We are building every template to make those first moments feel personal.
                             </p>
                         </div>
                     </div>
@@ -117,9 +118,9 @@ export default function AboutPage() {
 
                     {/* Contact CTA */}
                     <div className="text-center bg-gray-900 rounded-3xl p-12 text-white">
-                        <h2 className="text-3xl font-bold mb-4">Let's Create Together</h2>
+                        <h2 className="text-3xl font-bold mb-4">Let&apos;s Create Together</h2>
                         <p className="text-white/70 mb-8 max-w-xl mx-auto">
-                            Have questions or custom requirements? We'd love to hear from you.
+                            Have questions or custom requirements? We&apos;d love to hear from you.
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
                             <a
@@ -143,7 +144,7 @@ export default function AboutPage() {
             <footer className="bg-gray-100 py-12 text-center">
                 <div className="container mx-auto px-6">
                     <p className="text-gray-500 text-sm">
-                        © 2026 Invitation Link. Made with ❤️ in India.
+                        © 2026 Invite Link. Made in India.
                     </p>
                 </div>
             </footer>

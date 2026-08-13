@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
-import { FAQ_CATEGORIES, getAllFAQs } from '@/app/lib/faq-data';
-import JsonLd from '@/app/components/seo/JsonLd';
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://invite-platform-navy.vercel.app';
+import JsonLd, { schemas } from '@/app/components/seo/JsonLd';
+import { SITE_URL } from '@/app/lib/site';
 
 export const metadata: Metadata = {
     title: 'FAQ - 100+ Questions Answered | Digital Invitation Help',
@@ -22,7 +20,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'FAQ - 100+ Questions Answered | Invitation Link',
         description: 'Comprehensive help center with answers to all your digital invitation questions.',
-        url: `${baseUrl}/faq`,
+        url: `${SITE_URL}/faq`,
         type: 'website',
     },
     twitter: {
@@ -31,26 +29,9 @@ export const metadata: Metadata = {
         description: '100+ answers to your invitation questions ✨',
     },
     alternates: {
-        canonical: `${baseUrl}/faq`,
+        canonical: `${SITE_URL}/faq`,
     },
 };
-
-// Generate FAQPage schema for all FAQs
-function generateFAQSchema() {
-    const allFaqs = getAllFAQs();
-    return {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: allFaqs.map(faq => ({
-            '@type': 'Question',
-            name: faq.question,
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: faq.answer
-            }
-        }))
-    };
-}
 
 export default function FAQLayout({
     children,
@@ -59,8 +40,7 @@ export default function FAQLayout({
 }) {
     return (
         <>
-            {/* FAQPage Schema for all 100 questions */}
-            <JsonLd data={generateFAQSchema()} />
+            <JsonLd data={schemas.breadcrumb([{ name: 'Home', url: SITE_URL }, { name: 'FAQ', url: `${SITE_URL}/faq` }])} />
             {children}
         </>
     );

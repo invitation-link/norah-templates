@@ -102,7 +102,9 @@
 .occasionStrip { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 28px clamp(24px,7vw,112px); background: var(--navy-950); color: white; }
 .occasionStrip > span { color: var(--gold-300); font-family: var(--font-playfair), Georgia, serif; font-size: 19px; font-style: italic; }
 .occasionStrip div { display: flex; align-items: center; gap: clamp(16px,3vw,42px); }
-.occasionStrip strong { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.occasionStrip a { color: inherit; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-decoration: none; text-transform: uppercase; }
+.occasionStrip a:hover { color: var(--gold-300); }
+.occasionStrip a:focus-visible { border-radius: 3px; outline: 2px solid var(--gold-300); outline-offset: 5px; }
 .occasionStrip i { width: 4px; height: 4px; border-radius: 50%; background: var(--gold-500); }
 
 .templatesSection, .journeySection { padding: clamp(88px,10vw,150px) clamp(24px,7vw,112px); }
