@@ -11,3 +11,7 @@ node_modules/
 # Local build and debug artifacts
 *.log
 build_debug.log
+build_output.txt
+lint_*.txt
+*.tsbuildinfo
+.netlify/
