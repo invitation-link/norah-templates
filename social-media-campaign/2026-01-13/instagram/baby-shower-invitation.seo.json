@@ -1,0 +1,24 @@
+﻿{
+    "title":  "Baby Shower Invitation Templates - Sweet and Heartwarming",
+    "schema":  {
+                   "description":  "Baby Shower Digital Invitation - Cute and Adorable",
+                   "name":  "Baby Shower Invitation Templates - Sweet and Heartwarming",
+                   "@type":  "ImageObject",
+                   "keywords":  "baby shower, baby shower invitation, godh bharai, baby celebration, pastel invitation"
+               },
+    "keywords":  [
+                     "baby shower",
+                     "baby shower invitation",
+                     "godh bharai",
+                     "baby celebration",
+                     "pastel invitation"
+                 ],
+    "filename":  "baby-shower-invitation.webp",
+    "alt":  "Baby Shower Digital Invitation - Cute and Adorable",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Baby Shower Digital Invitation - Cute and Adorable",
+                      "og:image:type":  "image/webp"
+                  }
+}

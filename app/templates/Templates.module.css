@@ -1,0 +1,33 @@
+.page { min-height: 100dvh; background: #fbf8f1; color: #071a38; }
+.page header { height: 76px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 clamp(18px,5vw,76px); border-bottom: 1px solid rgba(7,26,56,.1); }
+.back, .create, .brand { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; color: #071a38; text-decoration: none; font-size: 12px; font-weight: 750; }
+.brand { justify-self: center; font-size: 19px; letter-spacing: -.04em; }
+.brand img { width: 36px; height: 32px; object-fit: cover; mix-blend-mode: multiply; }
+.brand strong { color: #a96f00; }
+.create { justify-self: end; padding: 0 17px; border-radius: 999px; background: #071a38; color: white; }
+.intro { max-width: 1120px; margin: 0 auto; padding: clamp(72px,9vw,130px) 24px 72px; text-align: center; }
+.intro > span, .cta > span { color: #a96f00; font-size: 10px; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+.intro h1 { margin: 14px 0 22px; font-family: var(--font-playfair), Georgia, serif; font-size: clamp(52px,7vw,96px); font-weight: 550; letter-spacing: -.055em; line-height: .98; }
+.intro p { max-width: 590px; margin: 0 auto; color: #5f6d7f; font-size: 16px; line-height: 1.65; }
+.collection { padding: 0 clamp(20px,6vw,96px) 120px; }
+.filters { display: flex; justify-content: center; gap: 8px; margin-bottom: 36px; overflow-x: auto; scrollbar-width: none; }
+.filters button { flex: 0 0 auto; min-height: 44px; padding: 0 17px; border: 1px solid rgba(7,26,56,.14); border-radius: 999px; background: transparent; color: #637083; cursor: pointer; font-size: 12px; font-weight: 700; }
+.filters .active { border-color: #071a38; background: #071a38; color: white; }
+.grid { max-width: 1380px; margin: 0 auto; display: grid; grid-template-columns: repeat(2,1fr); gap: 30px; }
+.grid article { min-width: 0; background: white; }
+.media { position: relative; aspect-ratio: 1.25; overflow: hidden; background: #e8e3da; }
+.media > img { object-fit: cover; object-position: center top; transition: transform 500ms cubic-bezier(.22,1,.36,1); }
+.media:hover > img { transform: scale(1.025); }
+.media > span { position: absolute; left: 16px; top: 16px; min-height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 999px; background: rgba(251,248,241,.92); font-size: 9px; font-weight: 850; letter-spacing: .1em; }
+.media > a { position: absolute; right: 16px; bottom: 16px; min-height: 46px; display: inline-flex; align-items: center; gap: 8px; padding: 0 16px; border-radius: 999px; background: rgba(7,26,56,.88); color: white; text-decoration: none; font-size: 12px; font-weight: 800; backdrop-filter: blur(10px); }
+.meta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; padding: 24px; border: 1px solid rgba(7,26,56,.1); border-top: 0; }
+.meta > div > span { color: #a96f00; font-size: 9px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+.meta h2 { margin: 6px 0 7px; font-family: var(--font-playfair), Georgia, serif; font-size: 31px; }
+.meta p { max-width: 480px; margin: 0; color: #657285; font-size: 12px; line-height: 1.55; }
+.meta small { display: block; margin-top: 12px; color: #526075; font-size: 10px; font-weight: 750; }
+.meta > a { min-height: 46px; display: inline-flex; align-items: center; gap: 8px; padding: 0 15px; border: 1px solid #071a38; border-radius: 999px; color: #071a38; text-decoration: none; font-size: 11px; font-weight: 800; }
+.cta { display: flex; flex-direction: column; align-items: center; padding: 100px 24px; background: #071a38; color: white; text-align: center; }
+.cta h2 { margin: 12px 0 28px; font-family: var(--font-playfair), Georgia, serif; font-size: clamp(48px,6vw,76px); }
+.cta a { min-height: 50px; display: inline-flex; align-items: center; gap: 9px; padding: 0 22px; border-radius: 999px; background: #e6a719; color: #071a38; text-decoration: none; font-size: 12px; font-weight: 850; }
+.page :focus-visible { outline: 3px solid #e6a719; outline-offset: 3px; }
+@media (max-width: 760px) { .page header { grid-template-columns: auto 1fr auto; } .brand span { display: none; } .back { font-size: 0; } .create { padding: 0 13px; font-size: 11px; } .grid { grid-template-columns: 1fr; } .media { aspect-ratio: .82; } .meta { grid-template-columns: 1fr; } .meta > a { width: 100%; justify-content: center; } .filters { justify-content: flex-start; } }

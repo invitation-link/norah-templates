@@ -1,0 +1,13 @@
+.vercel
+.next/
+node_modules/
+
+# Local credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+!.env.local.example
+
+# Local build and debug artifacts
+*.log
+build_debug.log

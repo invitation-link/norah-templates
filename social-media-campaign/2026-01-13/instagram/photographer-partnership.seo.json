@@ -1,0 +1,23 @@
+﻿{
+    "title":  "Partner with Us - Wedding Photography Business Opportunity",
+    "schema":  {
+                   "description":  "Wedding Photographer Partnership Program - Invitation Link",
+                   "name":  "Partner with Us - Wedding Photography Business Opportunity",
+                   "@type":  "ImageObject",
+                   "keywords":  "wedding photographer, photography partnership, photographer collaboration, wedding vendor"
+               },
+    "keywords":  [
+                     "wedding photographer",
+                     "photography partnership",
+                     "photographer collaboration",
+                     "wedding vendor"
+                 ],
+    "filename":  "photographer-partnership.webp",
+    "alt":  "Wedding Photographer Partnership Program - Invitation Link",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Wedding Photographer Partnership Program - Invitation Link",
+                      "og:image:type":  "image/webp"
+                  }
+}

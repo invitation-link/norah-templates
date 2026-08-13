@@ -1,0 +1,23 @@
+﻿{
+    "title":  "Make Your Wedding Invite Count",
+    "schema":  {
+                   "description":  "Your Invite is Your First Impression - WhatsApp Status",
+                   "name":  "Make Your Wedding Invite Count",
+                   "@type":  "ImageObject",
+                   "keywords":  "first impression, wedding invite, whatsapp status, invitation marketing"
+               },
+    "keywords":  [
+                     "first impression",
+                     "wedding invite",
+                     "whatsapp status",
+                     "invitation marketing"
+                 ],
+    "filename":  "first-impression.webp",
+    "alt":  "Your Invite is Your First Impression - WhatsApp Status",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Your Invite is Your First Impression - WhatsApp Status",
+                      "og:image:type":  "image/webp"
+                  }
+}

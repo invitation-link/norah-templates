@@ -1,0 +1,23 @@
+﻿{
+    "title":  "The Clear Choice - Free Digital vs Expensive Paper",
+    "schema":  {
+                   "description":  "Paper Invites vs Digital - Cost Comparison",
+                   "name":  "The Clear Choice - Free Digital vs Expensive Paper",
+                   "@type":  "ImageObject",
+                   "keywords":  "paper vs digital, invitation cost, free invitation, digital vs paper"
+               },
+    "keywords":  [
+                     "paper vs digital",
+                     "invitation cost",
+                     "free invitation",
+                     "digital vs paper"
+                 ],
+    "filename":  "paper-vs-digital.webp",
+    "alt":  "Paper Invites vs Digital - Cost Comparison",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Paper Invites vs Digital - Cost Comparison",
+                      "og:image:type":  "image/webp"
+                  }
+}

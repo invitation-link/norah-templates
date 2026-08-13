@@ -1,0 +1,24 @@
+﻿{
+    "title":  "Beautiful Housewarming Invitation Templates",
+    "schema":  {
+                   "description":  "Griha Pravesh Housewarming Digital Invitation - Traditional Indian",
+                   "name":  "Beautiful Housewarming Invitation Templates",
+                   "@type":  "ImageObject",
+                   "keywords":  "griha pravesh, housewarming, housewarming invitation, indian ceremony, pooja invitation"
+               },
+    "keywords":  [
+                     "griha pravesh",
+                     "housewarming",
+                     "housewarming invitation",
+                     "indian ceremony",
+                     "pooja invitation"
+                 ],
+    "filename":  "griha-pravesh-housewarming.webp",
+    "alt":  "Griha Pravesh Housewarming Digital Invitation - Traditional Indian",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Griha Pravesh Housewarming Digital Invitation - Traditional Indian",
+                      "og:image:type":  "image/webp"
+                  }
+}

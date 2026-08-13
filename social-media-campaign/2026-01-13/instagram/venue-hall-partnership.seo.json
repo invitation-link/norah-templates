@@ -1,0 +1,24 @@
+﻿{
+    "title":  "Partner Your Venue with Digital Invitations",
+    "schema":  {
+                   "description":  "Function Hall Partnership - Invitation Link",
+                   "name":  "Partner Your Venue with Digital Invitations",
+                   "@type":  "ImageObject",
+                   "keywords":  "function hall, banquet hall, venue partnership, wedding venue, event venue"
+               },
+    "keywords":  [
+                     "function hall",
+                     "banquet hall",
+                     "venue partnership",
+                     "wedding venue",
+                     "event venue"
+                 ],
+    "filename":  "venue-hall-partnership.webp",
+    "alt":  "Function Hall Partnership - Invitation Link",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Function Hall Partnership - Invitation Link",
+                      "og:image:type":  "image/webp"
+                  }
+}

@@ -1,0 +1,23 @@
+﻿{
+    "title":  "Why Choose Digital Invitations Over Traditional Paper Cards",
+    "schema":  {
+                   "description":  "5 Reasons Digital Invitations Are Better Than Paper",
+                   "name":  "Why Choose Digital Invitations Over Traditional Paper Cards",
+                   "@type":  "ImageObject",
+                   "keywords":  "digital vs paper, eco friendly invitation, modern wedding, cost effective invite"
+               },
+    "keywords":  [
+                     "digital vs paper",
+                     "eco friendly invitation",
+                     "modern wedding",
+                     "cost effective invite"
+                 ],
+    "filename":  "5-reasons-digital-beats-paper.webp",
+    "alt":  "5 Reasons Digital Invitations Are Better Than Paper",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "5 Reasons Digital Invitations Are Better Than Paper",
+                      "og:image:type":  "image/webp"
+                  }
+}

@@ -1,0 +1,28 @@
+.overlay { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 18px; }
+.backdrop { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: rgba(3,14,31,.7); backdrop-filter: blur(10px); cursor: default; }
+.modal { position: relative; width: min(100%, 440px); padding: 36px; border-top: 3px solid #e6a719; background: #fbf8f1; box-shadow: 0 30px 90px rgba(0,0,0,.35); color: #071a38; }
+.close { position: absolute; right: 16px; top: 16px; width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: #071a38; cursor: pointer; }
+.close:hover { background: #f0eadf; }
+.modal > img { width: 46px; height: 40px; object-fit: cover; mix-blend-mode: multiply; }
+.modal > span { display: block; margin-top: 20px; color: #a96f00; font-size: 9px; font-weight: 850; letter-spacing: .15em; text-transform: uppercase; }
+.modal h2 { margin: 8px 0 10px; font-family: var(--font-playfair), Georgia, serif; font-size: 38px; font-weight: 570; letter-spacing: -.04em; line-height: 1.04; }
+.modal > p { margin: 0 0 24px; color: #637084; font-size: 13px; line-height: 1.6; }
+.google, .submit { width: 100%; min-height: 50px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; cursor: pointer; font-size: 12px; font-weight: 800; }
+.google { border: 1px solid #071a38; background: white; color: #071a38; }
+.google strong { width: 23px; height: 23px; display: grid; place-items: center; border-radius: 50%; background: #071a38; color: #fff; }
+.google svg { margin-left: auto; }
+.divider { display: flex; align-items: center; gap: 10px; margin: 20px 0; color: #89929d; font-size: 9px; text-transform: uppercase; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #d9d7d1; }
+.modal form > label { display: block; margin-bottom: 7px; font-size: 11px; font-weight: 800; }
+.phone { min-height: 50px; display: grid; grid-template-columns: auto 1fr; align-items: center; border: 1px solid #cbd1d8; background: white; }
+.phone span { padding: 0 13px; color: #637084; font-size: 13px; }
+.phone input { min-width: 0; height: 48px; border: 0; border-left: 1px solid #d9dde2; padding: 0 13px; background: transparent; color: #071a38; font: inherit; font-size: 16px; outline: 0; }
+.phone:focus-within { border-color: #071a38; box-shadow: 0 0 0 3px rgba(230,167,25,.22); }
+.submit { margin-top: 13px; border: 0; background: #071a38; color: white; }
+.google:disabled, .submit:disabled { cursor: not-allowed; opacity: .5; }
+.modal > small { display: block; margin-top: 18px; color: #858e99; font-size: 9px; line-height: 1.5; text-align: center; }
+.spin { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.modal :focus-visible { outline: 3px solid #e6a719; outline-offset: 3px; }
+@media (max-width: 500px) { .modal { padding: 28px 22px; } .modal h2 { font-size: 34px; } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }

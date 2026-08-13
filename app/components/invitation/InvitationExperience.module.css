@@ -1,0 +1,23 @@
+.frame { position: relative; width: 100%; height: 100%; min-height: 100%; overflow: hidden; background: #071a38; }
+.template { position: absolute; inset: 0; }
+.openingPromotion { position: absolute; inset: 0; z-index: 50; display: grid; place-items: center; overflow: hidden; padding: 32px 24px; background: #071a38; color: #fff; text-align: center; }
+.openingPromotion > div { position: relative; z-index: 2; width: min(100%, 430px); }
+.openingPromotion img { width: 58px; height: 51px; object-fit: cover; filter: drop-shadow(0 8px 20px rgba(0,0,0,.2)); }
+.openingPromotion span { display: block; margin-top: 18px; color: #f2cc69; font-size: 10px; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+.openingPromotion h1 { margin: 13px 0 12px; font-family: var(--font-playfair), Georgia, serif; font-size: clamp(38px, 8vw, 58px); font-weight: 570; letter-spacing: -.045em; line-height: 1.02; }
+.openingPromotion p { margin: 0 auto 28px; max-width: 310px; color: #cbd4df; font-size: 14px; line-height: 1.6; }
+.openingPromotion button { min-height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 22px; border: 0; border-radius: 999px; background: #e6a719; color: #071a38; cursor: pointer; font-size: 13px; font-weight: 850; }
+.openingPromotion a { min-height: 44px; display: flex; align-items: center; justify-content: center; margin-top: 10px; color: #e8edf3; font-size: 11px; text-decoration: underline; text-underline-offset: 4px; }
+.sparkleOne, .sparkleTwo { position: absolute; color: rgba(242,204,105,.3); }
+.sparkleOne { left: 10%; top: 16%; width: 32px; height: 32px; }
+.sparkleTwo { right: 12%; bottom: 15%; width: 24px; height: 24px; }
+.endPromotion { position: absolute; z-index: 80; left: 16px; right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); min-height: 84px; display: grid; grid-template-columns: 40px 1fr 44px; align-items: center; gap: 11px; padding: 12px 12px 12px 14px; border: 1px solid rgba(230,167,25,.38); border-radius: 4px; background: rgba(7,26,56,.96); box-shadow: 0 20px 50px rgba(0,0,0,.3); color: white; backdrop-filter: blur(16px); }
+.mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: #e6a719; color: #071a38; }
+.endPromotion div { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.endPromotion small { color: #b9c4d1; font-size: 9px; }
+.endPromotion strong { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.endPromotion > a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: #e6a719; color: #071a38; }
+.dismiss { position: absolute; right: 4px; top: -40px; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(7,26,56,.9); color: white; cursor: pointer; }
+.previewEndTrigger { position: absolute; z-index: 70; left: 50%; bottom: 10px; min-height: 38px; padding: 0 13px; border: 1px solid rgba(255,255,255,.4); border-radius: 999px; background: rgba(7,26,56,.8); color: white; cursor: pointer; font-size: 9px; transform: translateX(-50%); white-space: nowrap; }
+.frame :focus-visible { outline: 3px solid #e6a719; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .frame *, .frame *::before, .frame *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }

@@ -1,0 +1,24 @@
+﻿{
+    "title":  "Event Planners Save Hours with Built-in RSVP Tracking",
+    "schema":  {
+                   "description":  "Event Planner RSVP Tracking Dashboard - Invitation Link",
+                   "name":  "Event Planners Save Hours with Built-in RSVP Tracking",
+                   "@type":  "ImageObject",
+                   "keywords":  "event planner, rsvp tracking, guest management, wedding planner, event management"
+               },
+    "keywords":  [
+                     "event planner",
+                     "rsvp tracking",
+                     "guest management",
+                     "wedding planner",
+                     "event management"
+                 ],
+    "filename":  "event-planner-rsvp.webp",
+    "alt":  "Event Planner RSVP Tracking Dashboard - Invitation Link",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Event Planner RSVP Tracking Dashboard - Invitation Link",
+                      "og:image:type":  "image/webp"
+                  }
+}

@@ -1,0 +1,23 @@
+﻿{
+    "title":  "RSVP Tracking Made Easy with Digital Invitations",
+    "schema":  {
+                   "description":  "Stop Calling Guests for RSVP - Digital Solution",
+                   "name":  "RSVP Tracking Made Easy with Digital Invitations",
+                   "@type":  "ImageObject",
+                   "keywords":  "rsvp tracking, guest rsvp, event planning, invitation rsvp"
+               },
+    "keywords":  [
+                     "rsvp tracking",
+                     "guest rsvp",
+                     "event planning",
+                     "invitation rsvp"
+                 ],
+    "filename":  "rsvp-pain-point.webp",
+    "alt":  "Stop Calling Guests for RSVP - Digital Solution",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Stop Calling Guests for RSVP - Digital Solution",
+                      "og:image:type":  "image/webp"
+                  }
+}

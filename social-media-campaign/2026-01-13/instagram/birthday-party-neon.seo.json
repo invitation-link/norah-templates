@@ -1,0 +1,24 @@
+﻿{
+    "title":  "Birthday Party Invitation Templates - Fun and Vibrant",
+    "schema":  {
+                   "description":  "Neon Birthday Party Digital Invitation - Colorful and Fun",
+                   "name":  "Birthday Party Invitation Templates - Fun and Vibrant",
+                   "@type":  "ImageObject",
+                   "keywords":  "birthday invitation, party invite, neon party, birthday card online, kids birthday"
+               },
+    "keywords":  [
+                     "birthday invitation",
+                     "party invite",
+                     "neon party",
+                     "birthday card online",
+                     "kids birthday"
+                 ],
+    "filename":  "birthday-party-neon.webp",
+    "alt":  "Neon Birthday Party Digital Invitation - Colorful and Fun",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "Neon Birthday Party Digital Invitation - Colorful and Fun",
+                      "og:image:type":  "image/webp"
+                  }
+}

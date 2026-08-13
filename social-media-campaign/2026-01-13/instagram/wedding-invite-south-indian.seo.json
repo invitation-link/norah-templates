@@ -1,0 +1,24 @@
+﻿{
+    "title":  "Beautiful Digital Wedding Invitation with Traditional Motifs",
+    "schema":  {
+                   "description":  "South Indian Wedding Digital Invitation Template - Invitation Link",
+                   "name":  "Beautiful Digital Wedding Invitation with Traditional Motifs",
+                   "@type":  "ImageObject",
+                   "keywords":  "wedding invitation, south indian wedding, digital wedding card, shaadi card, telugu wedding invite"
+               },
+    "keywords":  [
+                     "wedding invitation",
+                     "south indian wedding",
+                     "digital wedding card",
+                     "shaadi card",
+                     "telugu wedding invite"
+                 ],
+    "filename":  "wedding-invite-south-indian.webp",
+    "alt":  "South Indian Wedding Digital Invitation Template - Invitation Link",
+    "platform":  "Invitation Link",
+    "dateCreated":  "2026-01-13",
+    "openGraph":  {
+                      "og:image:alt":  "South Indian Wedding Digital Invitation Template - Invitation Link",
+                      "og:image:type":  "image/webp"
+                  }
+}
