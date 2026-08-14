@@ -34,6 +34,16 @@ type Template = {
 
 const templates: Template[] = [
   {
+    id: "digital-tiranga",
+    name: "Digital Tiranga",
+    category: "Celebration",
+    feeling: "Proud, human, purposeful",
+    interaction: "Hold to raise the Tiranga",
+    image: "/images/templates/live/digital-tiranga-hero.png",
+    demoUrl: "/tiranga",
+    tone: "dark",
+  },
+  {
     id: "new-door",
     name: "The New Door",
     category: "Housewarming",

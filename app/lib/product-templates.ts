@@ -16,6 +16,18 @@ export type ProductTemplate = {
 
 export const PRODUCT_TEMPLATES: ProductTemplate[] = [
   {
+    id: "digital-tiranga",
+    name: "Digital Tiranga",
+    occasion: "CELEBRATION",
+    occasionLabel: "National celebration",
+    description: "A cinematic Independence Day experience with a hold-to-hoist ceremony, personal pledge and shareable keepsake.",
+    interaction: "Hold to raise the Tiranga",
+    previewImage: "/images/templates/live/digital-tiranga-hero.png",
+    liveUrl: "/tiranga",
+    tier: "FREE",
+    source: "native",
+  },
+  {
     id: "new-door",
     name: "The New Door",
     occasion: "HOUSEWARMING",

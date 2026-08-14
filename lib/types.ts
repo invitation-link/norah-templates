@@ -146,6 +146,58 @@ export type Database = {
                     created_at?: string
                 }
             }
+            tiranga_participants: {
+                Row: {
+                    id: string
+                    first_name: string
+                    city: string
+                    referred_by: string | null
+                    community_slug: string | null
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    first_name: string
+                    city: string
+                    referred_by?: string | null
+                    community_slug?: string | null
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    first_name?: string
+                    city?: string
+                    referred_by?: string | null
+                    community_slug?: string | null
+                    created_at?: string
+                }
+            }
+            tiranga_shares: {
+                Row: {
+                    share_id: string
+                    first_name: string
+                    city: string
+                    parent_share_id: string | null
+                    community_slug: string | null
+                    created_at: string
+                }
+                Insert: {
+                    share_id: string
+                    first_name: string
+                    city: string
+                    parent_share_id?: string | null
+                    community_slug?: string | null
+                    created_at?: string
+                }
+                Update: {
+                    share_id?: string
+                    first_name?: string
+                    city?: string
+                    parent_share_id?: string | null
+                    community_slug?: string | null
+                    created_at?: string
+                }
+            }
         }
     }
 }
