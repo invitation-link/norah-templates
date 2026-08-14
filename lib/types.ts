@@ -198,6 +198,32 @@ export type Database = {
                     created_at?: string
                 }
             }
+            tiranga_contacts: {
+                Row: {
+                    id: string
+                    participant_id: string | null
+                    share_id: string | null
+                    phone: string
+                    marketing_consent: boolean
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    participant_id?: string | null
+                    share_id?: string | null
+                    phone: string
+                    marketing_consent?: boolean
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    participant_id?: string | null
+                    share_id?: string | null
+                    phone?: string
+                    marketing_consent?: boolean
+                    created_at?: string
+                }
+            }
         }
     }
 }

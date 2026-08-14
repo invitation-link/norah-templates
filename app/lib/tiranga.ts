@@ -3,11 +3,9 @@ export type TirangaStage =
   | "ready"
   | "hoisting"
   | "unfurling"
-  | "pride"
+  | "anthem"
   | "personalization"
-  | "chain"
   | "share"
-  | "map"
   | "conversion";
 
 export type TirangaCommunity = {

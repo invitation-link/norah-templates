@@ -172,10 +172,21 @@ CREATE TABLE IF NOT EXISTS tiranga_shares (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS tiranga_contacts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    participant_id UUID REFERENCES tiranga_participants(id) ON DELETE SET NULL,
+    share_id TEXT REFERENCES tiranga_shares(share_id) ON DELETE SET NULL,
+    phone TEXT NOT NULL CHECK (phone ~ '^[6-9][0-9]{9}$'),
+    marketing_consent BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 CREATE INDEX IF NOT EXISTS idx_tiranga_participants_created_at ON tiranga_participants(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_tiranga_participants_city ON tiranga_participants(city);
 CREATE INDEX IF NOT EXISTS idx_tiranga_participants_community ON tiranga_participants(community_slug);
 CREATE INDEX IF NOT EXISTS idx_tiranga_shares_parent ON tiranga_shares(parent_share_id);
+CREATE INDEX IF NOT EXISTS idx_tiranga_contacts_created_at ON tiranga_contacts(created_at DESC);
 
 ALTER TABLE tiranga_participants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tiranga_shares ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tiranga_contacts ENABLE ROW LEVEL SECURITY;

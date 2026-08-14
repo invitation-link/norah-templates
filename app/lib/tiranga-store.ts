@@ -20,6 +20,14 @@ type ShareRecord = {
   createdAt: string;
 };
 
+type ContactRecord = {
+  participantId?: string;
+  shareId?: string;
+  phone: string;
+  marketingConsent: boolean;
+  createdAt: string;
+};
+
 type MemoryStore = { participants: Participant[]; shares: ShareRecord[] };
 
 const globalStore = globalThis as typeof globalThis & { tirangaStore?: MemoryStore };
@@ -104,4 +112,21 @@ export async function getShare(shareId: string): Promise<ShareRecord | null> {
     }
   }
   return memory.shares.find((share) => share.shareId === shareId) || null;
+}
+
+export async function saveTirangaContact(input: Omit<ContactRecord, "createdAt">) {
+  if (!databaseAvailable()) return { saved: false };
+  try {
+    const client = createServerClient();
+    const { error } = await client.from("tiranga_contacts").insert({
+      participant_id: input.participantId || null,
+      share_id: input.shareId || null,
+      phone: input.phone,
+      marketing_consent: input.marketingConsent,
+      created_at: new Date().toISOString(),
+    } as never);
+    return { saved: !error };
+  } catch {
+    return { saved: false };
+  }
 }
