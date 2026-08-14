@@ -19,33 +19,26 @@
   position: absolute;
   z-index: -8;
   inset: 0;
+  background: #071d36 url("/images/tiranga/grand-dawn-portrait-v2.webp") center center / cover no-repeat;
+  filter: saturate(.92) contrast(1.04);
+}
+
+.sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
-    linear-gradient(to bottom, rgba(4, 22, 41, .28), rgba(4, 22, 41, .08) 48%, rgba(3, 17, 28, .75)),
-    url("/images/templates/live/digital-tiranga-hero.png") center/cover no-repeat,
-    linear-gradient(#041b31 0%, #0a3b58 55%, #a7553d 100%);
-  filter: saturate(.86);
+    linear-gradient(to bottom, rgba(3, 17, 34, .34) 0%, rgba(3, 17, 34, .04) 42%, rgba(2, 13, 23, .18) 67%, rgba(2, 13, 23, .58) 100%),
+    linear-gradient(to right, rgba(2, 15, 29, .14), transparent 34%, transparent 72%, rgba(2, 15, 29, .08));
 }
 
 .sky::after {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: calc(.08 + var(--progress) * .62);
-  background: radial-gradient(circle at 70% 70%, rgba(255, 211, 122, .46), transparent 25%), linear-gradient(to top, rgba(255, 128, 56, .32), transparent 42%);
+  opacity: calc(.03 + var(--progress) * .28);
+  background: linear-gradient(to top, rgba(255, 162, 73, .26), transparent 48%);
   transition: opacity 80ms linear;
-}
-
-.sun {
-  position: absolute;
-  z-index: -7;
-  left: 71%;
-  bottom: 7%;
-  width: min(52vw, 260px);
-  aspect-ratio: 1;
-  opacity: calc(.02 + var(--progress) * .76);
-  transform: translate(-50%, calc(52px - var(--progress) * 64px));
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff9dc 0 4%, rgba(255, 208, 133, .52) 12%, rgba(255, 155, 89, .24) 31%, transparent 66%);
 }
 
 .fallbackFlag {
@@ -232,6 +225,10 @@
   .shell { border-left: 1px solid rgba(255, 255, 255, .08); border-right: 1px solid rgba(255, 255, 255, .08); }
 }
 
+@media (max-width: 520px) {
+  .presentation { left: 70px; }
+}
+
 @media (max-height: 720px) {
   .welcome { padding-bottom: 20px; }
   .welcome h1 { font-size: 45px; }
@@ -243,6 +240,7 @@
 }
 
 @media (max-height: 520px) and (orientation: landscape) {
+  .sky { background-image: url("/images/tiranga/grand-dawn-landscape-v2.webp"); background-position: center center; }
   .welcome { align-items: flex-start; padding: 56px 38px 18px; text-align: left; }
   .welcome h1 { font-size: 40px; }
   .welcome p { max-width: 470px; }

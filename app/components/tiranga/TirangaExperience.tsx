@@ -473,7 +473,6 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
         setAnthemProgress(audio.duration ? audio.currentTime / audio.duration : 0);
       }} onEnded={finishAnthem} />
       <div className={styles.sky} aria-hidden="true" />
-      <div className={styles.sun} aria-hidden="true" />
       {showCanvas && <FlagScene progress={progress} reveal={reveal} active reducedMotion={Boolean(reduceMotion)} onReady={webglReadyHandler} />}
       {showCanvas && <div className={`${styles.fallbackFlag} ${webglReady ? styles.webglLoaded : ""}`} style={{ transform: `translateY(${(1 - progress) * 42}vh) scaleX(${Math.max(0.08, reveal)})` }} aria-hidden="true">
         <span /><span><AshokaChakra className={styles.flagChakra} /></span><span />
