@@ -4,14 +4,14 @@ import { createParticipant } from "@/app/lib/tiranga-store";
 
 const participationSchema = z.object({
   name: z.string().trim().min(1).max(28),
-  city: z.string().trim().min(1).max(36),
+  dedication: z.string().trim().max(48).optional(),
   referredBy: z.string().trim().max(100).optional(),
   community: z.string().trim().max(80).optional(),
 });
 
 export async function POST(request: NextRequest) {
   const parsed = participationSchema.safeParse(await request.json().catch(() => null));
-  if (!parsed.success) return NextResponse.json({ error: "Please provide a valid first name and city." }, { status: 400 });
+  if (!parsed.success) return NextResponse.json({ error: "Please provide a valid first name." }, { status: 400 });
   const { participant, stats, persistent } = await createParticipant(parsed.data);
   return NextResponse.json({
     participantId: participant.id,

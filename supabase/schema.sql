@@ -157,7 +157,8 @@ $$ LANGUAGE plpgsql;
 CREATE TABLE IF NOT EXISTS tiranga_participants (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     first_name TEXT NOT NULL CHECK (char_length(first_name) BETWEEN 1 AND 28),
-    city TEXT NOT NULL CHECK (char_length(city) BETWEEN 1 AND 36),
+    city TEXT CHECK (city IS NULL OR char_length(city) BETWEEN 1 AND 36),
+    dedication TEXT CHECK (dedication IS NULL OR char_length(dedication) BETWEEN 1 AND 48),
     referred_by TEXT,
     community_slug TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -166,11 +167,27 @@ CREATE TABLE IF NOT EXISTS tiranga_participants (
 CREATE TABLE IF NOT EXISTS tiranga_shares (
     share_id TEXT PRIMARY KEY,
     first_name TEXT NOT NULL CHECK (char_length(first_name) BETWEEN 1 AND 28),
-    city TEXT NOT NULL CHECK (char_length(city) BETWEEN 1 AND 36),
+    city TEXT CHECK (city IS NULL OR char_length(city) BETWEEN 1 AND 36),
+    dedication TEXT CHECK (dedication IS NULL OR char_length(dedication) BETWEEN 1 AND 48),
     parent_share_id TEXT REFERENCES tiranga_shares(share_id) ON DELETE SET NULL,
     community_slug TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Idempotent upgrade for installations created before dedication replaced city.
+ALTER TABLE tiranga_participants ADD COLUMN IF NOT EXISTS dedication TEXT;
+ALTER TABLE tiranga_participants ALTER COLUMN city DROP NOT NULL;
+ALTER TABLE tiranga_participants DROP CONSTRAINT IF EXISTS tiranga_participants_city_check;
+ALTER TABLE tiranga_participants DROP CONSTRAINT IF EXISTS tiranga_participants_dedication_check;
+ALTER TABLE tiranga_participants ADD CONSTRAINT tiranga_participants_city_check CHECK (city IS NULL OR char_length(city) BETWEEN 1 AND 36);
+ALTER TABLE tiranga_participants ADD CONSTRAINT tiranga_participants_dedication_check CHECK (dedication IS NULL OR char_length(dedication) BETWEEN 1 AND 48);
+
+ALTER TABLE tiranga_shares ADD COLUMN IF NOT EXISTS dedication TEXT;
+ALTER TABLE tiranga_shares ALTER COLUMN city DROP NOT NULL;
+ALTER TABLE tiranga_shares DROP CONSTRAINT IF EXISTS tiranga_shares_city_check;
+ALTER TABLE tiranga_shares DROP CONSTRAINT IF EXISTS tiranga_shares_dedication_check;
+ALTER TABLE tiranga_shares ADD CONSTRAINT tiranga_shares_city_check CHECK (city IS NULL OR char_length(city) BETWEEN 1 AND 36);
+ALTER TABLE tiranga_shares ADD CONSTRAINT tiranga_shares_dedication_check CHECK (dedication IS NULL OR char_length(dedication) BETWEEN 1 AND 48);
 
 CREATE TABLE IF NOT EXISTS tiranga_contacts (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

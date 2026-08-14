@@ -150,7 +150,8 @@ export type Database = {
                 Row: {
                     id: string
                     first_name: string
-                    city: string
+                    city: string | null
+                    dedication: string | null
                     referred_by: string | null
                     community_slug: string | null
                     created_at: string
@@ -158,7 +159,8 @@ export type Database = {
                 Insert: {
                     id?: string
                     first_name: string
-                    city: string
+                    city?: string | null
+                    dedication?: string | null
                     referred_by?: string | null
                     community_slug?: string | null
                     created_at?: string
@@ -166,7 +168,8 @@ export type Database = {
                 Update: {
                     id?: string
                     first_name?: string
-                    city?: string
+                    city?: string | null
+                    dedication?: string | null
                     referred_by?: string | null
                     community_slug?: string | null
                     created_at?: string
@@ -176,7 +179,8 @@ export type Database = {
                 Row: {
                     share_id: string
                     first_name: string
-                    city: string
+                    city: string | null
+                    dedication: string | null
                     parent_share_id: string | null
                     community_slug: string | null
                     created_at: string
@@ -184,7 +188,8 @@ export type Database = {
                 Insert: {
                     share_id: string
                     first_name: string
-                    city: string
+                    city?: string | null
+                    dedication?: string | null
                     parent_share_id?: string | null
                     community_slug?: string | null
                     created_at?: string
@@ -192,7 +197,8 @@ export type Database = {
                 Update: {
                     share_id?: string
                     first_name?: string
-                    city?: string
+                    city?: string | null
+                    dedication?: string | null
                     parent_share_id?: string | null
                     community_slug?: string | null
                     created_at?: string

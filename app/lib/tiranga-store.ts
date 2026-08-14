@@ -5,7 +5,7 @@ import { createShareSlug, DEFAULT_TIRANGA_STATS, TIRANGA_BASELINE_COUNT, Tiranga
 type Participant = {
   id: string;
   name: string;
-  city: string;
+  dedication?: string;
   referredBy?: string;
   community?: string;
   createdAt: string;
@@ -14,7 +14,7 @@ type Participant = {
 type ShareRecord = {
   shareId: string;
   name: string;
-  city: string;
+  dedication?: string;
   parentShareId?: string;
   community?: string;
   createdAt: string;
@@ -56,14 +56,26 @@ export async function createParticipant(input: Omit<Participant, "id" | "created
   if (databaseAvailable()) {
     try {
       const client = createServerClient();
-      const { error } = await client.from("tiranga_participants").insert({
+      const payload = {
         id: record.id,
         first_name: record.name,
-        city: record.city,
+        city: null,
+        dedication: record.dedication || null,
         referred_by: record.referredBy || null,
         community_slug: record.community || null,
         created_at: record.createdAt,
-      } as never);
+      };
+      let { error } = await client.from("tiranga_participants").insert(payload as never);
+      if (error) {
+        ({ error } = await client.from("tiranga_participants").insert({
+          id: record.id,
+          first_name: record.name,
+          city: "Not shared",
+          referred_by: record.referredBy || null,
+          community_slug: record.community || null,
+          created_at: record.createdAt,
+        } as never));
+      }
       if (!error) {
         const stats = await getTirangaStats();
         return { participant: record, stats, persistent: true };
@@ -81,14 +93,26 @@ export async function createShare(input: Omit<ShareRecord, "shareId" | "createdA
   if (databaseAvailable()) {
     try {
       const client = createServerClient();
-      const { error } = await client.from("tiranga_shares").insert({
+      const payload = {
         share_id: record.shareId,
         first_name: record.name,
-        city: record.city,
+        city: null,
+        dedication: record.dedication || null,
         parent_share_id: record.parentShareId || null,
         community_slug: record.community || null,
         created_at: record.createdAt,
-      } as never);
+      };
+      let { error } = await client.from("tiranga_shares").insert(payload as never);
+      if (error) {
+        ({ error } = await client.from("tiranga_shares").insert({
+          share_id: record.shareId,
+          first_name: record.name,
+          city: "Not shared",
+          parent_share_id: record.parentShareId || null,
+          community_slug: record.community || null,
+          created_at: record.createdAt,
+        } as never));
+      }
       if (!error) return record;
     } catch {
       // Continue with a usable local share record.
@@ -102,10 +126,11 @@ export async function getShare(shareId: string): Promise<ShareRecord | null> {
   if (databaseAvailable()) {
     try {
       const client = createServerClient();
-      const { data, error } = await client.from("tiranga_shares").select("share_id,first_name,city,parent_share_id,community_slug,created_at").eq("share_id", shareId).maybeSingle();
+      let { data, error } = await client.from("tiranga_shares").select("share_id,first_name,dedication,parent_share_id,community_slug,created_at").eq("share_id", shareId).maybeSingle();
+      if (error) ({ data, error } = await client.from("tiranga_shares").select("share_id,first_name,parent_share_id,community_slug,created_at").eq("share_id", shareId).maybeSingle());
       if (!error && data) {
-        const row = data as unknown as { share_id: string; first_name: string; city: string; parent_share_id: string | null; community_slug: string | null; created_at: string };
-        return { shareId: row.share_id, name: row.first_name, city: row.city, parentShareId: row.parent_share_id || undefined, community: row.community_slug || undefined, createdAt: row.created_at };
+        const row = data as unknown as { share_id: string; first_name: string; dedication?: string | null; parent_share_id: string | null; community_slug: string | null; created_at: string };
+        return { shareId: row.share_id, name: row.first_name, dedication: row.dedication || undefined, parentShareId: row.parent_share_id || undefined, community: row.community_slug || undefined, createdAt: row.created_at };
       }
     } catch {
       // Fall through to the in-process store.

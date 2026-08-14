@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { publicTemplateIds, SITE_URL } from "./lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-08-13");
+  const lastModified = new Date("2026-08-14");
   const pages = [
     { path: "", priority: 1, changeFrequency: "weekly" as const },
     { path: "/templates", priority: .9, changeFrequency: "weekly" as const },

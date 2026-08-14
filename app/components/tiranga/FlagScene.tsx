@@ -53,6 +53,23 @@ function createFlagTexture() {
   return texture;
 }
 
+function createBundleTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 90;
+  canvas.height = 540;
+  const context = canvas.getContext("2d");
+  if (!context) return null;
+  context.fillStyle = "#FF671F"; context.fillRect(0, 0, 90, 180);
+  context.fillStyle = "#F7F3E8"; context.fillRect(0, 180, 90, 180);
+  context.fillStyle = "#046A38"; context.fillRect(0, 360, 90, 180);
+  const shade = context.createLinearGradient(0, 0, 90, 0);
+  shade.addColorStop(0, "rgba(0,0,0,.36)"); shade.addColorStop(.3, "rgba(255,255,255,.2)"); shade.addColorStop(.62, "rgba(0,0,0,.18)"); shade.addColorStop(1, "rgba(255,255,255,.14)");
+  context.fillStyle = shade; context.fillRect(0, 0, 90, 540);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
 export default function FlagScene({ progress, reveal, active, reducedMotion, onReady }: FlagSceneProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(progress);
@@ -90,8 +107,8 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
     const finial = new THREE.Mesh(new THREE.SphereGeometry(0.12, 18, 14), new THREE.MeshStandardMaterial({ color: 0xd2a43f, metalness: 0.72, roughness: 0.25 }));
     finial.position.set(-0.9, 2.2, 0);
     scene.add(finial);
-    const rope = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 5.75, 6), new THREE.MeshBasicMaterial({ color: 0xbcae8b }));
-    rope.position.set(-0.81, -1.1, 0.02);
+    const rope = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 5.72, 6), new THREE.MeshBasicMaterial({ color: 0x756142 }));
+    rope.position.set(-0.845, -1.12, 0.025);
     scene.add(rope);
 
     const geometry = new THREE.PlaneGeometry(3, 2, 32, 20);
@@ -142,8 +159,24 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
     });
     const flag = new THREE.Mesh(geometry, material);
     flag.position.set(-0.86, -2.3, 0.05);
-    flag.scale.set(0.08, 1, 1);
+    flag.scale.set(0.01, 1, 1);
+    flag.visible = false;
     scene.add(flag);
+
+    const bundleTexture = createBundleTexture();
+    if (!bundleTexture) {
+      renderer.dispose();
+      mount.removeChild(renderer.domElement);
+      return;
+    }
+    const bundleGeometry = new THREE.PlaneGeometry(0.1, 1.25, 2, 8);
+    const bundlePosition = bundleGeometry.attributes.position;
+    for (let index = 0; index < bundlePosition.count; index += 1) bundlePosition.setX(index, bundlePosition.getX(index) + (index % 3 - 1) * 0.018);
+    const bundleMaterial = new THREE.MeshStandardMaterial({ map: bundleTexture, side: THREE.DoubleSide, roughness: 0.82 });
+    const bundle = new THREE.Mesh(bundleGeometry, bundleMaterial);
+    bundle.position.set(-0.84, -1.88, 0.055);
+    bundle.rotation.z = -0.035;
+    scene.add(bundle);
 
     const ambient = new THREE.AmbientLight(0xffffff, 1.15);
     scene.add(ambient);
@@ -151,11 +184,13 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
     sun.position.set(4, 3, 5);
     scene.add(sun);
 
+    let flagWidthScale = 1;
     const resize = () => {
       const width = mount.clientWidth;
       const height = mount.clientHeight;
       renderer.setSize(width, height, false);
       camera.aspect = width / Math.max(height, 1);
+      flagWidthScale = camera.aspect < 0.7 ? 0.72 : 1;
       camera.updateProjectionMatrix();
     };
     resize();
@@ -168,7 +203,10 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
       const currentProgress = progressRef.current;
       const currentReveal = revealRef.current;
       flag.position.y = -2.3 + currentProgress * 3.4;
-      flag.scale.x = Math.max(0.075, currentReveal);
+      flag.scale.x = Math.max(0.01, currentReveal) * flagWidthScale;
+      flag.visible = currentReveal > 0.025;
+      bundle.position.y = -1.88 + currentProgress * 3.4;
+      bundle.visible = currentReveal <= 0.12;
       uniforms.uTime.value = (now - startedAt) / 1000;
       uniforms.uWind.value = reducedMotion ? 0.32 : 0.22 + currentProgress * 0.42 + currentReveal * 0.52;
       camera.position.y = reducedMotion ? 0.1 : 0.1 + currentProgress * 0.24;
@@ -191,12 +229,15 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
       geometry.dispose();
       material.dispose();
       texture.dispose();
+      bundleTexture.dispose();
       pole.geometry.dispose();
       poleMaterial.dispose();
       finial.geometry.dispose();
       (finial.material as THREE.Material).dispose();
       rope.geometry.dispose();
       (rope.material as THREE.Material).dispose();
+      bundleGeometry.dispose();
+      bundleMaterial.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
     };

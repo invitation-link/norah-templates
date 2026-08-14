@@ -3,7 +3,7 @@ import { SITE_URL } from "@/app/lib/site";
 import TirangaExperience from "@/app/components/tiranga/TirangaExperience";
 
 const title = "Digital Tiranga — An Interactive Independence Day Experience";
-const description = "Raise the Tiranga, make a personal pledge and share a meaningful Independence Day moment—created by Invite Link.";
+const description = "A Tiranga is waiting for you. Raise it by hand, stand with the anthem and pass the moment forward—created by Invite Link.";
 
 export const metadata: Metadata = {
   title,
@@ -16,17 +16,17 @@ export const metadata: Metadata = {
     title,
     description,
     images: [{
-      url: "/images/templates/live/digital-tiranga-hero.png",
-      width: 1792,
-      height: 896,
-      alt: "An Indian community gathering at sunrise for a Tiranga ceremony",
+      url: "/tiranga/opengraph-image",
+      width: 1200,
+      height: 630,
+      alt: "A Tiranga is waiting for you — hoist it and pass it forward",
     }],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ["/images/templates/live/digital-tiranga-hero.png"],
+    images: ["/tiranga/opengraph-image"],
   },
 };
 

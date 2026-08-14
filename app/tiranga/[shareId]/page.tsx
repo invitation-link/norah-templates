@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { shareId } = await params;
   const inviter = safeFirstName(shareId);
   const title = `${inviter} passed the Tiranga to you`;
-  const description = "A Tiranga is waiting for you. Hoist yours, make it personal and pass it on.";
+  const description = "It rises only when you do. Hoist it, make it yours and pass it forward.";
   return {
     title,
     description,

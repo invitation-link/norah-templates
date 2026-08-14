@@ -19,34 +19,61 @@
   position: absolute;
   z-index: -8;
   inset: 0;
-  background: #071d36 url("/images/tiranga/grand-dawn-portrait-v2.webp") center center / cover no-repeat;
-  filter: saturate(.92) contrast(1.04);
+  background:
+    radial-gradient(ellipse at 72% 72%, rgba(255, 247, 212, .96) 0 1.5%, rgba(255, 190, 107, .48) 4%, rgba(255, 138, 61, .16) 13%, transparent 30%),
+    linear-gradient(180deg, #010817 0%, #06162c 32%, #173c5d 58%, #9a6b5f 78%, #182b35 100%);
 }
 
 .sky::before {
   content: "";
   position: absolute;
   inset: 0;
+  opacity: .72;
   background:
-    linear-gradient(to bottom, rgba(3, 17, 34, .34) 0%, rgba(3, 17, 34, .04) 42%, rgba(2, 13, 23, .18) 67%, rgba(2, 13, 23, .58) 100%),
-    linear-gradient(to right, rgba(2, 15, 29, .14), transparent 34%, transparent 72%, rgba(2, 15, 29, .08));
+    radial-gradient(ellipse at 15% 28%, rgba(106, 127, 154, .18), transparent 32%),
+    radial-gradient(ellipse at 84% 36%, rgba(75, 91, 117, .38), transparent 34%),
+    linear-gradient(to bottom, rgba(1, 7, 18, .22), transparent 48%, rgba(1, 10, 17, .42));
 }
 
 .sky::after {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: calc(.03 + var(--progress) * .28);
-  background: linear-gradient(to top, rgba(255, 162, 73, .26), transparent 48%);
+  opacity: calc(.04 + var(--progress) * .38);
+  background: radial-gradient(ellipse at 72% 72%, rgba(255, 216, 143, .42), transparent 35%);
   transition: opacity 80ms linear;
+}
+
+.horizon {
+  position: absolute;
+  z-index: -7;
+  left: -6%;
+  right: -6%;
+  bottom: 0;
+  height: 26%;
+  opacity: .94;
+  background: linear-gradient(180deg, rgba(15, 36, 46, .3), #061823 58%, #020d15);
+  clip-path: polygon(0 42%, 9% 32%, 18% 39%, 27% 22%, 36% 38%, 46% 24%, 56% 40%, 67% 18%, 78% 36%, 89% 27%, 100% 41%, 100% 100%, 0 100%);
+}
+
+.horizon::after {
+  content: "";
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 11%;
+  height: 36%;
+  opacity: .55;
+  background: repeating-linear-gradient(90deg, transparent 0 19px, rgba(0, 7, 12, .8) 20px 31px, transparent 32px 47px);
+  clip-path: polygon(0 62%, 5% 48%, 11% 58%, 17% 31%, 24% 61%, 30% 43%, 37% 64%, 45% 37%, 51% 57%, 58% 28%, 64% 62%, 72% 42%, 81% 60%, 88% 35%, 94% 54%, 100% 47%, 100% 100%, 0 100%);
 }
 
 .fallbackFlag {
   position: absolute;
   z-index: 1;
-  left: 40.7%;
-  top: 25%;
-  width: min(48vw, 280px);
+  left: 13%;
+  top: 32%;
+  width: min(74vw, 280px);
   aspect-ratio: 3/2;
   transform-origin: left center;
   filter: drop-shadow(0 14px 20px rgba(0, 0, 0, .25));
@@ -70,7 +97,27 @@
 .fallbackFlag > span:nth-child(2) { background: white; color: var(--chakra); }
 .fallbackFlag > span:nth-child(3) { background: var(--green); }
 .flagChakra { width: 16.7%; }
+.bundledFlag { width: 12px; border-radius: 2px 4px 3px 2px; filter: drop-shadow(2px 8px 7px rgba(0, 0, 0, .38)); }
+.bundledFlag > span { box-shadow: inset 3px 0 3px rgba(0, 0, 0, .25), inset -2px 0 2px rgba(255, 255, 255, .16); }
+.bundledFlag .flagChakra { display: none; }
 .webglLoaded { opacity: 0; }
+
+.soundToggle {
+  position: absolute;
+  z-index: 40;
+  top: max(16px, env(safe-area-inset-top));
+  right: 18px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 50%;
+  background: rgba(2, 15, 27, .48);
+  color: white;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
 
 .presentation {
   position: absolute;
@@ -146,6 +193,10 @@
 .anthem h1 { margin: 8px 0 6px; font-family: var(--font-playfair), Georgia, serif; font-size: clamp(40px, 10vw, 62px); font-weight: 500; letter-spacing: -.045em; }
 .anthem p { margin: 0; color: rgba(255, 255, 255, .76); font-size: 15px; }
 .anthem button { min-height: 50px; display: inline-flex; align-items: center; gap: 9px; margin-top: 18px; padding: 0 20px; border: 1px solid rgba(255, 255, 255, .28); border-radius: 999px; background: rgba(5, 27, 43, .72); color: white; cursor: pointer; font: inherit; font-size: 15px; font-weight: 760; }
+.anthem .anthemCaption { min-height: 48px; display: grid; place-items: center; max-width: 460px; margin: 12px auto 0; color: white; font-family: var(--font-playfair), Georgia, serif; font-size: clamp(21px, 5.5vw, 29px); line-height: 1.2; }
+.anthemProgress { width: min(100%, 430px); height: 3px; margin: 18px auto 4px; overflow: hidden; border-radius: 99px; background: rgba(255, 255, 255, .22); }
+.anthemProgress i { display: block; height: 100%; border-radius: inherit; background: #f3cd70; transition: width 180ms linear; }
+.anthem .anthemSkip { min-height: 44px; margin-top: 8px; border: 0; background: transparent; color: rgba(255, 255, 255, .72); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
 .anthem > i { position: absolute; left: 24px; right: 24px; bottom: max(12px, env(safe-area-inset-bottom)); height: 2px; overflow: hidden; border-radius: 99px; background: rgba(255, 255, 255, .2); }
 .anthem > i b { display: block; height: 100%; background: rgba(255, 255, 255, .8); transition: width 250ms linear; }
 
@@ -155,11 +206,12 @@
 .pride h1 { margin: 8px 0 6px; font-family: var(--font-playfair), Georgia, serif; font-size: clamp(42px, 11vw, 68px); font-weight: 500; letter-spacing: -.05em; }
 .pride p { margin: 0 0 18px; color: rgba(255, 255, 255, .82); font-size: 15px; }
 .pride button { min-width: 180px; min-height: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid rgba(255, 255, 255, .3); border-radius: 999px; background: rgba(5, 27, 43, .72); color: white; cursor: pointer; font: inherit; font-size: 15px; font-weight: 760; backdrop-filter: blur(10px); }
+.pridePause { position: absolute; z-index: 44; inset: 0; pointer-events: none; }
 
-.petals { position: absolute; z-index: 35; inset: 14% 0 0; overflow: hidden; pointer-events: none; }
-.petals i { --petal-x: 50%; --petal-delay: 0s; --petal-drift: 30px; --petal-duration: 3s; position: absolute; top: -8%; left: var(--petal-x); width: 10px; height: 16px; opacity: 0; border-radius: 90% 10% 70% 30%; background: #d83d45; box-shadow: 0 0 8px rgba(132, 17, 31, .24); animation: petalFall var(--petal-duration) cubic-bezier(.22, .64, .48, 1) var(--petal-delay) both; }
-.petals i:nth-child(3n) { width: 9px; height: 14px; background: #f06a73; }
-.petals i:nth-child(4n) { width: 11px; height: 15px; background: #b91f37; }
+.petals { position: absolute; z-index: 35; inset: 0; overflow: hidden; pointer-events: none; }
+.petals i { --petal-x: 50%; --petal-delay: 0s; --petal-drift: 30px; position: absolute; top: 22%; left: var(--petal-x); width: 10px; height: 16px; opacity: 0; border-radius: 90% 10% 70% 30%; background: #b91f37; box-shadow: 0 0 8px rgba(132, 17, 31, .24); animation: petalBurst 1.5s cubic-bezier(.2, .72, .35, 1) var(--petal-delay) both; }
+.petals i:nth-child(3n) { width: 9px; height: 14px; background: #d03a4b; }
+.petals i:nth-child(4n) { width: 11px; height: 15px; background: #8e1228; }
 
 .sheet { position: absolute; z-index: 50; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); max-height: calc(100dvh - 70px); overflow-y: auto; padding: 25px; border: 1px solid rgba(255, 255, 255, .16); border-radius: 28px; background: linear-gradient(rgba(8, 34, 53, .94), rgba(4, 23, 35, .985)); box-shadow: 0 24px 80px rgba(0, 0, 0, .45); backdrop-filter: blur(22px); touch-action: pan-y; scrollbar-width: none; }
 .sheet h2 { margin: 8px 0; font-family: var(--font-playfair), Georgia, serif; font-size: clamp(31px, 7.5vw, 46px); font-weight: 500; letter-spacing: -.045em; line-height: 1.02; }
@@ -172,6 +224,10 @@
 .sheet form > button:disabled { opacity: .62; cursor: wait; }
 
 .shareSheet { padding-top: 20px; }
+.chain { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 auto 15px; color: rgba(255, 255, 255, .6); }
+.chain > div { min-width: 0; display: grid; gap: 2px; text-align: center; }
+.chain span { font-size: 10px; font-weight: 760; letter-spacing: .1em; text-transform: uppercase; }
+.chain strong { max-width: 92px; overflow: hidden; color: white; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
 .shareIntro { text-align: center; }
 .shareIntro h2 { max-width: 500px; margin: 7px auto 15px; font-size: clamp(27px, 6.8vw, 40px); }
 .shareCard { position: relative; width: min(55vw, 220px); aspect-ratio: 9/16; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 15px; overflow: hidden; border-radius: 20px; background: radial-gradient(circle at 70% 68%, rgba(255, 219, 153, .72), transparent 28%), linear-gradient(#071a38, #184963 58%, #d88a4d); color: white; text-align: center; box-shadow: 0 17px 45px rgba(0, 0, 0, .28); }
@@ -188,6 +244,7 @@
 .miniFlag span:nth-child(3) { background: var(--green); }
 .miniFlag svg { width: 16.7%; }
 .whatsappButton { width: 100%; background: #15864a; color: white; }
+.downloadButton { width: 100%; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 14px; background: rgba(255, 255, 255, .07); color: white; cursor: pointer; font: inherit; font-size: 14px; font-weight: 760; }
 .shareGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
 .shareGrid button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 8px; border: 1px solid rgba(255, 255, 255, .16); border-radius: 13px; background: rgba(255, 255, 255, .06); color: white; cursor: pointer; font: inherit; font-size: 12px; font-weight: 750; }
 
@@ -218,7 +275,7 @@
 .shell a:active { opacity: .82; }
 
 @keyframes breathe { 50% { transform: translateY(-7px); border-color: rgba(255, 255, 255, .75); } }
-@keyframes petalFall { 0% { opacity: 0; transform: translate3d(0, -8vh, 0) rotate(0deg); } 12% { opacity: .95; } 100% { opacity: 0; transform: translate3d(var(--petal-drift), 76vh, 0) rotate(520deg); } }
+@keyframes petalBurst { 0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg) scale(.4); } 12% { opacity: .96; } 100% { opacity: 0; transform: translate3d(var(--petal-drift), 44vh, 0) rotate(500deg) scale(1); } }
 @keyframes fallbackFlutter { 0%, 100% { transform: skewY(0deg) translateX(0); } 50% { transform: skewY(-1.4deg) translateX(2px); } }
 
 @media (min-width: 721px) {
@@ -240,7 +297,6 @@
 }
 
 @media (max-height: 520px) and (orientation: landscape) {
-  .sky { background-image: url("/images/tiranga/grand-dawn-landscape-v2.webp"); background-position: center center; }
   .welcome { align-items: flex-start; padding: 56px 38px 18px; text-align: left; }
   .welcome h1 { font-size: 40px; }
   .welcome p { max-width: 470px; }
