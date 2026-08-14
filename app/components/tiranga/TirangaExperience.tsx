@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check, ChevronUp, Copy, Download, MessageCircle, Music2, Share2, Volume2, VolumeX } from "lucide-react";
-import { FormEvent, PointerEvent, useCallback, useEffect, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent as ReactKeyboardEvent, PointerEvent, useCallback, useEffect, useRef, useState } from "react";
 import { trackEvent } from "@/app/lib/analytics";
-import { DEFAULT_TIRANGA_STATS, TirangaCommunity, TirangaStage } from "@/app/lib/tiranga";
+import { TirangaCommunity, TirangaStage } from "@/app/lib/tiranga";
 import styles from "./TirangaExperience.module.css";
 
 const FlagScene = dynamic(() => import("./FlagScene"), { ssr: false });
@@ -49,7 +49,7 @@ function drawFlag(context: CanvasRenderingContext2D, x: number, y: number, width
   context.fillRect(x, y + stripe * 2, width, stripe);
   const cx = x + width / 2;
   const cy = y + height / 2;
-  const radius = stripe * 0.34;
+  const radius = stripe * 0.375;
   context.strokeStyle = "#06038D";
   context.lineWidth = Math.max(3, width / 150);
   context.beginPath();
@@ -64,7 +64,25 @@ function drawFlag(context: CanvasRenderingContext2D, x: number, y: number, width
   }
 }
 
-async function makeShareCard(name: string, city: string, participantNumber: number, size: "story" | "post") {
+function currentDateLabel() {
+  return new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kolkata" }).format(new Date());
+}
+
+async function loadShareCardFonts() {
+  const root = getComputedStyle(document.documentElement);
+  const inter = root.getPropertyValue("--font-inter").trim() || "sans-serif";
+  const playfair = root.getPropertyValue("--font-playfair").trim() || "serif";
+  await Promise.all([
+    document.fonts.load(`700 58px ${inter}`),
+    document.fonts.load(`600 32px ${inter}`),
+    document.fonts.load(`700 104px ${playfair}`),
+  ]).catch(() => undefined);
+  return { inter, playfair };
+}
+
+async function makeShareCard(name: string, city: string, participantNumber: number | null, size: "story" | "post", url: string) {
+  const fonts = await loadShareCardFonts();
+  const dateLabel = currentDateLabel();
   const width = 1080;
   const height = size === "story" ? 1920 : 1350;
   const canvas = document.createElement("canvas");
@@ -88,22 +106,24 @@ async function makeShareCard(name: string, city: string, participantNumber: numb
   drawFlag(context, 130, size === "story" ? 250 : 100, 820);
   context.textAlign = "center";
   context.fillStyle = "rgba(255,255,255,.78)";
-  context.font = "700 34px Arial";
+  context.font = `700 34px ${fonts.inter}`;
   context.fillText("I RAISED THE", width / 2, size === "story" ? 1030 : 785);
   context.fillStyle = "#FFFFFF";
-  context.font = "700 104px Georgia";
+  context.font = `700 104px ${fonts.playfair}`;
   context.fillText("TIRANGA", width / 2, size === "story" ? 1150 : 900);
   context.fillStyle = "#F2CC69";
-  context.font = "700 58px Arial";
+  context.font = `700 58px ${fonts.inter}`;
   context.fillText(name.toUpperCase(), width / 2, size === "story" ? 1270 : 1010);
   context.fillStyle = "rgba(255,255,255,.92)";
-  context.font = "400 32px Arial";
-  context.fillText(`${city.toUpperCase()} · 15 AUGUST 2026`, width / 2, size === "story" ? 1340 : 1070);
-  context.font = "600 28px Arial";
-  context.fillText(`#${participantNumber.toLocaleString("en-IN")} · PASS IT FORWARD`, width / 2, size === "story" ? 1410 : 1130);
+  context.font = `400 32px ${fonts.inter}`;
+  context.fillText(`${city.toUpperCase()} · ${dateLabel.toUpperCase()}`, width / 2, size === "story" ? 1340 : 1070);
+  context.font = `600 28px ${fonts.inter}`;
+  context.fillText(participantNumber ? `#${participantNumber.toLocaleString("en-IN")} · PASS IT FORWARD` : "PASS IT FORWARD", width / 2, size === "story" ? 1410 : 1130);
   context.fillStyle = "rgba(255,255,255,.72)";
-  context.font = "600 24px Arial";
-  context.fillText("Made with Invite Link", width / 2, height - 80);
+  context.font = `600 22px ${fonts.inter}`;
+  context.fillText(url.replace(/^https?:\/\//, "").replace(/\/$/, ""), width / 2, height - 116);
+  context.font = `600 24px ${fonts.inter}`;
+  context.fillText("Made with Invite Link", width / 2, height - 68);
 
   return new Promise<Blob>((resolve, reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("Card generation failed")), "image/png"));
 }
@@ -114,14 +134,14 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   const [progress, setProgress] = useState(0);
   const [reveal, setReveal] = useState(0.08);
   const [webglReady, setWebglReady] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [anthemNeedsTap, setAnthemNeedsTap] = useState(false);
+  const [anthemStarted, setAnthemStarted] = useState(false);
+  const [anthemError, setAnthemError] = useState("");
   const [anthemProgress, setAnthemProgress] = useState(0);
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [participantId, setParticipantId] = useState("");
-  const [participantNumber, setParticipantNumber] = useState(DEFAULT_TIRANGA_STATS.nationalCount + 1);
+  const [participantNumber, setParticipantNumber] = useState<number | null>(null);
   const [shareRecordId, setShareRecordId] = useState("");
   const [shareUrl, setShareUrl] = useState("");
   const [shareStatus, setShareStatus] = useState("");
@@ -134,7 +154,6 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   const pointerRef = useRef<number | null>(null);
   const dragStartRef = useRef(0);
   const animationRef = useRef<number | null>(null);
-  const fallbackTimerRef = useRef<number | null>(null);
   const completedRef = useRef(false);
   const ropeAudioRef = useRef<RopeAudio | null>(null);
   const anthemAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -148,17 +167,12 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
 
   useEffect(() => {
     trackEvent("tiranga_open", { campaign: "pass_the_tiranga", referral: Boolean(shareId), community: community?.slug });
-    fetch("/api/tiranga/stats", { cache: "no-store" })
-      .then((response) => response.ok ? response.json() : null)
-      .then((data) => { if (data?.nationalCount) setParticipantNumber(data.nationalCount + 1); })
-      .catch(() => undefined);
     const timer = window.setTimeout(() => setMuted(sessionStorage.getItem("tiranga-muted") === "true"), 0);
     return () => window.clearTimeout(timer);
   }, [community?.slug, shareId]);
 
   useEffect(() => () => {
     if (animationRef.current !== null) cancelAnimationFrame(animationRef.current);
-    if (fallbackTimerRef.current !== null) window.clearTimeout(fallbackTimerRef.current);
     if (ropeAudioRef.current) {
       ropeAudioRef.current.rope.stop();
       void ropeAudioRef.current.context.close();
@@ -166,7 +180,11 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   }, []);
 
   const ensureRopeAudio = () => {
-    if (muted || ropeAudioRef.current) return;
+    if (muted) return;
+    if (ropeAudioRef.current) {
+      if (ropeAudioRef.current.context.state === "suspended") void ropeAudioRef.current.context.resume();
+      return;
+    }
     const AudioContextConstructor = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioContextConstructor) return;
     const context = new AudioContextConstructor();
@@ -179,6 +197,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
     gain.connect(context.destination);
     rope.start();
     ropeAudioRef.current = { context, rope, gain };
+    if (context.state === "suspended") void context.resume();
   };
 
   const setRopeVolume = (velocity: number) => {
@@ -227,25 +246,25 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
 
   const finishAnthem = useCallback(() => {
     setAnthemProgress(1);
-    moveTo("personalization", "personalization_started");
+    moveTo("pride", "anthem_completed");
   }, [moveTo]);
 
   const playAnthem = useCallback(async () => {
     const audio = anthemAudioRef.current;
-    if (!audio || !soundEnabled || muted) {
-      fallbackTimerRef.current = window.setTimeout(finishAnthem, reduceMotion ? 800 : 3600);
-      return;
-    }
+    if (!audio) return;
     try {
+      setAnthemError("");
+      setMuted(false);
+      sessionStorage.setItem("tiranga-muted", "false");
       audio.currentTime = 0;
       audio.volume = 1;
       await audio.play();
-      setAnthemNeedsTap(false);
+      setAnthemStarted(true);
       trackEvent("anthem_started", { campaign: "pass_the_tiranga" });
     } catch {
-      setAnthemNeedsTap(true);
+      setAnthemError("Sound could not start. Tap once more to try again.");
     }
-  }, [finishAnthem, muted, reduceMotion, soundEnabled]);
+  }, []);
 
   const finishHoist = useCallback(() => {
     if (completedRef.current) return;
@@ -258,7 +277,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
 
     const from = reveal;
     const startedAt = performance.now();
-    const duration = reduceMotion ? 120 : 760;
+    const duration = reduceMotion ? 320 : 760;
     const unfurl = (now: number) => {
       const elapsed = Math.min(1, (now - startedAt) / duration);
       const eased = 1 - Math.pow(1 - elapsed, 3);
@@ -267,29 +286,13 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
       else {
         animationRef.current = null;
         moveTo("anthem", "anthem_viewed");
-        void playAnthem();
       }
     };
     animationRef.current = requestAnimationFrame(unfurl);
-  }, [moveTo, playAnthem, quietRope, reduceMotion, reveal, updateProgress]);
+  }, [moveTo, quietRope, reduceMotion, reveal, updateProgress]);
 
-  const chooseSound = async (withSound: boolean) => {
-    setSoundEnabled(withSound);
-    setMuted(!withSound);
-    sessionStorage.setItem("tiranga-muted", String(!withSound));
-    if (withSound && anthemAudioRef.current) {
-      try {
-        const audio = anthemAudioRef.current;
-        audio.volume = 0;
-        await audio.play();
-        audio.pause();
-        audio.currentTime = 0;
-        audio.volume = 1;
-      } catch {
-        // The anthem screen offers a direct play control if the browser blocks this primer.
-      }
-    }
-    moveTo("ready", withSound ? "sound_enabled" : "sound_skipped");
+  const beginCeremony = () => {
+    moveTo("ready", "ceremony_started");
   };
 
   const startGesture = (event: PointerEvent<HTMLElement>) => {
@@ -309,9 +312,10 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
     if (pointerRef.current !== event.pointerId) return;
     const distance = Math.min(window.innerHeight * 0.58, 520);
     const previous = progressRef.current;
-    const next = (dragStartRef.current - event.clientY) / distance;
-    updateProgress(Math.max(previous, next));
-    setRopeVolume(Math.abs(next - previous) * distance * 60);
+    const raw = (dragStartRef.current - event.clientY) / distance;
+    const resisted = raw <= 0.88 ? raw : 0.88 + (raw - 0.88) * 0.46;
+    updateProgress(Math.max(previous, resisted));
+    setRopeVolume(Math.abs(resisted - previous) * distance * 60);
   };
 
   const releaseGesture = (event: PointerEvent<HTMLElement>) => {
@@ -327,6 +331,20 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
     moveTo("hoisting");
     trackEvent("hoist_started", { campaign: "pass_the_tiranga", input: "accessible_button" });
     tweenProgress(1, reduceMotion ? 120 : 900, finishHoist);
+  };
+
+  const keyboardHoist = (event: ReactKeyboardEvent<HTMLElement>) => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      accessibleHoist();
+      return;
+    }
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      const next = Math.min(1, progressRef.current + 0.16);
+      if (next >= 0.93) tweenProgress(1, reduceMotion ? 120 : 360, finishHoist);
+      else updateProgress(next);
+    }
   };
 
   const createShare = async (cleanName: string, cleanCity: string) => {
@@ -363,7 +381,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
       if (response.ok) {
         const result = await response.json();
         setParticipantId(result.participantId);
-        setParticipantNumber(result.participantNumber);
+        setParticipantNumber(typeof result.participantNumber === "number" ? result.participantNumber : null);
       }
     } catch {
       // The ceremony remains usable if the campaign API is temporarily unavailable.
@@ -384,7 +402,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   const nativeShare = async () => {
     const url = shareUrl || `${window.location.origin}/tiranga`;
     try {
-      const blob = await makeShareCard(name.trim(), city.trim(), participantNumber, "story");
+      const blob = await makeShareCard(name.trim(), city.trim(), participantNumber, "story", url);
       const file = new File([blob], "pass-the-tiranga.png", { type: "image/png" });
       if (navigator.share) {
         const data: ShareData = { title: "Pass the Tiranga", text: shareText(), url };
@@ -407,7 +425,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   };
 
   const downloadCard = async (size: "story" | "post") => {
-    const blob = await makeShareCard(name.trim(), city.trim(), participantNumber, size);
+    const blob = await makeShareCard(name.trim(), city.trim(), participantNumber, size, shareUrl || `${window.location.origin}/tiranga`);
     const downloadUrl = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = downloadUrl;
@@ -439,13 +457,14 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   const toggleSound = () => {
     const next = !muted;
     setMuted(next);
-    setSoundEnabled(!next);
     sessionStorage.setItem("tiranga-muted", String(next));
     if (ropeAudioRef.current) ropeAudioRef.current.gain.gain.value = 0.0001;
   };
 
-  const showCanvas = stage !== "conversion";
-  const showPresentation = showCanvas && stage !== "unfurling" && stage !== "anthem";
+  const dateLabel = currentDateLabel();
+  const showCanvas = true;
+  const showPresentation = stage !== "unfurling" && stage !== "anthem" && stage !== "pride" && stage !== "conversion";
+  const showPetals = stage === "anthem" || stage === "pride";
 
   return (
     <main className={styles.shell} style={{ "--progress": progress, "--reveal": reveal } as React.CSSProperties}>
@@ -456,8 +475,11 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
       <div className={styles.sky} aria-hidden="true" />
       <div className={styles.sun} aria-hidden="true" />
       {showCanvas && <FlagScene progress={progress} reveal={reveal} active reducedMotion={Boolean(reduceMotion)} onReady={webglReadyHandler} />}
-      {showCanvas && <div className={`${styles.fallbackFlag} ${webglReady ? styles.webglLoaded : ""}`} style={{ transform: `translateY(${(1 - progress) * 54}vh) scaleX(${Math.max(0.08, reveal)})` }} aria-hidden="true">
+      {showCanvas && <div className={`${styles.fallbackFlag} ${webglReady ? styles.webglLoaded : ""}`} style={{ transform: `translateY(${(1 - progress) * 42}vh) scaleX(${Math.max(0.08, reveal)})` }} aria-hidden="true">
         <span /><span><AshokaChakra className={styles.flagChakra} /></span><span />
+      </div>}
+      {showPetals && <div className={styles.petals} aria-hidden="true">
+        {Array.from({ length: 18 }, (_, index) => <i key={index} style={{ "--petal-x": `${8 + (index * 29) % 86}%`, "--petal-delay": `${(index % 7) * 0.12}s`, "--petal-drift": `${(index % 2 ? 1 : -1) * (24 + (index % 5) * 8)}px`, "--petal-duration": `${2.6 + (index % 4) * 0.35}s` } as React.CSSProperties} />)}
       </div>}
 
       {showPresentation && <header className={styles.presentation}>
@@ -470,29 +492,33 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
           <span>{incomingName ? `${incomingName} passed this to you` : community?.name || "Pass the Tiranga"}</span>
           <h1>One flag.<br />One feeling.<br /><strong>One India.</strong></h1>
           <p>Raise the Tiranga with your own hand. Take a quiet moment with the National Anthem. Then pass it forward.</p>
-          <button type="button" className={styles.soundButton} onClick={() => void chooseSound(true)}><Music2 size={19} /> Begin with sound</button>
-          <button type="button" className={styles.quietButton} onClick={() => void chooseSound(false)}>Continue without sound</button>
+          <button type="button" className={styles.soundButton} onClick={beginCeremony}><ArrowRight size={19} /> Begin the ceremony</button>
         </motion.section>}
 
-        {(stage === "ready" || stage === "hoisting") && <motion.section key="gesture" className={styles.gesture} onPointerDown={startGesture} onPointerMove={moveGesture} onPointerUp={releaseGesture} onPointerCancel={releaseGesture} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        {(stage === "ready" || stage === "hoisting") && <motion.section key="gesture" className={styles.gesture} tabIndex={0} onKeyDown={keyboardHoist} onPointerDown={startGesture} onPointerMove={moveGesture} onPointerUp={releaseGesture} onPointerCancel={releaseGesture} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} aria-label="Raise the Tiranga. Swipe upward, press Arrow Up repeatedly, or use the raise button.">
           <div className={`${styles.gestureCopy} ${stage === "hoisting" ? styles.copyFaded : ""}`}>
             <span>This one is yours</span>
             <h1>{incomingName ? `${incomingName} passed it to you.` : "Raise it with your own hand."}</h1>
           </div>
+          <div className={styles.srOnly} role="progressbar" aria-label="Tiranga hoisting progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)}>{Math.round(progress * 100)} percent raised</div>
           <div className={styles.swipeCue}><span><ChevronUp size={28} /></span><strong>{progress > 0 ? "Keep lifting" : "Swipe up to hoist"}</strong></div>
           <button className={styles.accessibleHoist} type="button" onPointerDown={(event) => event.stopPropagation()} onClick={accessibleHoist}>Tap to raise instead</button>
         </motion.section>}
 
         {stage === "anthem" && <motion.section key="anthem" className={styles.anthem} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <div><span>National Anthem</span><h1>Jana Gana Mana</h1><p>A quiet moment for the flag we share.</p>{anthemNeedsTap && <button type="button" onClick={() => void playAnthem()}><Music2 size={19} /> Play the National Anthem</button>}</div>
-          <i aria-hidden="true"><b style={{ width: `${anthemProgress * 100}%` }} /></i>
+          {!anthemStarted && <div><span>National Anthem</span><h1>Jana Gana Mana</h1><p>Please stand, if you are able.</p><button type="button" onClick={() => void playAnthem()}><Music2 size={19} /> Play the anthem</button>{anthemError && <p className={styles.error} role="alert">{anthemError}</p>}</div>}
+          {anthemStarted && <div className={styles.srOnly} role="progressbar" aria-label="National Anthem playback" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(anthemProgress * 100)}>The National Anthem is playing. {Math.round(anthemProgress * 100)} percent complete.</div>}
+        </motion.section>}
+
+        {stage === "pride" && <motion.section key="pride" className={styles.pride} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} aria-live="polite">
+          <div><span>The Tiranga is flying</span><h1>Take your moment.</h1><p>Continue when you are ready.</p><button type="button" onClick={() => moveTo("personalization", "personalization_started")}>Continue <ArrowRight size={19} /></button></div>
         </motion.section>}
 
         {stage === "personalization" && <motion.section key="personalization" className={styles.sheet} initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -24 }}>
-          <span className={styles.eyebrow}>Your Tiranga</span><h2>Make this moment yours.</h2><p>Your name and city appear on the share card. No age. No account.</p>
+          <span className={styles.eyebrow}>Your Tiranga</span><h2>Put your name beside it.</h2><p>We only keep your first name and city to create the card and count real participation. No age. No account.</p>
           <form onSubmit={submitPersonalization}>
-            <label>First name<input value={name} onChange={(event) => setName(event.target.value)} maxLength={28} autoComplete="given-name" required /></label>
-            <label>City<input value={city} onChange={(event) => setCity(event.target.value)} maxLength={36} autoComplete="address-level2" required /></label>
+            <label>First name<input value={name} onFocus={(event) => event.currentTarget.scrollIntoView({ block: "center", behavior: reduceMotion ? "auto" : "smooth" })} onChange={(event) => setName(event.target.value)} maxLength={28} autoComplete="given-name" required /></label>
+            <label>City<input value={city} onFocus={(event) => event.currentTarget.scrollIntoView({ block: "center", behavior: reduceMotion ? "auto" : "smooth" })} onChange={(event) => setCity(event.target.value)} maxLength={36} autoComplete="address-level2" required /></label>
             <button type="submit" disabled={submitting}>{submitting ? "Creating your moment…" : "Create my Tiranga post"} {!submitting && <ArrowRight size={18} />}</button>
           </form>
         </motion.section>}
@@ -500,7 +526,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
         {stage === "share" && <motion.section key="share" className={`${styles.sheet} ${styles.shareSheet}`} initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -24 }}>
           <div className={styles.shareIntro}><span className={styles.eyebrow}>Ready to pass forward</span><h2>The Tiranga flies with you, {name.trim()}.</h2></div>
           <div className={styles.shareCard} aria-label={`Social card for ${name.trim()} in ${city.trim()}`}>
-            <div className={styles.miniFlag}><span /><span><AshokaChakra /></span><span /></div><small>I raised the</small><h3>Tiranga</h3><strong>{name.trim()}</strong><p>{city.trim()} · 15 August 2026</p><em>#{participantNumber.toLocaleString("en-IN")}</em><span>Pass it forward.</span><footer>Made with Invite Link</footer>
+            <div className={styles.miniFlag}><span /><span><AshokaChakra /></span><span /></div><small>I raised the</small><h3>Tiranga</h3><strong>{name.trim()}</strong><p>{city.trim()} · {dateLabel}</p>{participantNumber && <em>Participant #{participantNumber.toLocaleString("en-IN")}</em>}<span>Pass it forward.</span><small className={styles.cardUrl}>{(shareUrl || "invite-link-rosy.vercel.app/tiranga").replace(/^https?:\/\//, "")}</small><footer>Made with Invite Link</footer>
           </div>
           <button type="button" className={styles.whatsappButton} onClick={shareWhatsApp}><MessageCircle size={19} /> Pass on WhatsApp</button>
           <div className={styles.shareGrid}><button type="button" onClick={() => void downloadCard("story")}><Download size={18} /> Save story</button><button type="button" onClick={copyShareLink}><Copy size={18} /> Copy link</button><button type="button" onClick={() => void nativeShare()}><Share2 size={18} /> More</button></div>
@@ -518,7 +544,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
         </motion.section>}
 
         {stage === "conversion" && <motion.section key="conversion" className={styles.conversion} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <Image src="/brand/invite-link-lockup.png" alt="Invite Link" width={150} height={131} /><p>Made with Invite Link</p><h2>Create something people don&apos;t just open.<br /><strong>They feel.</strong></h2><Link href="/create" onClick={() => trackEvent("invite_link_cta_clicked", { campaign: "pass_the_tiranga" })}>Create your Invite Link <ArrowRight size={19} /></Link><small>Interactive invitations for weddings, birthdays, housewarmings and moments worth sharing.</small>
+          <p>Your Tiranga is ready</p><h2>We&apos;ll be here next<br /><strong>15 August.</strong></h2><small>Keep your link and pass it forward. This moment belongs to you.</small><Link href="/create" onClick={() => trackEvent("invite_link_cta_clicked", { campaign: "pass_the_tiranga" })}>Made with Invite Link · Create your own <ArrowRight size={18} /></Link>
         </motion.section>}
       </AnimatePresence>
     </main>

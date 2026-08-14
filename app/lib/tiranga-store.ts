@@ -66,14 +66,14 @@ export async function createParticipant(input: Omit<Participant, "id" | "created
       } as never);
       if (!error) {
         const stats = await getTirangaStats();
-        return { participant: record, stats };
+        return { participant: record, stats, persistent: true };
       }
     } catch {
       // Continue with a usable local campaign record.
     }
   }
   memory.participants.push(record);
-  return { participant: record, stats: await getTirangaStats() };
+  return { participant: record, stats: await getTirangaStats(), persistent: false };
 }
 
 export async function createShare(input: Omit<ShareRecord, "shareId" | "createdAt">) {

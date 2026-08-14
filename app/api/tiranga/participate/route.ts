@@ -12,6 +12,10 @@ const participationSchema = z.object({
 export async function POST(request: NextRequest) {
   const parsed = participationSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "Please provide a valid first name and city." }, { status: 400 });
-  const { participant, stats } = await createParticipant(parsed.data);
-  return NextResponse.json({ participantId: participant.id, participantNumber: stats.nationalCount, nationalCount: stats.nationalCount }, { status: 201 });
+  const { participant, stats, persistent } = await createParticipant(parsed.data);
+  return NextResponse.json({
+    participantId: participant.id,
+    participantNumber: persistent ? stats.nationalCount : null,
+    persistent,
+  }, { status: 201 });
 }

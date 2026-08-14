@@ -27,7 +27,7 @@ function createFlagTexture() {
 
   const cx = 450;
   const cy = 300;
-  const radius = 62;
+  const radius = 75;
   context.strokeStyle = "#06038D";
   context.lineWidth = 7;
   context.beginPath();
@@ -69,7 +69,7 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
 
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
     } catch {
       return;
     }
@@ -141,7 +141,7 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
       `,
     });
     const flag = new THREE.Mesh(geometry, material);
-    flag.position.set(-0.86, -2.65, 0.05);
+    flag.position.set(-0.86, -2.3, 0.05);
     flag.scale.set(0.08, 1, 1);
     scene.add(flag);
 
@@ -162,22 +162,28 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
     window.addEventListener("resize", resize);
 
     let animationFrame = 0;
+    let didNotifyReady = false;
     const startedAt = performance.now();
     const render = (now: number) => {
       const currentProgress = progressRef.current;
       const currentReveal = revealRef.current;
-      flag.position.y = -2.65 + currentProgress * 4.55;
+      flag.position.y = -2.3 + currentProgress * 3.4;
       flag.scale.x = Math.max(0.075, currentReveal);
       uniforms.uTime.value = (now - startedAt) / 1000;
       uniforms.uWind.value = reducedMotion ? 0.32 : 0.22 + currentProgress * 0.42 + currentReveal * 0.52;
       camera.position.y = reducedMotion ? 0.1 : 0.1 + currentProgress * 0.24;
       camera.position.z = 8.1 - currentProgress * 0.25;
       camera.lookAt(-0.05, -0.1 + currentProgress * 0.18, 0);
-      if (activeRef.current || currentReveal < 1) renderer.render(scene, camera);
+      if (activeRef.current || currentReveal < 1) {
+        renderer.render(scene, camera);
+        if (!didNotifyReady) {
+          didNotifyReady = true;
+          onReady?.();
+        }
+      }
       animationFrame = requestAnimationFrame(render);
     };
     animationFrame = requestAnimationFrame(render);
-    onReady?.();
 
     return () => {
       cancelAnimationFrame(animationFrame);

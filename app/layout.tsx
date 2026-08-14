@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   other: { "apple-mobile-web-app-capable": "yes", "apple-mobile-web-app-status-bar-style": "black-translucent" },
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#071A38", colorScheme: "light" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#071A38", colorScheme: "light", interactiveWidget: "resizes-content" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const schema = [

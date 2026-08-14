@@ -4,6 +4,7 @@ export type TirangaStage =
   | "hoisting"
   | "unfurling"
   | "anthem"
+  | "pride"
   | "personalization"
   | "share"
   | "conversion";
@@ -20,22 +21,11 @@ export type TirangaStats = {
   cities: Array<{ city: string; count: number; x: number; y: number }>;
 };
 
-export const TIRANGA_BASELINE_COUNT = 48721;
+export const TIRANGA_BASELINE_COUNT = 0;
 
 export const DEFAULT_TIRANGA_STATS: TirangaStats = {
   nationalCount: TIRANGA_BASELINE_COUNT,
-  cities: [
-    { city: "Delhi", count: 3620, x: 128, y: 78 },
-    { city: "Jaipur", count: 1840, x: 94, y: 117 },
-    { city: "Ahmedabad", count: 2110, x: 67, y: 153 },
-    { city: "Mumbai", count: 3940, x: 87, y: 215 },
-    { city: "Hyderabad", count: 3290, x: 139, y: 224 },
-    { city: "Bengaluru", count: 2860, x: 137, y: 278 },
-    { city: "Chennai", count: 2460, x: 166, y: 296 },
-    { city: "Kolkata", count: 2750, x: 212, y: 177 },
-    { city: "Guwahati", count: 1120, x: 249, y: 117 },
-    { city: "Srinagar", count: 760, x: 111, y: 36 },
-  ],
+  cities: [],
 };
 
 export function safeFirstName(value: string | undefined) {
