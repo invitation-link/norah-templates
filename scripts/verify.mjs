@@ -12,10 +12,19 @@ const requiredFiles = [
   'templates.css',
   'templates.js',
   'templates-data.js',
+  'pricing.html',
   'faq.html',
+  'about.html',
+  'contact.html',
+  'terms.html',
+  'privacy.html',
+  'refund.html',
+  'manifest.json',
   'invite.html',
   'invite.css',
   'invite.js',
+  'robots.txt',
+  'sitemap.xml',
   'vercel.json'
 ];
 const errors = [];

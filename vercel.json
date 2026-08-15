@@ -4,7 +4,15 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/templates", "destination": "/templates.html" },
+    { "source": "/pricing", "destination": "/pricing.html" },
     { "source": "/faq", "destination": "/faq.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/refund", "destination": "/refund.html" },
+    { "source": "/manifest.json", "destination": "/manifest.json" },
+    { "source": "/site.webmanifest", "destination": "/manifest.json" },
     { "source": "/invite/:slug", "destination": "/invite.html" }
   ],
   "headers": [
@@ -13,6 +21,7 @@
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" },
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
       ]

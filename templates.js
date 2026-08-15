@@ -51,12 +51,14 @@ function Header() {
       animate=${{ opacity: 1, y: 0 }}
       transition=${{ duration: 0.8, delay: 0.15, ease }}
     >
-      <a className="brand" href="/templates.html" aria-label="Invite Link templates">INVITE LINK</a>
+      <a className="brand" href="/" aria-label="Invite Link Home">INVITE LINK</a>
       <nav aria-label="Primary navigation">
         <a href="#occasions">Collection</a>
-        <a href="#journey">Experience</a>
-        <a href="#faq">FAQ</a>
-        <a className="nav-cta" href="/?template=wedding">Create yours <${Arrow} /></a>
+        <a href="/pricing">Pricing</a>
+        <a href="/faq">FAQ</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a className="nav-cta" href="/?template=wedding">Create Free Preview <${Arrow} /></a>
       </nav>
     <//>
   `;
@@ -150,7 +152,7 @@ function TemplateCard({ templateKey, index, onPreview }) {
         <${motion.div} className="template-entry__visual" layoutId=${'template-visual-' + templateKey}>
           <${motion.img}
             src=${meta.image}
-            alt=""
+            alt=${meta.name + ' interactive invitation design'}
             loading=${index < 2 ? 'eager' : 'lazy'}
             style=${{ objectPosition: meta.focal }}
             variants=${{ hover: { scale: 1.045 } }}
@@ -164,13 +166,16 @@ function TemplateCard({ templateKey, index, onPreview }) {
         <span className="template-entry__number">${String(index + 1).padStart(2, '0')}</span>
         <div>
           <h3>${meta.collection}</h3>
-          <span className="template-entry__occasion">${meta.name}</span>
+          <div style=${{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginTop: '6px' }}>
+            <span className="template-entry__occasion">${meta.name}</span>
+            <span className="template-price-badge">FREE PREVIEW · ₹399 / $12</span>
+          </div>
         </div>
         <p className="template-entry__note">${meta.note}</p>
         <div className="template-entry__actions">
           <button type="button" onClick=${() => onPreview(templateKey)}>Preview here</button>
-          <a href=${'/invite.html?demo=' + templateKey}>Full live demo <${Arrow} /></a>
-          <a href=${'/?template=' + templateKey}>Use template</a>
+          <a href=${'/invite.html?demo=' + templateKey}>Live demo <${Arrow} /></a>
+          <a href=${'/?template=' + templateKey} style=${{ fontWeight: '700', color: 'var(--wine)' }}>Create your invite — free preview <${Arrow} /></a>
         </div>
       </div>
     <//>
@@ -216,10 +221,10 @@ function PreviewDialog({ templateKey, onClose }) {
       >
         <button className="preview-close" type="button" onClick=${onClose} autoFocus aria-label="Close template preview">Close <span>×</span></button>
         <${motion.div} className="preview-visual" layoutId=${'template-visual-' + templateKey}>
-          <img src=${meta.image} alt="" style=${{ objectPosition: meta.focal }} />
+          <img src=${meta.image} alt=${meta.name + ' interactive preview banner'} style=${{ objectPosition: meta.focal }} />
           <div className="preview-visual__shade"></div>
           <div className="preview-visual__copy">
-            <span>${meta.name}</span>
+            <span style=${{ display: 'inline-block', background: 'rgba(255,255,255,0.2)', padding: '2px 8px', borderRadius: '4px', fontSize: '10px', marginBottom: '6px' }}>FREE PREVIEW · ₹399 / $12 PASS</span>
             <h2 id="preview-title">${meta.collection}</h2>
             <p>${meta.note}</p>
           </div>
@@ -229,7 +234,7 @@ function PreviewDialog({ templateKey, onClose }) {
             <iframe src=${'/invite.html?demo=' + templateKey} title=${meta.name + ' live invitation'} loading="eager"></iframe>
           </div>
           <div className="preview-dialog__actions">
-            <a className="button button--dark" href=${'/?template=' + templateKey}>Use this template <${Arrow} /></a>
+            <a className="button button--dark" href=${'/?template=' + templateKey}>Create your invite — free preview <${Arrow} /></a>
             <a href=${'/invite.html?demo=' + templateKey}>Open full-screen demo</a>
           </div>
         </div>
@@ -275,6 +280,10 @@ const faqs = [
     a: 'Yes! You can choose from our curated presets or upload your own custom high-resolution photos for each screen (Entrance Door, Main Invitation Card, and Closing Blessing). You can also set custom primary and accent colors, and choose or upload background audio.'
   },
   {
+    q: 'How much does Invite Link cost?',
+    a: 'You can design and preview any invitation 100% free in our studio. When you are ready to publish and share your live link with guests, we offer a simple one-time Single Event Pass for ₹399 ($12 USD) and a Premium Pass for ₹999 ($29 USD) with zero recurring subscriptions.'
+  },
+  {
     q: 'How does the WhatsApp RSVP system work?',
     a: 'Guests tap their response ("Gladly attending", "Will try to come", or "Sending blessings"), which automatically prepares a personalized WhatsApp message with their RSVP status and sends it directly to your designated phone number with one touch.'
   },
@@ -300,7 +309,7 @@ function FAQ() {
       <${motion.div} className="faq-sticky" initial="hidden" whileInView="visible" viewport=${{ once: true, amount: 0.3 }} variants=${rise}>
         <p className="section-index">04 / Questions & answers</p>
         <h2 id="faq-title">Everything you need to know.</h2>
-        <p>Details about guest experience, customization, WhatsApp RSVPs, and live link sharing.</p>
+        <p>Details about pricing, guest experience, customization, WhatsApp RSVPs, and live link sharing.</p>
       <//>
       <div className="faq-list">
         ${faqs.map((faq, index) => {
@@ -374,7 +383,7 @@ function PortalApp() {
             <p className="section-index">03 / Made with you</p>
             <h2 id="service-title">Your story. Our careful hands.</h2>
             <p>Start from a collection, add the people and details that matter, and preview the invitation as your guest will experience it.</p>
-            <a className="button button--light" href="/?template=wedding">Open the studio <${Arrow} /></a>
+            <a className="button button--light" href="/?template=wedding">Create your invite — free preview <${Arrow} /></a>
           <//>
         </section>
         <${FAQ} />
@@ -383,15 +392,21 @@ function PortalApp() {
           <${motion.h2} id="final-title" initial=${{ opacity: 0, y: 32 }} whileInView=${{ opacity: 1, y: 0 }} viewport=${{ once: true }} transition=${{ duration: 0.8, ease }}>
             Your people already matter. Make the invitation feel that way.
           <//>
-          <${motion.a} className="button button--dark" href="/?template=wedding" whileHover=${{ y: -3 }} whileTap=${{ scale: 0.98 }}>Start creating <${Arrow} /><//>
+          <${motion.a} className="button button--dark" href="/?template=wedding" whileHover=${{ y: -3 }} whileTap=${{ scale: 0.98 }}>Create your invite — free preview <${Arrow} /><//>
         </section>
       </main>
       <footer>
-        <a className="brand brand--footer" href="/templates.html">INVITE LINK</a>
+        <a className="brand brand--footer" href="/">INVITE LINK</a>
         <p>Made for the moments people keep.</p>
-        <div style=${{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <div style=${{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <a href="/">Studio</a>
+          <a href="/pricing">Pricing</a>
           <a href="/faq">FAQ</a>
-          <a href="/">Open builder</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/terms">Terms</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/refund">Refund Policy</a>
         </div>
       </footer>
       <${AnimatePresence}>

@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /builder
-Disallow: /invite/
 
-Sitemap: https://invitelink.shop/sitemap.xml
+Host: https://www.invitelink.shop
+Sitemap: https://www.invitelink.shop/sitemap.xml

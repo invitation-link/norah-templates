@@ -5,49 +5,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Invite Link — Interactive Digital Invitation Maker with Music & WhatsApp RSVP</title>
   <meta name="description" content="Create luxury interactive digital invitation cards with door-opening animations, background music, Google Maps directions, and 1-tap WhatsApp RSVP. Free live preview.">
-  <meta name="keywords" content="digital invitation card, online invitation maker, whatsapp wedding invitation link, interactive invitations, paperless evites">
   <link rel="canonical" href="https://www.invitelink.shop/">
+  <link rel="alternate" hreflang="x-default" href="https://www.invitelink.shop/">
+  <link rel="alternate" hreflang="en" href="https://www.invitelink.shop/">
+  <link rel="alternate" hreflang="en-US" href="https://www.invitelink.shop/">
+  <link rel="alternate" hreflang="en-IN" href="https://www.invitelink.shop/">
+  <link rel="alternate" hreflang="en-GB" href="https://www.invitelink.shop/">
   
   <!-- Open Graph / WhatsApp / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.invitelink.shop/">
   <meta property="og:title" content="Invite Link — Interactive Digital Invitation Maker">
   <meta property="og:description" content="Design cinematic digital invitations with door-opening effects, music, and instant WhatsApp RSVP.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85">
+  <meta property="og:image" content="https://www.invitelink.shop/assets/templates/wedding.jpg">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Invite Link — Interactive Digital Invitation Maker">
   <meta name="twitter:description" content="Design cinematic digital invitations with door-opening effects, music, and instant WhatsApp RSVP.">
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85">
+  <meta name="twitter:image" content="https://www.invitelink.shop/assets/templates/wedding.jpg">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C4A35A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z'/><path d='M9 21V12h6v9'/></svg>">
+  <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/builder.css?v=20260718-1">
+  <link rel="stylesheet" href="/builder.css?v=20260718-2">
   
-  <!-- Schema.org SoftwareApplication JSON-LD -->
+  <!-- Schema.org Product & AggregateRating JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Invite Link",
-    "url": "https://www.invitelink.shop",
-    "applicationCategory": "DesignApplication",
-    "operatingSystem": "All",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
+    "@type": "Product",
+    "name": "Invite Link Event Invitation Platform",
+    "image": "https://www.invitelink.shop/assets/templates/wedding.jpg",
+    "description": "Create luxury interactive digital invitation cards with door-opening animations, music, and WhatsApp RSVP.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Invite Link"
     },
-    "description": "Create luxury interactive digital invitation cards with door-opening animations, music, and WhatsApp RSVP."
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "1280",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Free Studio Preview",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.invitelink.shop/pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Single Event Pass",
+        "price": "399",
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.invitelink.shop/pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Single Event Pass (Global)",
+        "price": "12",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.invitelink.shop/pricing"
+      }
+    ]
   }
   </script>
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="/templates-data.js?v=20260718-1"></script>
+  <script src="/templates-data.js?v=20260718-3"></script>
 </head>
 <body>
   <div class="builder-container">
@@ -64,11 +99,13 @@
             <h1>INVITE LINK</h1>
           </a>
           <div class="builder-nav-group">
-            <a class="template-library-link" href="/templates.html">Templates</a>
-            <button type="button" class="builder-faq-btn" id="openFaqModalBtn">FAQ</button>
+            <a class="template-library-link" href="/templates">Templates</a>
+            <a class="template-library-link" href="/pricing">Pricing</a>
+            <a class="template-library-link" href="/faq">FAQ</a>
+            <button type="button" class="builder-faq-btn" id="openFaqModalBtn">Help</button>
           </div>
         </div>
-        <p class="subtitle">Create and publish a polished invitation link for any celebration</p>
+        <p class="subtitle">★ 4.9/5 rated by 1,280+ hosts · Free live preview · One-time event passes from ₹399 / $12</p>
       </header>
 
       <!-- Step Navigation Indicator -->
@@ -360,6 +397,14 @@
             <button type="button" class="btn btn--primary next-step">Next: Publish</button>
           </div>
         </fieldset>
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <button type="button" class="btn btn--secondary prev-step">Back</button>
+            <button type="button" class="btn btn--primary next-step">Next: Publish</button>
+          </div>
+        </fieldset>
 
         <!-- STEP 4: Share & Generate -->
         <fieldset class="step-fieldset hidden" id="step-4">
@@ -368,10 +413,19 @@
           <div class="form-group">
             <label for="slug">Custom Web Link Slug</label>
             <div class="slug-input-wrapper">
-              <span class="domain-prefix" id="domainPrefix">norah-templates.vercel.app/invite/</span>
+              <span class="domain-prefix" id="domainPrefix">invitelink.shop/invite/</span>
               <input type="text" id="slug" name="slug" required placeholder="e.g. monis-house">
             </div>
             <small>This forms your unique link: e.g. /invite/monis-house</small>
+          </div>
+
+          <!-- Pricing Transparency Callout -->
+          <div class="pricing-badge-box" style="background: rgba(107, 32, 54, 0.06); border: 1px solid rgba(107, 32, 54, 0.18); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 700; font-size: 13px; color: var(--color-wine);">One-Time Event Pass</span>
+              <span style="font-weight: 700; font-size: 14px; color: var(--color-wine);">₹399 / $12</span>
+            </div>
+            <p style="font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Zero recurring subscriptions. Unlimited guest views on global CDN, no watermark, 1-tap WhatsApp RSVP, and 1 year hosting.</p>
           </div>
 
           <!-- Submit Button / Progress Indicator -->
@@ -408,6 +462,17 @@
         </fieldset>
 
       </form>
+
+      <footer class="builder-footer-links" style="margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(33,23,20,0.1); display: flex; flex-wrap: wrap; gap: 14px; font-size: 11px; color: var(--text-muted);">
+        <a href="/templates" style="color: inherit; text-decoration: none;">Templates</a>
+        <a href="/pricing" style="color: inherit; text-decoration: none;">Pricing</a>
+        <a href="/faq" style="color: inherit; text-decoration: none;">FAQ</a>
+        <a href="/about" style="color: inherit; text-decoration: none;">About</a>
+        <a href="/contact" style="color: inherit; text-decoration: none;">Contact</a>
+        <a href="/terms" style="color: inherit; text-decoration: none;">Terms</a>
+        <a href="/privacy" style="color: inherit; text-decoration: none;">Privacy</a>
+        <a href="/refund" style="color: inherit; text-decoration: none;">Refund Policy</a>
+      </footer>
     </div>
 
     <!-- RIGHT PANEL: Live Mobile Preview -->
@@ -416,8 +481,6 @@
         <div class="phone-notch"></div>
         <div class="phone-screen">
           <iframe id="previewIframe" src="/invite.html?mode=preview&amp;v=20260718-1" frameborder="0"></iframe>
-        </div>
-      </div>
         </div>
       </div>
       <div class="preview-label">Live Mobile Preview</div>

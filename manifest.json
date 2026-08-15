@@ -1,0 +1,17 @@
+{
+  "name": "Invite Link — Interactive Event Invitations",
+  "short_name": "Invite Link",
+  "description": "Design cinematic digital invitations with music, animated door opening, and WhatsApp RSVP.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF6F1",
+  "theme_color": "#211714",
+  "icons": [
+    {
+      "src": "/assets/templates/wedding.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
