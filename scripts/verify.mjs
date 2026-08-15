@@ -149,9 +149,20 @@ if (!read('templates.js').includes("from 'motion/react'")) {
   errors.push('The template portal is not using Motion for React.');
 }
 
-if (!read('templates.html').includes('type="importmap"')) {
-  errors.push('The template portal import map is missing.');
+function checkAnalytics() {
+  const htmlFiles = [
+    'index.html', 'invite.html', 'templates.html', 'pricing.html',
+    'faq.html', 'about.html', 'contact.html', 'terms.html',
+    'privacy.html', 'refund.html'
+  ];
+  for (const file of htmlFiles) {
+    const content = read(file);
+    if (!content.includes('G-81CCB5ZMLX')) errors.push(`${file} is missing Google Analytics 4 (G-81CCB5ZMLX).`);
+    if (!content.includes('wzp3yr2x2l')) errors.push(`${file} is missing Microsoft Clarity (wzp3yr2x2l).`);
+  }
 }
+
+checkAnalytics();
 
 if (process.argv.includes('--external')) {
   await checkExternalAssets();
