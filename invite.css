@@ -1322,3 +1322,101 @@ body[data-occasion="naming"] .screen::after { background: linear-gradient(180deg
 @supports (padding-top:env(safe-area-inset-top)) {
   .door-content { padding-top:calc(56px + env(safe-area-inset-top)); }
 }
+
+/* =============================================
+   VIRAL CTA FOOTER — Create Your Own
+   ============================================= */
+.invite-cta-footer {
+  position: relative;
+  z-index: 10;
+  padding: 48px 24px 56px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.06) 100%);
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.invite-cta-footer__inner {
+  max-width: 360px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.invite-cta-footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.invite-cta-footer__logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.invite-cta-footer__wordmark {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--maroon);
+  letter-spacing: 0.5px;
+}
+
+.invite-cta-footer__tagline {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--text-secondary, #6B5A4E);
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.invite-cta-footer__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--maroon);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--r-full, 100px);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.invite-cta-footer__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  background: var(--maroon-deep, var(--maroon));
+}
+
+.invite-cta-footer__btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.invite-cta-footer__btn svg {
+  flex-shrink: 0;
+}
+
+.invite-cta-footer__note {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-secondary, #8B7B6E);
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* Hide CTA footer in preview mode */
+body.is-preview .invite-cta-footer {
+  display: none;
+}

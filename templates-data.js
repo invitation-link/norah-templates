@@ -13,7 +13,7 @@
         focal: 'center 46%'
       },
       defaults: {
-        home_name: 'AANYA & ARJUN', welcome_text: 'Together, we begin', invite_eyebrow: 'With the blessings of our families,',
+        home_name: 'SOFIA & JAMES', welcome_text: 'Together, we begin', invite_eyebrow: 'With the blessings of our families,',
         invite_text: 'request the pleasure of your company as we promise forever.',
         rsvp_option1_title: 'Joyfully accept', rsvp_option1_subtitle: 'We would not miss it.',
         rsvp_option2_title: 'Regretfully decline', rsvp_option2_subtitle: 'Celebrating you from afar.',
@@ -30,7 +30,7 @@
         moment_label: 'The beginning of always', moment_text: 'Come for the vows. Stay for the laughter, the dancing and the memories we will carry home.',
         detail_time_extra: 'Dinner and dancing to follow', closing_heading: 'With all our hearts', gesture: 'petals'
       },
-      demo: { hosts: 'The Mehtas & The Raos', event_date: futureDate, event_time: '6:30 PM onwards', venue_name: 'The Courtyard, Hyderabad', venue_address: 'Jubilee Hills, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Jubilee+Hills+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'The Morales & The Bennett Families', event_date: futureDate, event_time: '6:30 PM onwards', venue_name: 'The Grand Pavilion', venue_address: 'Central Park South, New York', venue_maps_url: 'https://maps.google.com/?q=Central+Park+South+New+York', phone: '919999999999' }
     },
     engagement: {
       meta: {
@@ -39,7 +39,7 @@
         image: '/assets/templates/engagement.jpg', focal: 'center 48%'
       },
       defaults: {
-        home_name: 'RHEA & KABIR', welcome_text: 'We said yes', invite_eyebrow: 'A new chapter begins,',
+        home_name: 'ELENA & LUCA', welcome_text: 'We said yes', invite_eyebrow: 'A new chapter begins,',
         invite_text: 'and we would love for you to celebrate the promise with us.',
         rsvp_option1_title: 'Would not miss it', rsvp_option1_subtitle: 'Ready to raise a toast.',
         rsvp_option2_title: 'Trying to make it', rsvp_option2_subtitle: 'Saving the date.',
@@ -56,7 +56,7 @@
         moment_label: 'A promise worth celebrating', moment_text: 'Before the wedding plans and forever stories, there is this beautiful yes—and we want you beside us.',
         detail_time_extra: 'Cocktails and dinner to follow', closing_heading: 'To new beginnings', gesture: 'sparkle'
       },
-      demo: { hosts: 'The Kapoor & Iyer Families', event_date: futureDate, event_time: '7:00 PM onwards', venue_name: 'The Glass House', venue_address: 'Banjara Hills, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Banjara+Hills+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'The Rivera & De Luca Families', event_date: futureDate, event_time: '7:00 PM onwards', venue_name: 'The Terrace at Kew Gardens', venue_address: 'Richmond, London', venue_maps_url: 'https://maps.google.com/?q=Kew+Gardens+London', phone: '919999999999' }
     },
     housewarming: {
       meta: {
@@ -82,7 +82,7 @@
         moment_label: 'The first memory', moment_text: 'The rooms are ready. The lights are warm. All that is missing is the sound of people we love.',
         detail_time_extra: 'Lunch and blessings to follow', closing_heading: 'Come home to us', gesture: 'light'
       },
-      demo: { hosts: 'Mira, Dev & Family', event_date: futureDate, event_time: '11:00 AM onwards', venue_name: 'Saanjh', venue_address: 'Kokapet, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Kokapet+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Amara, Ethan & Family', event_date: futureDate, event_time: '11:00 AM onwards', venue_name: 'The Willows Residence', venue_address: 'Richmond Hill, Melbourne', venue_maps_url: 'https://maps.google.com/?q=Richmond+Hill+Melbourne', phone: '919999999999' }
     },
     birthday: {
       meta: {
@@ -91,7 +91,7 @@
         image: '/assets/templates/birthday.jpg', focal: 'center 50%'
       },
       defaults: {
-        home_name: 'ISHA TURNS 30', welcome_text: 'One more trip around the sun', invite_eyebrow: 'Bring your brightest mood,',
+        home_name: 'MAYA TURNS 30', welcome_text: 'One more trip around the sun', invite_eyebrow: 'Bring your brightest mood,',
         invite_text: 'and join us for an evening of cake, music and very good stories.',
         rsvp_option1_title: 'Count me in', rsvp_option1_subtitle: 'Ready for the party.',
         rsvp_option2_title: 'I might make it', rsvp_option2_subtitle: 'Keeping the evening free.',
@@ -108,7 +108,7 @@
         moment_label: 'A night made for stories', moment_text: 'Come hungry, come happy, and leave with at least one memory we will laugh about next year.',
         detail_time_extra: 'Cake at 8:30 PM', closing_heading: 'Make a wish', gesture: 'confetti'
       },
-      demo: { hosts: 'Isha & Friends', event_date: futureDate, event_time: '7:30 PM onwards', venue_name: 'Olive Bistro', venue_address: 'Durgam Cheruvu, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Olive+Bistro+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Maya & Friends', event_date: futureDate, event_time: '7:30 PM onwards', venue_name: 'The Loft', venue_address: 'Williamsburg, Brooklyn', venue_maps_url: 'https://maps.google.com/?q=Williamsburg+Brooklyn', phone: '919999999999' }
     },
     babyshower: {
       meta: {
@@ -134,7 +134,7 @@
         moment_label: 'Loved before hello', moment_text: 'We have not met this little person yet, but somehow our world already feels softer and brighter.',
         detail_time_extra: 'Games and lunch to follow', closing_heading: 'Small wonder, big love', gesture: 'bubbles'
       },
-      demo: { hosts: 'Naina & Rohan', event_date: futureDate, event_time: '12:00 PM onwards', venue_name: 'The Garden Room', venue_address: 'Film Nagar, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Film+Nagar+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Layla & Noah', event_date: futureDate, event_time: '12:00 PM onwards', venue_name: 'The Garden Room', venue_address: 'Notting Hill, London', venue_maps_url: 'https://maps.google.com/?q=Notting+Hill+London', phone: '919999999999' }
     },
     naming: {
       meta: {
@@ -160,7 +160,7 @@
         moment_label: 'A name for a lifetime', moment_text: 'Join us as our littlest love is introduced to the people who will help shape their world.',
         detail_time_extra: 'Blessings and lunch to follow', closing_heading: 'Hello, little one', gesture: 'stars'
       },
-      demo: { hosts: 'Anika, Sameer & Family', event_date: futureDate, event_time: '10:30 AM onwards', venue_name: 'Aaranya Banquet', venue_address: 'Gachibowli, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Gachibowli+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Zara, Marcus & Family', event_date: futureDate, event_time: '10:30 AM onwards', venue_name: 'The Rosewood Hall', venue_address: 'Georgetown, Washington DC', venue_maps_url: 'https://maps.google.com/?q=Georgetown+Washington+DC', phone: '919999999999' }
     },
     anniversary: {
       meta: {
@@ -186,7 +186,7 @@
         moment_label: 'A life in the little things', moment_text: 'The morning tea, the inside jokes, the storms weathered and the joy shared—this is what we are celebrating.',
         detail_time_extra: 'Dinner and memories to follow', closing_heading: 'Still, always', gesture: 'gold'
       },
-      demo: { hosts: 'Leela & Vikram', event_date: futureDate, event_time: '7:00 PM onwards', venue_name: 'Falaknuma Terrace', venue_address: 'Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Falaknuma+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Clara & David', event_date: futureDate, event_time: '7:00 PM onwards', venue_name: 'The Ivy Chelsea Garden', venue_address: 'King\'s Road, London', venue_maps_url: 'https://maps.google.com/?q=Ivy+Chelsea+Garden+London', phone: '919999999999' }
     },
     graduation: {
       meta: {
@@ -212,7 +212,7 @@
         moment_label: 'Hard work, made visible', moment_text: 'This moment holds every early morning, every difficult lesson and every person who said: keep going.',
         detail_time_extra: 'Dinner and a proud toast to follow', closing_heading: 'Onward', gesture: 'ribbons'
       },
-      demo: { hosts: 'Tara & The Sharma Family', event_date: futureDate, event_time: '6:00 PM onwards', venue_name: 'The Tactical Club', venue_address: 'Secunderabad, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Secunderabad+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Aria & The Chen Family', event_date: futureDate, event_time: '6:00 PM onwards', venue_name: 'The Faculty Club', venue_address: 'Stanford University, California', venue_maps_url: 'https://maps.google.com/?q=Stanford+University+California', phone: '919999999999' }
     },
     sangeet: {
       meta: {
@@ -238,7 +238,7 @@
         moment_label: 'The rhythm of celebration', moment_text: 'Before the vows and sacred rituals, we celebrate the joy of two families dancing as one.',
         detail_time_extra: 'Mehndi at 5:00 PM · Sangeet & Dinner at 7:30 PM', closing_heading: 'Dance with us', gesture: 'marigold'
       },
-      demo: { hosts: 'Ananya & Siddharth', event_date: futureDate, event_time: '5:30 PM onwards', venue_name: 'The Grand Lawn, Taj Krishna', venue_address: 'Banjara Hills, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Taj+Krishna+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Priya & Arjun', event_date: futureDate, event_time: '5:30 PM onwards', venue_name: 'The Grand Lawn, Taj Palace', venue_address: 'Colaba, Mumbai', venue_maps_url: 'https://maps.google.com/?q=Taj+Palace+Mumbai', phone: '919999999999' }
     },
     cocktail: {
       meta: {
@@ -264,7 +264,7 @@
         moment_label: 'An intimate evening', moment_text: 'Curated craft drinks, vinyl jazz, and an evening designed to celebrate life in good company.',
         detail_time_extra: 'Cocktails at 7:30 PM · Dinner at 9:00 PM', closing_heading: 'Cheers to tonight', gesture: 'sparkle'
       },
-      demo: { hosts: 'Vikram, Neha & Friends', event_date: futureDate, event_time: '7:30 PM onwards', venue_name: 'Sky Lounge Rooftop', venue_address: 'Hitec City, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Hitec+City+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Leo, Nina & Friends', event_date: futureDate, event_time: '7:30 PM onwards', venue_name: 'Skyline Rooftop', venue_address: 'Marina Bay, Singapore', venue_maps_url: 'https://maps.google.com/?q=Marina+Bay+Singapore', phone: '919999999999' }
     },
     pooja: {
       meta: {
@@ -290,7 +290,7 @@
         moment_label: 'A sacred beginning', moment_text: 'As we invoke auspicious blessings for our family, your presence and prayers will sanctify our new home.',
         detail_time_extra: 'Pooja & Havan at 9:00 AM · Mahaprasad Lunch at 12:30 PM', closing_heading: 'Shubham Karoti Kalyanam', gesture: 'light'
       },
-      demo: { hosts: 'Sharma & Varma Families', event_date: futureDate, event_time: '9:00 AM onwards', venue_name: 'Ananda Nilayam', venue_address: 'Kondapur, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Kondapur+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Sharma & Verma Families', event_date: futureDate, event_time: '9:00 AM onwards', venue_name: 'Ananda Nilayam', venue_address: 'Dwarka, New Delhi', venue_maps_url: 'https://maps.google.com/?q=Dwarka+New+Delhi', phone: '919999999999' }
     },
     gala: {
       meta: {
@@ -316,7 +316,7 @@
         moment_label: 'Vision in motion', moment_text: 'An evening of keynote insights, networking with industry pioneers, and celebrating breakthrough achievements.',
         detail_time_extra: 'Welcome Drinks at 6:30 PM · Keynote & Dinner at 7:30 PM', closing_heading: 'To the future', gesture: 'stars'
       },
-      demo: { hosts: 'Apex Ventures & Leadership Team', event_date: futureDate, event_time: '6:30 PM onwards', venue_name: 'The Glass Atrium, Grand Hyatt', venue_address: 'Financial District, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Financial+District+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Atlas Ventures & Leadership Team', event_date: futureDate, event_time: '6:30 PM onwards', venue_name: 'The Atrium, Four Seasons', venue_address: 'Midtown Manhattan, New York', venue_maps_url: 'https://maps.google.com/?q=Four+Seasons+Midtown+Manhattan', phone: '919999999999' }
     }
   };
 

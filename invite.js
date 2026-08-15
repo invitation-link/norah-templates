@@ -368,6 +368,20 @@
       setupAudioToggle();
       state.interactionsReady = true;
     }
+
+    // Wire up the viral CTA footer
+    var ctaFooter = byId('inviteCTAFooter');
+    var ctaBtn = byId('createYourOwnBtn');
+    if (ctaFooter && ctaBtn) {
+      if (state.isPreviewMode) {
+        // Hide CTA in builder preview — it's distracting during editing
+        ctaFooter.style.display = 'none';
+      } else if (state.isDemoMode) {
+        // In demo mode, deep-link to builder with this template pre-selected
+        ctaBtn.href = '/?template=' + encodeURIComponent(occasion);
+      }
+      // Production mode: default href="/" from HTML is correct
+    }
   }
 
   function showScreenInPreview(screen) {
