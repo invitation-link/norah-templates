@@ -15,3 +15,5 @@ build_output.txt
 lint_*.txt
 *.tsbuildinfo
 .netlify/
+
+.vercel
