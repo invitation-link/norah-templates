@@ -58,6 +58,12 @@
         { name: "Elegant Floral Curtain", url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800" }
       ],
       closing: [
+      ],
+      invite: [
+        { name: "Romantic Rose Petals", url: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800" },
+        { name: "Elegant Floral Curtain", url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800" }
+      ],
+      closing: [
         { name: "Celebration Sparkle", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" },
         { name: "Elegant Celebration", url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800" }
       ],
@@ -67,13 +73,13 @@
     },
     birthday: {
       door: [
-        { name: "Colorful Celebration", url: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800" },
+        { name: "Milestone Celebration", url: "/assets/templates/birthday.jpg" },
         { name: "Bright Party", url: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800" },
         { name: "Night Sparklers", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" }
       ],
       invite: [
         { name: "Colorful Streamers & Glitter", url: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800" },
-        { name: "Bright Party Background", url: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800" }
+        { name: "Party Friends Celebration", url: "/assets/templates/birthday.jpg" }
       ],
       closing: [
         { name: "Golden Sparklers Night", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" },
@@ -85,17 +91,17 @@
     },
     babyshower: {
       door: [
-        { name: "Soft Pastel Clouds", url: "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800" },
-        { name: "Soft Nursery", url: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800" },
-        { name: "Gentle Celebration", url: "https://images.unsplash.com/photo-1559251606-c623743a6d76?w=800" }
+        { name: "Expecting Parents Celebration", url: "/assets/templates/babyshower.jpg" },
+        { name: "Pastel Botanical Garden", url: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800" },
+        { name: "Gentle Celebration", url: "/assets/templates/babyshower.jpg" }
       ],
       invite: [
         { name: "Eucalyptus Leaves & Flowers", url: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800" },
-        { name: "Gentle Floral Celebration", url: "https://images.unsplash.com/photo-1559251606-c623743a6d76?w=800" }
+        { name: "Gentle Floral Setting", url: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800" }
       ],
       closing: [
-        { name: "Warm Nursery Glow", url: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800" },
-        { name: "Cute Baby Teddy Bear", url: "https://images.unsplash.com/photo-1559251606-c623743a6d76?w=800" }
+        { name: "Warm Celebration Glow", url: "/assets/templates/babyshower.jpg" },
+        { name: "Gentle Floral Aura", url: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800" }
       ],
       music: [
         { name: "Lullaby & Soft Harp Music", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
@@ -126,7 +132,7 @@
       presence_note: "Presents in blessings only",
       color_primary: "#6B2036",
       color_accent: "#C4A35A",
-      bg_image_door: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80",
+      bg_image_door: "/assets/templates/housewarming.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
       bg_image_closing: "https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=800&q=80",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
@@ -152,7 +158,7 @@
       presence_note: "No gifts please, only your blessings",
       color_primary: "#541729",
       color_accent: "#D4B978",
-      bg_image_door: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
+      bg_image_door: "/assets/templates/wedding.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800",
       bg_image_closing: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
@@ -178,7 +184,7 @@
       presence_note: "Your presence is our present!",
       color_primary: "#1D4ED8",
       color_accent: "#F59E0B",
-      bg_image_door: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800",
+      bg_image_door: "/assets/templates/birthday.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800",
       bg_image_closing: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
@@ -189,7 +195,7 @@
       invite_eyebrow: "A Little One is on the Way!",
       invite_text: "invite you to shower the parents-to-be with love and blessings.",
       rsvp_option1_title: "Happily attending",
-      rsvp_option1_subtitle: "Can't wait to cuddle!",
+      rsvp_option1_subtitle: "Can't wait to celebrate!",
       rsvp_option2_title: "Warmly declining",
       rsvp_option2_subtitle: "Wishing you the absolute best.",
       rsvp_option3_title: "Sending baby love",
@@ -200,13 +206,13 @@
       closing_quote: "Ten little fingers, ten little toes, with love and grace, our family grows.",
       closing_subtext: "Thank you for showering us with love.",
       hosts_tagline: "With Warmth & Excitement",
-      see_you_btn_text: "Welcome Baby!",
+      see_you_btn_text: "Shower with Love",
       presence_note: "Gifts are welcome but not required",
       color_primary: "#EC4899",
       color_accent: "#06B6D4",
-      bg_image_door: "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800",
+      bg_image_door: "/assets/templates/babyshower.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800",
-      bg_image_closing: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+      bg_image_closing: "/assets/templates/babyshower.jpg",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
     }
   };

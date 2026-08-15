@@ -9,7 +9,7 @@
         name: 'Wedding',
         collection: 'Vows in Bloom',
         note: 'Romantic, ceremonial and made for the moment two families become one.',
-        image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1400&q=86',
+        image: '/assets/templates/wedding.jpg',
         focal: 'center 46%'
       },
       defaults: {
@@ -23,7 +23,7 @@
         closing_quote: 'One promise. Two hearts. A lifetime to follow.', closing_subtext: 'Thank you for becoming part of our forever.',
         hosts_tagline: 'With love and gratitude', see_you_btn_text: 'Celebrate With Us', presence_note: 'Your presence is our greatest gift',
         color_primary: '#63253B', color_accent: '#D2B06F',
-        bg_image_door: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=84',
+        bg_image_door: '/assets/templates/wedding.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
@@ -36,7 +36,7 @@
       meta: {
         name: 'Engagement', collection: 'The First Yes',
         note: 'Modern romance with a little sparkle and a promise of what comes next.',
-        image: 'https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=1400&q=86', focal: 'center 48%'
+        image: '/assets/templates/engagement.jpg', focal: 'center 48%'
       },
       defaults: {
         home_name: 'RHEA & KABIR', welcome_text: 'We said yes', invite_eyebrow: 'A new chapter begins,',
@@ -49,7 +49,7 @@
         closing_quote: 'A little sparkle, a big promise, and all our favourite people.', closing_subtext: 'Thank you for celebrating the first yes.',
         hosts_tagline: 'With joy from both families', see_you_btn_text: 'Raise a Toast', presence_note: 'Only your love and blessings, please',
         color_primary: '#5D345E', color_accent: '#D6A85F',
-        bg_image_door: 'https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=900&q=84',
+        bg_image_door: '/assets/templates/engagement.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
@@ -62,7 +62,7 @@
       meta: {
         name: 'Housewarming', collection: 'A New Door',
         note: 'Quiet warmth, grateful hearts and the first memories of a new home.',
-        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=86', focal: 'center 50%'
+        image: '/assets/templates/housewarming.jpg', focal: 'center 50%'
       },
       defaults: {
         home_name: 'A NEW BEGINNING', welcome_text: 'A new door opens', invite_eyebrow: 'With grateful hearts,',
@@ -75,7 +75,7 @@
         closing_quote: 'A house is built with walls. A home is made with people.', closing_subtext: 'Thank you for becoming part of our first memories here.',
         hosts_tagline: 'With love and gratitude', see_you_btn_text: 'Step Inside', presence_note: 'Presents in blessings only',
         color_primary: '#6B3530', color_accent: '#C7A15A',
-        bg_image_door: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=900&q=84',
+        bg_image_door: '/assets/templates/housewarming.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
@@ -88,7 +88,7 @@
       meta: {
         name: 'Birthday', collection: 'Another Sun',
         note: 'Bold colour, playful movement and a celebration that feels impossible to ignore.',
-        image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1400&q=86', focal: 'center 50%'
+        image: '/assets/templates/birthday.jpg', focal: 'center 50%'
       },
       defaults: {
         home_name: 'ISHA TURNS 30', welcome_text: 'One more trip around the sun', invite_eyebrow: 'Bring your brightest mood,',
@@ -101,7 +101,7 @@
         closing_quote: 'More life. More laughter. More stories worth retelling.', closing_subtext: 'Thank you for making every year brighter.',
         hosts_tagline: 'With cake and questionable dance moves', see_you_btn_text: 'Join the Party', presence_note: 'Your presence is the present',
         color_primary: '#4338CA', color_accent: '#F59E0B',
-        bg_image_door: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=900&q=84',
+        bg_image_door: '/assets/templates/birthday.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
@@ -113,8 +113,8 @@
     babyshower: {
       meta: {
         name: 'Baby Shower', collection: 'Little Wonder',
-        note: 'Soft, hopeful and full of tiny details for the love already growing.',
-        image: 'https://images.unsplash.com/photo-1559251606-c623743a6d76?w=1400&q=86', focal: 'center 48%'
+        note: 'Soft, hopeful and full of loving parents celebrating the joy of new life.',
+        image: '/assets/templates/babyshower.jpg', focal: 'center 48%'
       },
       defaults: {
         home_name: 'A LITTLE WONDER', welcome_text: 'A tiny dream is on the way', invite_eyebrow: 'With hearts already full,',
@@ -127,7 +127,7 @@
         closing_quote: 'Ten little fingers, ten little toes, and more love than we knew we could hold.', closing_subtext: 'Thank you for welcoming this little wonder with us.',
         hosts_tagline: 'With warmth and excitement', see_you_btn_text: 'Shower With Love', presence_note: 'Your blessings are more than enough',
         color_primary: '#9B4F6B', color_accent: '#A7C5B9',
-        bg_image_door: 'https://images.unsplash.com/photo-1559251606-c623743a6d76?w=900&q=84',
+        bg_image_door: '/assets/templates/babyshower.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
@@ -139,8 +139,8 @@
     naming: {
       meta: {
         name: 'Naming Ceremony', collection: 'Hello, Little One',
-        note: 'A serene welcome for the day a little life receives a name and a roomful of blessings.',
-        image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=1400&q=86', focal: 'center 44%'
+        note: 'A serene blessing celebration as proud parents introduce their little one with joy.',
+        image: '/assets/templates/naming.jpg', focal: 'center 44%'
       },
       defaults: {
         home_name: 'MEET OUR LITTLE STAR', welcome_text: 'A beautiful name awaits', invite_eyebrow: 'With joy in every heartbeat,',
@@ -153,9 +153,9 @@
         closing_quote: 'One little name, spoken with a lifetime of love.', closing_subtext: 'Thank you for welcoming our child into your hearts.',
         hosts_tagline: 'With love from our growing family', see_you_btn_text: 'Meet the Little One', presence_note: 'Blessings only, with all our hearts',
         color_primary: '#526B63', color_accent: '#D1AF72',
-        bg_image_door: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=900&q=84',
+        bg_image_door: '/assets/templates/naming.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=900&q=84',
-        bg_image_closing: 'https://images.unsplash.com/photo-1559251606-c623743a6d76?w=900&q=84',
+        bg_image_closing: '/assets/templates/naming.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
         moment_label: 'A name for a lifetime', moment_text: 'Join us as our littlest love is introduced to the people who will help shape their world.',
         detail_time_extra: 'Blessings and lunch to follow', closing_heading: 'Hello, little one', gesture: 'stars'
@@ -166,7 +166,7 @@
       meta: {
         name: 'Anniversary', collection: 'Still, Always',
         note: 'Timeless and intimate—a celebration of all the ordinary days that became a life together.',
-        image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1400&q=86', focal: 'center 42%'
+        image: '/assets/templates/anniversary.jpg', focal: 'center 42%'
       },
       defaults: {
         home_name: '25 YEARS OF US', welcome_text: 'Still choosing each other', invite_eyebrow: 'With a lifetime of stories,',
@@ -179,9 +179,9 @@
         closing_quote: 'The grand romance was built in a thousand ordinary days.', closing_subtext: 'Thank you for walking beside us through so many of them.',
         hosts_tagline: 'Still, always, with love', see_you_btn_text: 'Toast With Us', presence_note: 'No gifts—only old stories and warm wishes',
         color_primary: '#4C3D48', color_accent: '#C6A15B',
-        bg_image_door: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=900&q=84',
+        bg_image_door: '/assets/templates/anniversary.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=84',
-        bg_image_closing: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=84',
+        bg_image_closing: '/assets/templates/anniversary.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
         moment_label: 'A life in the little things', moment_text: 'The morning tea, the inside jokes, the storms weathered and the joy shared—this is what we are celebrating.',
         detail_time_extra: 'Dinner and memories to follow', closing_heading: 'Still, always', gesture: 'gold'
@@ -192,7 +192,7 @@
       meta: {
         name: 'Graduation', collection: 'The Next Chapter',
         note: 'Optimistic, editorial and ready to turn years of hard work into one bright evening.',
-        image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1400&q=86', focal: 'center 48%'
+        image: '/assets/templates/graduation.jpg', focal: 'center 48%'
       },
       defaults: {
         home_name: 'SHE DID IT', welcome_text: 'The next chapter starts here', invite_eyebrow: 'After the late nights and long days,',
@@ -205,14 +205,14 @@
         closing_quote: 'This is not the finish line. It is the view from the first summit.', closing_subtext: 'Thank you for believing before the result arrived.',
         hosts_tagline: 'Proud beyond words', see_you_btn_text: 'Come Celebrate', presence_note: 'Bring your loudest cheer',
         color_primary: '#183B56', color_accent: '#D2A94A',
-        bg_image_door: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=900&q=84',
+        bg_image_door: '/assets/templates/graduation.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=900&q=84',
-        bg_image_closing: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=900&q=84',
+        bg_image_closing: '/assets/templates/graduation.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
         moment_label: 'Hard work, made visible', moment_text: 'This moment holds every early morning, every difficult lesson and every person who said: keep going.',
         detail_time_extra: 'Dinner and a proud toast to follow', closing_heading: 'Onward', gesture: 'ribbons'
       },
-      demo: { hosts: 'Tara & The Sharma Family', event_date: futureDate, event_time: '6:00 PM onwards', venue_name: 'The Deccan Club', venue_address: 'Secunderabad, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Secunderabad+Hyderabad', phone: '919999999999' }
+      demo: { hosts: 'Tara & The Sharma Family', event_date: futureDate, event_time: '6:00 PM onwards', venue_name: 'The Tactical Club', venue_address: 'Secunderabad, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Secunderabad+Hyderabad', phone: '919999999999' }
     }
   };
 

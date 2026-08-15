@@ -27,4 +27,6 @@ for (const file of productionFiles) {
   await cp(join(root, file), join(stage, basename(file)));
 }
 
+await cp(join(root, 'assets'), join(stage, 'assets'), { recursive: true });
+
 console.log(stage);
