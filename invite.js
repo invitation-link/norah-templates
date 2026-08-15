@@ -137,10 +137,18 @@
   }
 
   function getSlugFromPath() {
-    const pathParts = window.location.pathname.split('/');
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
     const inviteIndex = pathParts.indexOf('invite');
     if (inviteIndex !== -1 && pathParts[inviteIndex + 1]) {
       return pathParts[inviteIndex + 1];
+    }
+    const uIndex = pathParts.indexOf('u');
+    if (uIndex !== -1 && pathParts[uIndex + 1]) {
+      return pathParts[uIndex + 1];
+    }
+    const iIndex = pathParts.indexOf('i');
+    if (iIndex !== -1 && pathParts[iIndex + 1]) {
+      return pathParts[iIndex + 1];
     }
     const params = new URLSearchParams(window.location.search);
     return params.get('slug') || params.get('id');

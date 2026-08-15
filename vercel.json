@@ -13,7 +13,9 @@
     { "source": "/refund", "destination": "/refund.html" },
     { "source": "/manifest.json", "destination": "/manifest.json" },
     { "source": "/site.webmanifest", "destination": "/manifest.json" },
-    { "source": "/invite/:slug", "destination": "/invite.html" }
+    { "source": "/invite/:slug", "destination": "/invite.html" },
+    { "source": "/u/:slug", "destination": "/invite.html" },
+    { "source": "/i/:slug", "destination": "/invite.html" }
   ],
   "headers": [
     {
@@ -28,6 +30,18 @@
     },
     {
       "source": "/invite/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/u/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/i/(.*)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
