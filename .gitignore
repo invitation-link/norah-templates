@@ -11,6 +11,9 @@ postcss.config.mjs
 old_vercel_website/
 downloaded_vercel_project/
 paperclip/
+temp_norah_templates/
+release/
+vercel-invitelink-source/
 
 # Business docs (keep local)
 BUSINESS_PLAN.md

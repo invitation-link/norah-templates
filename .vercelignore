@@ -1,0 +1,34 @@
+.git/
+.github/
+.vercel/
+
+# Local reference and migration material
+downloaded_vercel_project/
+old_vercel_website/
+paperclip/
+temp_norah_templates/
+release/
+vercel-invitelink-source/
+
+# Internal operating documents and release tooling
+BUSINESS_PLAN.md
+CEO_EXECUTION_PLAN.md
+KNOWLEDGE_MIGRATION.md
+README.md
+VERCEL_TRIGGER.md
+leads.md
+whatsapp-outreach.md
+scripts/
+
+# Non-canonical prototypes
+original-housewarming-invite.html
+
+# Local dependency and editor artifacts
+node_modules/
+package.json
+package-lock.json
+next.config.mjs
+next-env.d.ts
+tsconfig.json
+postcss.config.mjs
+*.mp4

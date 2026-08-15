@@ -1,26 +1,42 @@
 /* ============================================
-   NORAH Template Platform — Builder Logic
+   Invite Link — Builder Logic
    ============================================ */
 
 (function () {
   'use strict';
 
   // Supabase Credentials
-  const SUPABASE_URL = "https://saxnxzfwufzilnsttnwa.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNheG54emZ3dWZ6aWxuc3R0bndhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyMDU0OTMsImV4cCI6MjA5NTc4MTQ5M30._Kv4_OHLkyiyF3Ck3tmlxDaC8CPPbLV34xfp5N-kctU";
+  const SUPABASE_URL = "https://azzmxahqrxpfqzwqvqht.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6em14YWhxcnhwZnF6d3F2cWh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjAwMjAsImV4cCI6MjA4Mzc5NjAyMH0.x5vi93oBPeCxRKaS5_Js5gUutXhdB2AbNLC3lqzS0to";
   let supabaseClient = null;
+
+  const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
+  const MAX_AUDIO_BYTES = 15 * 1024 * 1024;
+  const IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/avif']);
+  const AUDIO_TYPES = new Set(['audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/wav', 'audio/x-wav']);
+  const FILE_EXTENSIONS = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+    'image/avif': 'avif',
+    'audio/mpeg': 'mp3',
+    'audio/mp4': 'm4a',
+    'audio/ogg': 'ogg',
+    'audio/wav': 'wav',
+    'audio/x-wav': 'wav'
+  };
 
   // Preset assets definition
   // Theme presets definitions for background assets
   const THEME_PRESETS = {
     housewarming: {
       door: [
-        { name: "Luxury Archway", url: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80" },
+        { name: "Welcoming Interior", url: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80" },
         { name: "Modern Coffee Corner", url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80" },
         { name: "Cozy Welcoming Door", url: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80" }
       ],
       invite: [
-        { name: "Elegant Flowers & Curtains", url: "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&q=80" },
+        { name: "Modern Home", url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" },
         { name: "Family Dining Area", url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" }
       ],
       closing: [
@@ -34,16 +50,16 @@
     wedding: {
       door: [
         { name: "Elegant Floral Entrance", url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800" },
-        { name: "White Wedding Arch", url: "https://images.unsplash.com/photo-1545232979-8bf34eb9757b?w=800" },
-        { name: "Classic Wedding Asset", url: "/assets/templates/wedding.png" }
+        { name: "Romantic Floral Setting", url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800" },
+        { name: "Wedding Detail", url: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800" }
       ],
       invite: [
         { name: "Romantic Rose Petals", url: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800" },
         { name: "Elegant Floral Curtain", url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800" }
       ],
       closing: [
-        { name: "Warm String Lights", url: "https://images.unsplash.com/photo-1507504038482-7621ef488c9e?w=800" },
-        { name: "Sunset Toast Sparkle", url: "https://images.unsplash.com/photo-1519225495810-7517c5009048?w=800" }
+        { name: "Celebration Sparkle", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" },
+        { name: "Elegant Celebration", url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800" }
       ],
       music: [
         { name: "Romantic Wedding Waltz", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" }
@@ -51,9 +67,9 @@
     },
     birthday: {
       door: [
-        { name: "Confetti Celebration Entry", url: "https://images.unsplash.com/photo-1530103862676-de3c9a59af38?w=800" },
-        { name: "Festive Birthday Balloons", url: "https://images.unsplash.com/photo-1464349172961-10442a8b2735?w=800" },
-        { name: "Birthday Asset", url: "/assets/templates/birthday.png" }
+        { name: "Colorful Celebration", url: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800" },
+        { name: "Bright Party", url: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800" },
+        { name: "Night Sparklers", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" }
       ],
       invite: [
         { name: "Colorful Streamers & Glitter", url: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800" },
@@ -61,7 +77,7 @@
       ],
       closing: [
         { name: "Golden Sparklers Night", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" },
-        { name: "Birthday Cake & Candles", url: "https://images.unsplash.com/photo-1533223251537-b248a37b301f?w=800" }
+        { name: "Bright Party Finish", url: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800" }
       ],
       music: [
         { name: "Upbeat Party Anthem", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
@@ -70,12 +86,12 @@
     babyshower: {
       door: [
         { name: "Soft Pastel Clouds", url: "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800" },
-        { name: "Cute Baby Crib / Stroller", url: "https://images.unsplash.com/photo-1515488042361-404e9250afef?w=800" },
-        { name: "Baby Shower Asset", url: "/assets/templates/babyshower.png" }
+        { name: "Soft Nursery", url: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800" },
+        { name: "Gentle Celebration", url: "https://images.unsplash.com/photo-1559251606-c623743a6d76?w=800" }
       ],
       invite: [
         { name: "Eucalyptus Leaves & Flowers", url: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800" },
-        { name: "Soft Pink & Blue Balloons", url: "https://images.unsplash.com/photo-1530103862676-de3c9a59af38?w=800" }
+        { name: "Gentle Floral Celebration", url: "https://images.unsplash.com/photo-1559251606-c623743a6d76?w=800" }
       ],
       closing: [
         { name: "Warm Nursery Glow", url: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800" },
@@ -90,7 +106,7 @@
   // Default values for each theme
   const THEME_DEFAULTS = {
     housewarming: {
-      home_name: "NORAH",
+      home_name: "A NEW BEGINNING",
       welcome_text: "Welcome to",
       invite_eyebrow: "With Grateful Hearts,",
       invite_text: "invite you and your family to bless our new beginning.",
@@ -110,8 +126,8 @@
       presence_note: "Presents in blessings only",
       color_primary: "#6B2036",
       color_accent: "#C4A35A",
-      bg_image_door: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80",
-      bg_image_invite: "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&q=80",
+      bg_image_door: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80",
+      bg_image_invite: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
       bg_image_closing: "https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=800&q=80",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
     },
@@ -138,7 +154,7 @@
       color_accent: "#D4B978",
       bg_image_door: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
       bg_image_invite: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800",
-      bg_image_closing: "https://images.unsplash.com/photo-1507504038482-7621ef488c9e?w=800",
+      bg_image_closing: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
     },
     birthday: {
@@ -162,7 +178,7 @@
       presence_note: "Your presence is our present!",
       color_primary: "#1D4ED8",
       color_accent: "#F59E0B",
-      bg_image_door: "https://images.unsplash.com/photo-1530103862676-de3c9a59af38?w=800",
+      bg_image_door: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800",
       bg_image_invite: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800",
       bg_image_closing: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
@@ -195,6 +211,13 @@
     }
   };
 
+  // The shared library powers the gallery, live demos, and builder from one source.
+  const sharedLibrary = window.INVITE_TEMPLATE_LIBRARY;
+  if (sharedLibrary) {
+    Object.assign(THEME_PRESETS, sharedLibrary.presets);
+    Object.assign(THEME_DEFAULTS, sharedLibrary.defaults);
+  }
+
   let currentStep = 1;
   let activePresetScreen = null; // tracking which field the preset modal is open for
 
@@ -218,6 +241,7 @@
     setupSlugGenerator();
     setupPresetModal();
     setupThemeSelector();
+    setupOccasionActions();
     setupFormSubmission();
   }
 
@@ -247,7 +271,7 @@
 
       // Auto-navigate preview based on step
       if (stepNum === 1) {
-        changePreviewScreen('invite');
+        changePreviewScreen('door');
       } else if (stepNum === 2) {
         changePreviewScreen('invite');
       } else if (stepNum === 3) {
@@ -343,6 +367,12 @@
       input.addEventListener('change', () => {
         if (input.files.length > 0) {
           const file = input.files[0];
+          const validationError = validateFile(input.id, file);
+          if (validationError) {
+            input.value = '';
+            alert(validationError);
+            return;
+          }
           const spanLabel = input.closest('.media-field').querySelector('.selected-asset-name');
           spanLabel.textContent = `Local File Selected: ${file.name} (will upload on publish)`;
           spanLabel.style.color = '#C4A35A'; // gold tint to show pending
@@ -355,6 +385,23 @@
         }
       });
     });
+  }
+
+  function validateFile(inputId, file) {
+    const isAudio = inputId === 'fileMusic';
+    const allowedTypes = isAudio ? AUDIO_TYPES : IMAGE_TYPES;
+    const maxBytes = isAudio ? MAX_AUDIO_BYTES : MAX_IMAGE_BYTES;
+    const maxLabel = isAudio ? '15 MB' : '8 MB';
+
+    if (!allowedTypes.has(file.type)) {
+      return isAudio
+        ? 'Choose an MP3, M4A, OGG, or WAV audio file.'
+        : 'Choose a JPG, PNG, WebP, or AVIF image.';
+    }
+    if (file.size > maxBytes) {
+      return `This file is too large. The maximum size is ${maxLabel}.`;
+    }
+    return '';
   }
 
   // --- Toggles ---
@@ -399,7 +446,8 @@
 
     function renderPresets(type) {
       grid.innerHTML = '';
-      const selectedTheme = document.getElementById('templateTheme').value || 'housewarming';
+      const themeSelect = document.getElementById('templateTheme');
+      const selectedTheme = themeSelect ? themeSelect.value : 'housewarming';
       const list = (THEME_PRESETS[selectedTheme] && THEME_PRESETS[selectedTheme][type]) || [];
       list.forEach(preset => {
         const card = document.createElement('div');
@@ -517,6 +565,19 @@
     }
   }
 
+  function setupOccasionActions() {
+    const themeSelect = document.getElementById('templateTheme');
+    const demoLink = document.getElementById('occasionDemoLink');
+    if (!themeSelect || !demoLink) return;
+
+    const updateLink = () => {
+      demoLink.href = `/invite.html?demo=${encodeURIComponent(themeSelect.value)}`;
+    };
+
+    themeSelect.addEventListener('change', updateLink);
+    updateLink();
+  }
+
   // --- Custom Slug Generator ---
   function setupSlugGenerator() {
     const homeInput = document.getElementById('homeName');
@@ -548,13 +609,14 @@
 
   function changePreviewScreen(screen) {
     if (previewReady && iframe.contentWindow) {
-      iframe.contentWindow.postMessage({ type: 'show_screen', screen }, '*');
+      iframe.contentWindow.postMessage({ type: 'show_screen', screen }, window.location.origin);
     }
   }
 
   function setupLivePreview() {
     // Listen for iframe messages
     window.addEventListener('message', (event) => {
+      if (event.origin !== window.location.origin || event.source !== iframe.contentWindow) return;
       if (event.data && event.data.type === 'preview_ready') {
         previewReady = true;
         updatePreview();
@@ -657,7 +719,7 @@
   function updatePreview() {
     if (!previewReady) return;
     const payload = getFormData();
-    iframe.contentWindow.postMessage({ type: 'preview', payload }, '*');
+    iframe.contentWindow.postMessage({ type: 'preview', payload }, window.location.origin);
   }
 
   // --- Submit & Upload Assets ---
@@ -668,6 +730,7 @@
     const fill = document.getElementById('progressFill');
     const label = document.getElementById('progressLabel');
     const successCard = document.getElementById('successCard');
+    let uploadedPaths = [];
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -676,6 +739,7 @@
       publishBtn.disabled = true;
       publishBtn.textContent = "Publishing...";
       progressContainer.classList.remove('hidden');
+      uploadedPaths = [];
 
       try {
         // 1. Verify slug uniqueness
@@ -692,6 +756,11 @@
           .select('id')
           .eq('slug', slug)
           .maybeSingle();
+
+        if (checkError) {
+          console.error(checkError);
+          throw new Error('Could not verify link availability. Please try again.');
+        }
 
         if (existing) {
           alert(`The link slug "/invite/${slug}" is already taken. Please choose a different one.`);
@@ -715,20 +784,25 @@
           const input = document.getElementById(inputId);
           if (input && input.files.length > 0) {
             const file = input.files[0];
-            const fileExt = file.name.split('.').pop();
-            const filePath = `${folder}/${slug}-${Date.now()}.${fileExt}`;
+            const validationError = validateFile(inputId, file);
+            if (validationError) throw new Error(validationError);
+
+            const fileExt = FILE_EXTENSIONS[file.type];
+            const uniqueId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${i}`;
+            const filePath = `${folder}/${slug}-${uniqueId}.${fileExt}`;
             
             label.textContent = `Uploading ${file.name}...`;
             
             const { data: uploadData, error: uploadError } = await supabaseClient
               .storage
               .from('invitations')
-              .upload(filePath, file, { cacheControl: '3600', upsert: true });
+              .upload(filePath, file, { cacheControl: '3600', upsert: false, contentType: file.type });
 
             if (uploadError) {
               console.error(uploadError);
               throw new Error(`Failed to upload ${file.name}`);
             }
+            uploadedPaths.push(filePath);
 
             // Get Public URL
             const { data: publicUrlData } = supabaseClient
@@ -750,6 +824,7 @@
           console.error(insertError);
           throw new Error("Database insertion failed");
         }
+        uploadedPaths = [];
 
         // 4. Success Screen
         progressContainer.classList.add('hidden');
@@ -760,7 +835,7 @@
         document.getElementById('liveInviteLink').value = finalUrl;
         document.getElementById('viewLiveBtn').href = finalUrl;
         
-        const waMsg = encodeURIComponent(`Hi! We are happy to invite you to our housewarming! View our cinematic invitation card here: ${finalUrl}`);
+        const waMsg = encodeURIComponent(`You're invited to ${payload.home_name}. View the invitation here: ${finalUrl}`);
         document.getElementById('shareWhatsAppBtn').href = `https://wa.me/?text=${waMsg}`;
 
         // Setup Copy Link
@@ -772,6 +847,10 @@
 
       } catch (err) {
         console.error(err);
+        if (uploadedPaths.length > 0) {
+          const { error: cleanupError } = await supabaseClient.storage.from('invitations').remove(uploadedPaths);
+          if (cleanupError) console.error('Could not clean up uploaded files', cleanupError);
+        }
         alert(`An error occurred: ${err.message || 'Unknown error'}`);
         resetPublishButton();
       }

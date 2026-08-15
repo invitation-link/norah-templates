@@ -3,4 +3,4 @@ Allow: /
 Disallow: /builder
 Disallow: /invite/
 
-Sitemap: https://invite-link.com/sitemap.xml
+Sitemap: https://invitelink.shop/sitemap.xml

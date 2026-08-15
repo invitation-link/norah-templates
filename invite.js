@@ -1,13 +1,13 @@
 /* ============================================
-   NORAH Template Platform — Dynamic Invitation Renderer
+   Invite Link — Dynamic Invitation Renderer
    ============================================ */
 
 (function () {
   'use strict';
 
   // Supabase Credentials
-  const SUPABASE_URL = "https://saxnxzfwufzilnsttnwa.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNheG54emZ3dWZ6aWxuc3R0bndhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyMDU0OTMsImV4cCI6MjA5NTc4MTQ5M30._Kv4_OHLkyiyF3Ck3tmlxDaC8CPPbLV34xfp5N-kctU";
+  const SUPABASE_URL = "https://azzmxahqrxpfqzwqvqht.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6em14YWhxcnhwZnF6d3F2cWh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjAwMjAsImV4cCI6MjA4Mzc5NjAyMH0.x5vi93oBPeCxRKaS5_Js5gUutXhdB2AbNLC3lqzS0to";
   let supabaseClient = null;
 
   var state = {
@@ -15,13 +15,42 @@
     audio: null,
     audioPlaying: false,
     data: null,
-    isPreviewMode: false
+    isPreviewMode: false,
+    isDemoMode: false,
+    interactionsReady: false
   };
 
   document.addEventListener('DOMContentLoaded', init);
 
   async function init() {
-    // 1. Initialize Supabase
+    const params = new URLSearchParams(window.location.search);
+    const demoKey = params.get('demo');
+    const library = window.INVITE_TEMPLATE_LIBRARY;
+
+    // Live demos are self-contained and never depend on database records.
+    if (demoKey && library && library.demos[demoKey]) {
+      state.isDemoMode = true;
+      renderInvitation(library.demos[demoKey]);
+      return;
+    }
+
+    // Builder previews are local and should work even when the database is unavailable.
+    if (params.get('mode') === 'preview') {
+      state.isPreviewMode = true;
+      window.addEventListener('message', function(event) {
+        if (event.origin !== window.location.origin || event.source !== window.parent) return;
+        if (event.data && event.data.type === 'preview') {
+          state.data = event.data.payload;
+          renderInvitation(event.data.payload);
+        } else if (event.data && event.data.type === 'show_screen') {
+          showScreenInPreview(event.data.screen);
+        }
+      });
+      window.parent.postMessage({ type: 'preview_ready' }, window.location.origin);
+      return;
+    }
+
+    // Published invitations load from Supabase.
     if (typeof supabase !== 'undefined') {
       supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     } else {
@@ -30,25 +59,8 @@
       return;
     }
 
-    // 2. Fetch invitation data
     const slug = getSlugFromPath();
     if (!slug) {
-      // Check if we are in preview mode inside the builder iframe
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('mode') === 'preview') {
-        state.isPreviewMode = true;
-        // Wait for postMessage updates
-        window.addEventListener('message', function(event) {
-          if (event.data && event.data.type === 'preview') {
-            renderInvitation(event.data.payload);
-          } else if (event.data && event.data.type === 'show_screen') {
-            showScreenInPreview(event.data.screen);
-          }
-        });
-        // Request initial data from parent
-        window.parent.postMessage({ type: 'preview_ready' }, '*');
-        return;
-      }
       showError("No invitation selected. Please check your link.");
       return;
     }
@@ -99,8 +111,27 @@
   }
 
   function renderInvitation(data) {
+    state.data = data;
+
+    const occasion = data.event_type || 'celebration';
+    const themeDefaults = window.INVITE_TEMPLATE_LIBRARY && window.INVITE_TEMPLATE_LIBRARY.defaults[occasion];
+    document.body.dataset.occasion = occasion;
+    document.body.dataset.gesture = data.gesture || (themeDefaults && themeDefaults.gesture) || 'petals';
+
     // Set Document Title
     document.title = `${data.home_name} — Invitation`;
+
+    const themeMeta = window.INVITE_TEMPLATE_LIBRARY && window.INVITE_TEMPLATE_LIBRARY.templates[occasion];
+    if (state.isDemoMode) {
+      document.body.classList.add('is-demo');
+      const demoBar = document.getElementById('demoBar');
+      if (demoBar) demoBar.classList.add('demo-bar--visible');
+      const demoTitle = themeMeta ? themeMeta.meta.name : getOccasionLabel(occasion);
+      const demoTitleNode = document.getElementById('demoBarTitle');
+      if (demoTitleNode) demoTitleNode.textContent = demoTitle;
+      const customizeLink = document.getElementById('demoCustomizeLink');
+      if (customizeLink) customizeLink.href = `/?template=${encodeURIComponent(occasion)}`;
+    }
 
     // Apply Colors
     if (data.color_primary) {
@@ -116,19 +147,15 @@
     }
 
     // Set Images (fallbacks to defaults if not set)
-    document.getElementById('bgDoor').src = data.bg_image_door || 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80';
-    document.getElementById('bgInvite').src = data.bg_image_invite || 'https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&q=80';
+    document.getElementById('bgDoor').src = data.bg_image_door || 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80';
+    document.getElementById('bgInvite').src = data.bg_image_invite || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80';
     document.getElementById('bgClosing').src = data.bg_image_closing || 'https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=800&q=80';
 
-    function safeSetText(id, text, isHtml = false) {
+    function safeSetText(id, text) {
       const el = document.getElementById(id);
       if (!el) return;
       if (document.activeElement === el) return; // do not overwrite if user is currently typing
-      if (isHtml) {
-        el.innerHTML = text;
-      } else {
-        el.textContent = text;
-      }
+      el.textContent = text == null ? '' : String(text);
     }
 
     // Populate Fields
@@ -136,7 +163,7 @@
     safeSetText('doorTitle', data.home_name);
     safeSetText('invitationEyebrow', data.invite_eyebrow || 'With Grateful Hearts,');
     safeSetText('invitationHosts', data.hosts);
-    safeSetText('invitationInvite', data.invite_text ? data.invite_text.replace(/\n/g, '<br>') : 'invite you to bless our new home.', true);
+    safeSetText('invitationInvite', data.invite_text || 'invite you to celebrate with us.');
     safeSetText('invitationName', data.home_name);
     safeSetText('modalTitle', data.home_name);
 
@@ -144,11 +171,11 @@
     const dateFormatted = formatDate(data.event_date);
     safeSetText('detailDate', dateFormatted);
     safeSetText('detailTime', data.event_time);
-    safeSetText('detailTimeExtra', "Followed by Celebrations");
+    safeSetText('detailTimeExtra', data.detail_time_extra || (themeDefaults && themeDefaults.detail_time_extra) || 'Celebration to follow');
 
     // Venue
     safeSetText('detailVenueName', data.venue_name || '');
-    safeSetText('detailVenueAddress', data.venue_address ? data.venue_address.replace(/\n/g, '<br>') : '', true);
+    safeSetText('detailVenueAddress', data.venue_address || '');
     
     if (data.venue_maps_url) {
       document.getElementById('directionsBtn').href = data.venue_maps_url;
@@ -156,6 +183,9 @@
     } else {
       document.getElementById('directionsBtn').style.display = 'none';
     }
+
+    safeSetText('occasionMomentLabel', data.moment_label || (themeDefaults && themeDefaults.moment_label) || 'The moment');
+    safeSetText('occasionMomentText', data.moment_text || (themeDefaults && themeDefaults.moment_text) || 'Some moments become part of the family story forever.');
 
     // Closing Screen
     if (data.show_bible_verse && data.bible_verse) {
@@ -166,8 +196,9 @@
       document.getElementById('doorScripture').style.display = 'none';
     }
 
-    safeSetText('closingQuote', data.closing_quote ? data.closing_quote.replace(/\n/g, '<br>') : 'A home is made of moments and people.', true);
-    safeSetText('closingSubquote', data.closing_subtext ? data.closing_subtext.replace(/\n/g, '<br>') : 'Thank you for becoming part of ours.', true);
+    safeSetText('closingQuote', data.closing_quote || 'The best moments are the ones we share.');
+    safeSetText('closingSubquote', data.closing_subtext || 'Thank you for celebrating with us.');
+    safeSetText('closingHeading', data.closing_heading || (themeDefaults && themeDefaults.closing_heading) || 'Thank You');
     
     safeSetText('hostsCardNames', data.hosts);
     safeSetText('hostsCardTagline', data.hosts_tagline || 'With Love & Gratitude');
@@ -185,7 +216,7 @@
 
     // Presents in blessings only
     if (data.show_presence_note && data.presence_note) {
-      safeSetText('presenceNote', `"${data.presence_note}"`);
+      safeSetText('presenceNote', data.presence_note);
       document.getElementById('presenceNote').style.display = 'block';
     } else {
       document.getElementById('presenceNote').style.display = 'none';
@@ -196,13 +227,28 @@
       const cleanPhone = data.phone.replace(/\D/g, '');
       document.getElementById('modalContactPhone').href = `tel:${cleanPhone}`;
       document.getElementById('modalContactPhone').textContent = `📞 ${data.phone}`;
+      document.getElementById('modalContactPhone').style.display = '';
 
-      const hostEscaped = encodeURIComponent(data.hosts);
-      const homeEscaped = encodeURIComponent(data.home_name);
+      const hosts = data.hosts || 'there';
+      const eventName = data.home_name || 'your celebration';
+      const occasion = getOccasionLabel(data.event_type);
+      const attendingText = encodeURIComponent(`Hi ${hosts}! We will gladly be there for ${eventName}.`);
+      const maybeText = encodeURIComponent(`Hi ${hosts}! We will try our best to attend ${eventName}.`);
+      const blessingsText = encodeURIComponent(`Hi ${hosts}! Sending our warm wishes for ${eventName}, your ${occasion}.`);
 
-      document.getElementById('rsvpAttending').href = `https://wa.me/${cleanPhone}?text=Hi%20${hostEscaped}!%20🏡%20We%20will%20gladly%20be%20there%20for%20the%20housewarming%20of%20${homeEscaped}!%20❤️`;
-      document.getElementById('rsvpMaybe').href = `https://wa.me/${cleanPhone}?text=Hi%20${hostEscaped}!%20🏡%20We%20will%20try%20our%20best%20to%20make%20it%20to%20the%20housewarming!%20😊`;
-      document.getElementById('rsvpBlessings').href = `https://wa.me/${cleanPhone}?text=Hi%20${hostEscaped}!%20🏡%20Sending%20our%20blessings%20and%20prayers%20for%20your%20beautiful%20new%20home%20${homeEscaped}!%20🙏`;
+      document.getElementById('rsvpAttending').href = `https://wa.me/${cleanPhone}?text=${attendingText}`;
+      document.getElementById('rsvpMaybe').href = `https://wa.me/${cleanPhone}?text=${maybeText}`;
+      document.getElementById('rsvpBlessings').href = `https://wa.me/${cleanPhone}?text=${blessingsText}`;
+
+      if (state.isDemoMode) {
+        ['rsvpAttending', 'rsvpMaybe', 'rsvpBlessings'].forEach(function (id) {
+          const option = document.getElementById(id);
+          option.href = '#';
+          option.removeAttribute('target');
+        });
+      }
+    } else {
+      document.getElementById('modalContactPhone').style.display = 'none';
     }
 
     // Make elements editable if in preview mode
@@ -252,7 +298,7 @@
               if (id === 'presenceNote') {
                 val = val.replace(/^"|"$/g, '');
               }
-              window.parent.postMessage({ type: 'edit', field: field, value: val }, '*');
+              window.parent.postMessage({ type: 'edit', field: field, value: val }, window.location.origin);
             });
           }
         }
@@ -266,13 +312,16 @@
       setTimeout(() => loader.style.display = 'none', 600);
     }
 
-    // Initialize Animations & Interactions
-    setupDoorInteraction();
-    setupScrollObserver();
-    setupRSVPModal();
-    setupSeeYouButton();
-    setupScrollProgress();
-    setupEnvironmentalDepth();
+    // Initialize interactions once. Preview data can render hundreds of times while typing.
+    if (!state.interactionsReady) {
+      setupDoorInteraction();
+      setupScrollObserver();
+      setupRSVPModal();
+      setupSeeYouButton();
+      setupScrollProgress();
+      setupEnvironmentalDepth();
+      state.interactionsReady = true;
+    }
   }
 
   function showScreenInPreview(screen) {
@@ -282,6 +331,7 @@
     if (!door || !invite || !closing) return;
 
     if (screen === 'door') {
+      state.doorOpened = false;
       door.classList.remove('screen--hidden');
       door.style.opacity = '1';
       door.style.transform = 'scale(1)';
@@ -306,18 +356,32 @@
     if (!dateStr) return '';
     try {
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const date = new Date(dateStr);
+      const date = new Date(`${dateStr}T00:00:00`);
       return date.toLocaleDateString('en-US', options);
     } catch (e) {
       return dateStr;
     }
   }
 
+  function getOccasionLabel(eventType) {
+    const labels = {
+      housewarming: 'housewarming celebration',
+      wedding: 'wedding celebration',
+      engagement: 'engagement celebration',
+      birthday: 'birthday celebration',
+      babyshower: 'baby shower',
+      naming: 'naming ceremony',
+      anniversary: 'anniversary celebration',
+      graduation: 'graduation celebration'
+    };
+    return labels[eventType] || 'celebration';
+  }
+
   /* ---- AUDIO (real file) ---- */
   function startMusic() {
     if (state.audio) return;
     var a = document.createElement('audio');
-    a.src = state.data.bg_music_url || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3';
+    a.src = (state.data && state.data.bg_music_url) || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3';
     a.loop = true;
     a.volume = 0.35;
     a.setAttribute('playsinline', '');
@@ -354,13 +418,13 @@
       overlay.classList.add('door-transition-overlay--active');
 
       var door = document.getElementById('screen-door');
-      door.style.transition = 'opacity 2.4s cubic-bezier(.25,.1,.25,1), transform 2.8s cubic-bezier(.25,.1,.25,1)';
+      door.style.transition = 'opacity 1.15s cubic-bezier(.25,.1,.25,1), transform 1.4s cubic-bezier(.25,.1,.25,1)';
       setTimeout(function () {
         door.style.opacity = '0';
         door.style.transform = 'scale(1.06)';
       }, 350);
 
-      setTimeout(spawnPetals, 600);
+      setTimeout(spawnPetals, 350);
 
       setTimeout(function () {
         door.classList.add('screen--hidden');
@@ -372,7 +436,7 @@
 
         triggerReveals(inv);
         window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 2600);
+      }, 1450);
     }
 
     cta.addEventListener('click', openDoor);
@@ -384,6 +448,9 @@
     var c = document.getElementById('petalBurst');
     if (!c) return;
     var colors = ['rgba(196,163,90,0.45)', 'rgba(212,185,120,0.35)', 'rgba(250,230,200,0.45)', 'rgba(184,160,128,0.35)'];
+    if (state.data) {
+      colors = [state.data.color_accent || colors[0], state.data.color_primary || colors[1], '#F8EAD2', '#FFFFFF'];
+    }
     for (var i = 0; i < 24; i++) {
       var p = document.createElement('div');
       p.className = 'petal';
@@ -430,7 +497,8 @@
 
     var options = document.querySelectorAll('.rsvp-option');
     options.forEach(function (opt) {
-      opt.addEventListener('click', function () {
+      opt.addEventListener('click', function (e) {
+        if (state.isDemoMode) e.preventDefault();
         if (navigator.vibrate) navigator.vibrate(15);
         options.forEach(function (o) { o.classList.remove('rsvp-option--selected'); });
         opt.classList.add('rsvp-option--selected');
@@ -438,7 +506,7 @@
         setTimeout(function () { opt.style.transform = ''; }, 200);
 
         if (opt.id === 'rsvpAttending') spawnConfettiBurst();
-        showToast('Opening WhatsApp...');
+        showToast(state.isDemoMode ? 'Demo response selected — make this invitation yours.' : 'Opening WhatsApp...');
         setTimeout(() => closeModal(), 1000);
       });
     });

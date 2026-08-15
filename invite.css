@@ -1,6 +1,6 @@
 /* ============================================
-   NORAH - The Greatest Invitation
-   Luxury Editorial Warmth - 3 Screens
+   Invite Link — Emotion-led invitation journey
+   Editorial warmth across three screens
    ============================================ */
 
 :root {
@@ -54,6 +54,32 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+.demo-bar {
+  align-items: center;
+  background: rgba(31, 23, 20, .84);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.18);
+  color: white;
+  display: none;
+  font-family: var(--font-ui);
+  gap: 12px;
+  padding: 7px 8px 7px 14px;
+  position: fixed;
+  right: 12px;
+  top: 12px;
+  z-index: 1900;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.demo-bar--visible { display: flex; }
+.demo-bar div { display: flex; flex-direction: column; line-height: 1.1; }
+.demo-bar span { font-size: 7px; letter-spacing: .14em; opacity: .65; text-transform: uppercase; }
+.demo-bar strong { font-family: var(--font-serif); font-size: 12px; font-weight: 600; }
+.demo-bar a { color: white; font-size: 8px; font-weight: 600; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+.demo-bar a:first-of-type { background: white; border-radius: 999px; color: var(--text-primary); padding: 8px 11px; }
+.demo-bar a:last-child { padding-right: 6px; }
+
 #app {
   position: relative;
   width: 100%;
@@ -89,6 +115,15 @@ body {
   object-fit: cover;
   object-position: center;
   will-change: transform;
+}
+
+#screen-invitation .screen__bg::after {
+  background: linear-gradient(180deg, rgba(250,246,241,.82) 0%, rgba(250,246,241,.4) 38%, rgba(250,246,241,.58) 100%);
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 4;
 }
 
 /* Film grain - removed for cleaner look */
@@ -459,6 +494,13 @@ body {
   line-height: 1.65;
   margin-bottom: 36px;
 }
+
+.invitation-invite,
+.detail-extra,
+.closing-quote,
+.closing-subquote {
+  white-space: pre-line;
+}
 .invitation-name {
   font-family: var(--font-display);
   font-size: clamp(44px, 13vw, 64px);
@@ -470,15 +512,7 @@ body {
   position: relative;
 }
 .invitation-name::after {
-  content: 'NORAH';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent 25%, rgba(196,163,90,0.08) 50%, transparent 75%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 8s var(--ease-soft) infinite;
+  content: none;
 }
 .invitation-tagline {
   font-family: var(--font-serif);
@@ -503,6 +537,45 @@ body {
   border: 1px solid rgba(232,221,208,0.3);
   margin-bottom: 32px;
 }
+
+.occasion-moment {
+  border-bottom: 1px solid rgba(196,163,90,.38);
+  border-top: 1px solid rgba(196,163,90,.38);
+  margin: 4px 0 28px;
+  max-width: 310px;
+  padding: 24px 4px;
+  text-align: center;
+  width: 100%;
+}
+.occasion-moment__label {
+  color: var(--gold);
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.occasion-moment p {
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.55;
+  text-shadow: 0 1px 12px rgba(250,246,241,.7);
+}
+
+body[data-gesture="confetti"] .petal,
+body[data-gesture="ribbons"] .petal { border-radius: 2px; height: 18px !important; width: 6px !important; }
+body[data-gesture="bubbles"] .petal { background: transparent !important; border: 1.5px solid var(--gold); border-radius: 50%; }
+body[data-gesture="stars"] .petal { border-radius: 0; clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); }
+body[data-gesture="sparkle"] .petal { border-radius: 0; clip-path: polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%); }
+
+body[data-occasion="birthday"] .door-title,
+body[data-occasion="graduation"] .door-title { letter-spacing: 3px; }
+body[data-occasion="babyshower"] .screen::after,
+body[data-occasion="naming"] .screen::after { background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,247,239,.14)); }
 .detail-row {
   display: flex;
   align-items: flex-start;
@@ -869,7 +942,7 @@ body {
   background: radial-gradient(circle, rgba(255,230,170,0.82) 0%, rgba(250,246,241,0.92) 40%, var(--ivory) 100%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 2.2s var(--ease-cin);
+  transition: opacity .7s var(--ease-cin);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -881,7 +954,7 @@ body {
   color: var(--gold);
   opacity: 0;
   transform: scale(0.5);
-  transition: all 1.5s var(--ease-cin) 0.3s;
+  transition: all .65s var(--ease-cin) .12s;
   text-shadow: 0 0 36px rgba(196,163,90,0.35);
 }
 .door-transition-overlay--active .door-transition-cross {

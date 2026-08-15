@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NORAH — Custom Invitation Builder</title>
+  <title>Invite Link — Invitation Builder</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C4A35A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z'/><path d='M9 21V12h6v9'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/builder.css">
+  <link rel="stylesheet" href="/builder.css?v=20260718-1">
   
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/templates-data.js?v=20260718-1"></script>
 </head>
 <body>
   <div class="builder-container">
@@ -19,14 +20,17 @@
     <!-- LEFT PANEL: Configuration Form -->
     <div class="form-panel">
       <header class="builder-header">
-        <div class="logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
-            <path d="M9 21V12h6v9"/>
-          </svg>
-          <h1>NORAH</h1>
+        <div class="builder-brand-row">
+          <a class="logo" href="/" aria-label="Invite Link builder home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+              <path d="M9 21V12h6v9"/>
+            </svg>
+            <h1>INVITE LINK</h1>
+          </a>
+          <a class="template-library-link" href="/templates.html">Live demos</a>
         </div>
-        <p class="subtitle">Design & publish your luxury cinematic housewarming invitation</p>
+        <p class="subtitle">Create and publish a polished invitation link for any celebration</p>
       </header>
 
       <!-- Step Navigation Indicator -->
@@ -42,47 +46,65 @@
         <!-- STEP 1: Core Details -->
         <fieldset class="step-fieldset" id="step-1">
           <legend>Event Details</legend>
+
+          <div class="form-group">
+            <label for="templateTheme">Occasion</label>
+            <select id="templateTheme" name="event_type">
+              <option value="housewarming">Housewarming</option>
+              <option value="wedding">Wedding</option>
+              <option value="engagement">Engagement</option>
+              <option value="birthday">Birthday</option>
+              <option value="babyshower">Baby shower</option>
+              <option value="naming">Naming ceremony</option>
+              <option value="anniversary">Anniversary</option>
+              <option value="graduation">Graduation</option>
+            </select>
+            <small>Choose the occasion first; it sets the starting copy, colors, imagery, and RSVP language.</small>
+            <div class="occasion-actions">
+              <a id="occasionDemoLink" href="/invite.html?demo=housewarming" target="_blank" rel="noopener">Open live demo</a>
+              <a href="/templates.html">Browse all templates</a>
+            </div>
+          </div>
           
           <div class="form-group">
             <label for="homeName">Invitation Title / Home Name</label>
-            <input type="text" id="homeName" name="home_name" value="NORAH" required placeholder="e.g. NORAH or VILLA GRACE">
+            <input type="text" id="homeName" name="home_name" value="A NEW BEGINNING" required placeholder="e.g. NORAH or VILLA GRACE">
           </div>
 
           <div class="form-group">
             <label for="hosts">Hosts</label>
-            <input type="text" id="hosts" name="hosts" value="Joylin & Noel Monis" required placeholder="e.g. Joylin & Noel Monis">
+            <input type="text" id="hosts" name="hosts" value="Your Name & Family" required placeholder="e.g. Joylin & Noel Monis">
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label for="eventDate">Event Date</label>
-              <input type="date" id="eventDate" name="event_date" value="2026-07-25" required>
+              <input type="date" id="eventDate" name="event_date" required>
             </div>
             <div class="form-group">
               <label for="eventTime">Event Time</label>
-              <input type="text" id="eventTime" name="event_time" value="12:00 PM Onwards" required placeholder="e.g. 12:00 PM Onwards">
+              <input type="text" id="eventTime" name="event_time" value="6:00 PM onwards" required placeholder="e.g. 12:00 PM Onwards">
             </div>
           </div>
 
           <div class="form-group">
             <label for="venueName">Venue Name</label>
-            <input type="text" id="venueName" name="venue_name" value="Flat No. 505, Kalkura Heights" required placeholder="e.g. Flat No. 505, Kalkura Heights">
+            <input type="text" id="venueName" name="venue_name" value="Your venue" required placeholder="e.g. Flat No. 505, Kalkura Heights">
           </div>
 
           <div class="form-group">
             <label for="venueAddress">Venue Address</label>
-            <textarea id="venueAddress" name="venue_address" rows="3" required placeholder="e.g. Opp. Robosoft Technologies, NH66&#10;Santekatte, Udupi – 576105">Opp. Robosoft Technologies, NH66
-Santekatte, Udupi – 576105</textarea>
+            <textarea id="venueAddress" name="venue_address" rows="3" required placeholder="e.g. Opp. Robosoft Technologies, NH66&#10;Santekatte, Udupi – 576105">Add the full venue address</textarea>
           </div>
 
           <div class="form-group">
             <label for="venueMapsUrl">Google Maps Link</label>
-            <input type="url" id="venueMapsUrl" name="venue_maps_url" value="https://maps.google.com/?q=Kalkura+Heights+Santekatte+Udupi" placeholder="e.g. https://maps.app.goo.gl/...">
+            <input type="url" id="venueMapsUrl" name="venue_maps_url" placeholder="e.g. https://maps.app.goo.gl/...">
           </div>
 
           <div class="form-group">
             <label for="phone">RSVP Contact Number (WhatsApp Enabled)</label>
-            <input type="tel" id="phone" name="phone" value="917259751804" required placeholder="e.g. 917259751804 (include country code, no space)">
+            <input type="tel" id="phone" name="phone" required placeholder="e.g. 917259751804 (include country code, no space)">
             <small>Must include country code without prefix (e.g. 91 for India, 1 for US)</small>
           </div>
 
@@ -229,7 +251,7 @@ Santekatte, Udupi – 576105</textarea>
           <!-- Color System -->
           <div class="color-selections">
             <div class="form-group color-picker-group">
-              <label for="colorPrimary">Primary Color (Maroon)</label>
+              <label for="colorPrimary">Primary Color</label>
               <div class="color-picker-wrapper">
                 <input type="color" id="colorPrimary" name="color_primary" value="#6B2036">
                 <input type="text" id="colorPrimaryHex" value="#6B2036" class="hex-text">
@@ -237,7 +259,7 @@ Santekatte, Udupi – 576105</textarea>
             </div>
 
             <div class="form-group color-picker-group">
-              <label for="colorAccent">Accent Color (Gold)</label>
+              <label for="colorAccent">Accent Color</label>
               <div class="color-picker-wrapper">
                 <input type="color" id="colorAccent" name="color_accent" value="#C4A35A">
                 <input type="text" id="colorAccentHex" value="#C4A35A" class="hex-text">
@@ -253,22 +275,22 @@ Santekatte, Udupi – 576105</textarea>
               <label>1. Screen 1 (Door Background)</label>
               <div class="uploader-control">
                 <input type="file" id="fileDoor" accept="image/*" class="file-input">
-                <input type="hidden" id="bgImageDoor" name="bg_image_door" value="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80">
+                <input type="hidden" id="bgImageDoor" name="bg_image_door" value="https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80">
                 <button type="button" class="btn-upload btn-select-preset" data-screen="door">Choose Preset</button>
                 <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
               </div>
-              <span class="selected-asset-name" id="labelDoor">Default Preset (door-scene.webp)</span>
+              <span class="selected-asset-name" id="labelDoor">Default preset: Welcoming interior</span>
             </div>
 
             <div class="media-field">
               <label>2. Screen 2 (Invitation Background)</label>
               <div class="uploader-control">
                 <input type="file" id="fileInvite" accept="image/*" class="file-input">
-                <input type="hidden" id="bgImageInvite" name="bg_image_invite" value="https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&q=80">
+                <input type="hidden" id="bgImageInvite" name="bg_image_invite" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80">
                 <button type="button" class="btn-upload btn-select-preset" data-screen="invite">Choose Preset</button>
                 <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
               </div>
-              <span class="selected-asset-name" id="labelInvite">Default Preset (bg-curtain-flowers.webp)</span>
+              <span class="selected-asset-name" id="labelInvite">Default preset: Modern home</span>
             </div>
 
             <div class="media-field">
@@ -279,7 +301,7 @@ Santekatte, Udupi – 576105</textarea>
                 <button type="button" class="btn-upload btn-select-preset" data-screen="closing">Choose Preset</button>
                 <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
               </div>
-              <span class="selected-asset-name" id="labelClosing">Default Preset (bg-evening-warmth.webp)</span>
+              <span class="selected-asset-name" id="labelClosing">Default preset: Evening warmth</span>
             </div>
 
             <h3>Background Music</h3>
@@ -291,7 +313,7 @@ Santekatte, Udupi – 576105</textarea>
                 <button type="button" class="btn-upload btn-select-preset" data-screen="music">Choose Preset</button>
                 <button type="button" class="btn-upload trigger-file-select">Upload Music</button>
               </div>
-              <span class="selected-asset-name" id="labelMusic">Default Preset (bg-music.mp4)</span>
+              <span class="selected-asset-name" id="labelMusic">Default preset: Instrumental acoustic</span>
             </div>
           </div>
 
@@ -328,7 +350,7 @@ Santekatte, Udupi – 576105</textarea>
           <div class="success-card hidden" id="successCard">
             <div class="success-icon">✨</div>
             <h3>Your Invitation is Live!</h3>
-            <p>Share your beautifully customized cinematic housewarming invitation card with your loved ones.</p>
+            <p>Share your customized invitation link with guests on WhatsApp or any messaging app.</p>
             
             <div class="invite-link-box">
               <input type="text" id="liveInviteLink" readonly>
@@ -355,7 +377,7 @@ Santekatte, Udupi – 576105</textarea>
       <div class="phone-frame">
         <div class="phone-notch"></div>
         <div class="phone-screen">
-          <iframe id="previewIframe" src="/invite.html?mode=preview" frameborder="0"></iframe>
+          <iframe id="previewIframe" src="/invite.html?mode=preview&amp;v=20260718-1" frameborder="0"></iframe>
         </div>
       </div>
       <div class="preview-label">Live Mobile Preview</div>
@@ -376,6 +398,6 @@ Santekatte, Udupi – 576105</textarea>
     </div>
   </div>
 
-  <script src="/builder.js"></script>
+  <script src="/builder.js?v=20260718-1"></script>
 </body>
 </html>
