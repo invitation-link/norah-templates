@@ -8,9 +8,9 @@
   "theme_color": "#211714",
   "icons": [
     {
-      "src": "/assets/templates/wedding.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
+      "src": "/favicon.svg",
+      "sizes": "32x32 48x48 72x72 96x96 128x128 256x256 512x512",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]

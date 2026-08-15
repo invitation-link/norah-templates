@@ -20,6 +20,7 @@ const requiredFiles = [
   'privacy.html',
   'refund.html',
   'manifest.json',
+  'favicon.svg',
   'invite.html',
   'invite.css',
   'invite.js',

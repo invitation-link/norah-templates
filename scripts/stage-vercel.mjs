@@ -24,6 +24,7 @@ const productionFiles = [
   'refund.html',
   'manifest.json',
   'site.webmanifest',
+  'favicon.svg',
   'robots.txt',
   'sitemap.xml',
   'vercel.json'
