@@ -99,6 +99,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   const [stage, setStage] = useState<TirangaStage>("ready");
   const [progress, setProgress] = useState(0);
   const [reveal, setReveal] = useState(0.01);
+  const [enableWebgl, setEnableWebgl] = useState(false);
   const [webglReady, setWebglReady] = useState(false);
   const [muted, setMuted] = useState(false);
   const [anthemStarted, setAnthemStarted] = useState(false);
@@ -109,6 +110,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   const [shareUrl, setShareUrl] = useState("");
   const [shareStatus, setShareStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const progressRef = useRef(0);
   const pointerRef = useRef<number | null>(null);
   const dragStartRef = useRef(0);
@@ -129,6 +131,22 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
     const timer = window.setTimeout(() => setMuted(sessionStorage.getItem("tiranga-muted") === "true"), 0);
     return () => window.clearTimeout(timer);
   }, [community?.slug, shareId]);
+
+  useEffect(() => {
+    const browser = window as typeof window & {
+      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    const fallbackTimer = window.setTimeout(() => setEnableWebgl(true), 900);
+    const idleHandle = browser.requestIdleCallback?.(() => {
+      window.clearTimeout(fallbackTimer);
+      setEnableWebgl(true);
+    }, { timeout: 1200 });
+    return () => {
+      window.clearTimeout(fallbackTimer);
+      if (idleHandle !== undefined) browser.cancelIdleCallback?.(idleHandle);
+    };
+  }, []);
 
   useEffect(() => {
     if (stage !== "pride") return;
@@ -270,10 +288,13 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
     const cleanDedication = dedication.trim();
     if (!cleanName || submitting) return;
     setSubmitting(true);
-    try { await fetch("/api/tiranga/participate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: cleanName, dedication: cleanDedication || undefined, referredBy: shareId, community: community?.slug }) }); } catch { /* Sharing remains available when persistence is unavailable. */ }
-    await createShare(cleanName, cleanDedication);
-    setSubmitting(false);
-    moveTo("share", "personalization_completed");
+    const participation = fetch("/api/tiranga/participate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: cleanName, dedication: cleanDedication || undefined, referredBy: shareId, community: community?.slug }) }).catch(() => undefined);
+    try {
+      await Promise.all([participation, createShare(cleanName, cleanDedication)]);
+      moveTo("share", "personalization_completed");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const shareText = () => `${name.trim()} hoisted the Tiranga${dedication.trim() ? ` for ${dedication.trim()}` : ""}. A Tiranga is waiting for you.`;
@@ -285,14 +306,23 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   };
 
   const downloadStory = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    setShareStatus("");
     const url = shareUrl || `${window.location.origin}/tiranga`;
-    const blob = await makeShareCard(name.trim(), dedication.trim(), url);
-    const downloadUrl = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = downloadUrl; anchor.download = "pass-the-tiranga-story.png"; anchor.click();
-    URL.revokeObjectURL(downloadUrl);
-    setShareStatus("Story card saved");
-    trackEvent("share_card_downloaded", { campaign: "pass_the_tiranga" });
+    try {
+      const blob = await makeShareCard(name.trim(), dedication.trim(), url);
+      const downloadUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = downloadUrl; anchor.download = "pass-the-tiranga-story.png"; anchor.click();
+      URL.revokeObjectURL(downloadUrl);
+      setShareStatus("Story card saved");
+      trackEvent("share_card_downloaded", { campaign: "pass_the_tiranga" });
+    } catch {
+      setShareStatus("The card could not be saved. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
   };
 
   const toggleSound = () => {
@@ -303,19 +333,20 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
 
   const showSound = stage === "ready" || stage === "hoisting";
   const showPetals = stage === "pride";
+  const sceneActive = stage === "ready" || stage === "hoisting" || stage === "unfurling" || stage === "pride" || stage === "anthem";
   const urlLabel = (shareUrl || "invite-link-rosy.vercel.app/tiranga").replace(/^https?:\/\//, "");
 
   return (
     <main className={styles.shell} style={{ "--progress": progress, "--reveal": reveal } as React.CSSProperties}>
-      <audio ref={anthemAudioRef} src="/audio/jana-gana-mana.mp3" preload="auto" onTimeUpdate={(event) => { const audio = event.currentTarget; setAnthemProgress(audio.duration ? audio.currentTime / audio.duration : 0); }} onEnded={finishAnthem} />
+      <audio ref={anthemAudioRef} src="/audio/jana-gana-mana.mp3" preload="metadata" onTimeUpdate={(event) => { const audio = event.currentTarget; setAnthemProgress(audio.duration ? audio.currentTime / audio.duration : 0); }} onEnded={finishAnthem} />
       <div className={styles.sky} aria-hidden="true" />
       <div className={styles.horizon} aria-hidden="true" />
-      <FlagScene progress={progress} reveal={reveal} active reducedMotion={Boolean(reduceMotion)} onReady={webglReadyHandler} />
-      <div className={`${styles.fallbackFlag} ${reveal <= 0.12 ? styles.bundledFlag : ""} ${webglReady ? styles.webglLoaded : ""}`} style={{ transform: `translateY(${(1 - progress) * 42}vh) scaleX(${reveal <= 0.12 ? 1 : reveal})` }} aria-hidden="true"><span /><span><AshokaChakra className={styles.flagChakra} /></span><span /></div>
+      {enableWebgl && <FlagScene progress={progress} reveal={reveal} active={sceneActive} reducedMotion={Boolean(reduceMotion)} onReady={webglReadyHandler} />}
+      <div className={`${styles.fallbackFlag} ${reveal <= 0.12 ? styles.bundledFlag : ""} ${webglReady ? styles.webglLoaded : ""}`} style={{ transform: `translateY(${(1 - progress) * 68}dvh)` }} aria-hidden="true"><i className={styles.fallbackRope} /><span /><span><AshokaChakra className={styles.flagChakra} /></span><span /></div>
       {showPetals && <div className={styles.petals} aria-hidden="true">{Array.from({ length: 22 }, (_, index) => <i key={index} style={{ "--petal-x": `${18 + (index * 31) % 66}%`, "--petal-delay": `${(index % 4) * 0.035}s`, "--petal-drift": `${(index % 2 ? 1 : -1) * (32 + (index % 6) * 11)}px` } as React.CSSProperties} />)}</div>}
       {showSound && <button type="button" className={styles.soundToggle} onClick={toggleSound} aria-label={muted ? "Turn ceremonial sound on" : "Mute ceremonial sound"}>{muted ? <VolumeX size={19} /> : <Volume2 size={19} />}</button>}
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         {(stage === "ready" || stage === "hoisting") && <motion.section key="gesture" className={styles.gesture} tabIndex={0} onKeyDown={keyboardHoist} onPointerDown={startGesture} onPointerMove={moveGesture} onPointerUp={releaseGesture} onPointerCancel={releaseGesture} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} aria-label="Raise the Tiranga. Swipe upward, press Arrow Up repeatedly, or use the hoist button.">
           <div className={styles.srOnly} role="progressbar" aria-label="Tiranga hoisting progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)}>The flag is rising.</div>
           <div className={styles.swipeCue}><span><ChevronUp size={28} /></span><strong>{progress > 0 ? "Keep lifting" : "Swipe up to hoist"}</strong></div>
@@ -334,8 +365,8 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
         {stage === "personalization" && <motion.section key="personalization" className={styles.sheet} initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -24 }}>
           <span className={styles.eyebrow}>Make it yours</span><h2>Who raised it?</h2>
           <form onSubmit={submitPersonalization}>
-            <label>First name<input value={name} onFocus={(event) => event.currentTarget.scrollIntoView({ block: "center", behavior: reduceMotion ? "auto" : "smooth" })} onChange={(event) => setName(event.target.value)} maxLength={28} autoComplete="given-name" required /></label>
-            <label>Who are you hoisting this for? <small>Optional</small><input value={dedication} onFocus={(event) => event.currentTarget.scrollIntoView({ block: "center", behavior: reduceMotion ? "auto" : "smooth" })} onChange={(event) => setDedication(event.target.value)} maxLength={48} /></label>
+            <label>First name<input value={name} onFocus={(event) => event.currentTarget.scrollIntoView({ block: "center", behavior: reduceMotion ? "auto" : "smooth" })} onChange={(event) => setName(event.target.value)} maxLength={28} autoComplete="given-name" enterKeyHint="next" required /></label>
+            <label>Who are you hoisting this for? <small>Optional</small><input value={dedication} onFocus={(event) => event.currentTarget.scrollIntoView({ block: "center", behavior: reduceMotion ? "auto" : "smooth" })} onChange={(event) => setDedication(event.target.value)} maxLength={48} autoComplete="off" enterKeyHint="done" /></label>
             <button type="submit" disabled={submitting}>{submitting ? "Preparing your Tiranga…" : "Create my story card"} {!submitting && <ArrowRight size={18} />}</button>
           </form>
         </motion.section>}
@@ -348,7 +379,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
           </div>
           <div className={styles.shareCard} aria-label={`Tiranga story card for ${name.trim()}`}><div className={styles.miniFlag}><span /><span><AshokaChakra /></span><span /></div><small>I hoisted the</small><h3>Tiranga</h3><strong>{name.trim()}</strong>{dedication.trim() && <p>For {dedication.trim()}</p>}<span>{currentDateLabel()}</span><small className={styles.cardUrl}>{urlLabel}</small><footer>Made with Invite Link</footer></div>
           <button type="button" className={styles.whatsappButton} onClick={shareWhatsApp}><MessageCircle size={19} /> Pass on WhatsApp</button>
-          <button type="button" className={styles.downloadButton} onClick={() => void downloadStory()}><Download size={18} /> Save story card</button>
+          <button type="button" className={styles.downloadButton} disabled={downloading} onClick={() => void downloadStory()}><Download size={18} /> {downloading ? "Preparing story card…" : "Save story card"}</button>
           {shareStatus && <p className={styles.status} role="status">{shareStatus}</p>}
           <button type="button" className={styles.textButton} onClick={() => moveTo("conversion", "invite_link_cta_viewed")}>Done</button>
         </motion.section>}

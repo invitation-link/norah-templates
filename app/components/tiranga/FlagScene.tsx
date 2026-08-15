@@ -84,16 +84,18 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
     const mount = mountRef.current;
     if (!mount) return;
 
+    const narrowScreen = window.matchMedia("(max-width: 600px)").matches;
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: narrowScreen ? "default" : "high-performance" });
     } catch {
       return;
     }
 
     renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, narrowScreen ? 1.25 : 1.6));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.domElement.setAttribute("aria-hidden", "true");
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -111,7 +113,7 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
     rope.position.set(-0.845, -1.12, 0.025);
     scene.add(rope);
 
-    const geometry = new THREE.PlaneGeometry(3, 2, 32, 20);
+    const geometry = new THREE.PlaneGeometry(3, 2, narrowScreen ? 22 : 32, narrowScreen ? 14 : 20);
     geometry.translate(1.5, 0, 0);
     const texture = createFlagTexture();
     if (!texture) {
@@ -197,18 +199,20 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
     window.addEventListener("resize", resize);
 
     let animationFrame = 0;
+    let idleTimer = 0;
     let didNotifyReady = false;
     const startedAt = performance.now();
     const render = (now: number) => {
       const currentProgress = progressRef.current;
       const currentReveal = revealRef.current;
-      flag.position.y = -2.3 + currentProgress * 3.4;
-      flag.scale.x = Math.max(0.01, currentReveal) * flagWidthScale;
+      flag.position.y = -2.3 + currentProgress * 3.4 + (narrowScreen ? currentProgress * 0.42 : 0);
+      flag.scale.set(Math.max(0.01, currentReveal) * flagWidthScale, flagWidthScale, 1);
       flag.visible = currentReveal > 0.025;
       bundle.position.y = -1.88 + currentProgress * 3.4;
+      bundle.scale.y = flagWidthScale;
       bundle.visible = currentReveal <= 0.12;
       uniforms.uTime.value = (now - startedAt) / 1000;
-      uniforms.uWind.value = reducedMotion ? 0.32 : 0.22 + currentProgress * 0.42 + currentReveal * 0.52;
+      uniforms.uWind.value = reducedMotion ? 0 : 0.22 + currentProgress * 0.42 + currentReveal * 0.52;
       camera.position.y = reducedMotion ? 0.1 : 0.1 + currentProgress * 0.24;
       camera.position.z = 8.1 - currentProgress * 0.25;
       camera.lookAt(-0.05, -0.1 + currentProgress * 0.18, 0);
@@ -219,12 +223,17 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
           onReady?.();
         }
       }
-      animationFrame = requestAnimationFrame(render);
+      if (document.hidden || (!activeRef.current && currentReveal >= 1)) {
+        idleTimer = window.setTimeout(() => { animationFrame = requestAnimationFrame(render); }, 350);
+      } else {
+        animationFrame = requestAnimationFrame(render);
+      }
     };
     animationFrame = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animationFrame);
+      window.clearTimeout(idleTimer);
       window.removeEventListener("resize", resize);
       geometry.dispose();
       material.dispose();
@@ -243,5 +252,5 @@ export default function FlagScene({ progress, reveal, active, reducedMotion, onR
     };
   }, [onReady, reducedMotion]);
 
-  return <div ref={mountRef} aria-hidden="true" style={{ position: "absolute", zIndex: 1, inset: 0 }} />;
+  return <div ref={mountRef} aria-hidden="true" style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} />;
 }
