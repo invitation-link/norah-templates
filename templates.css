@@ -9,7 +9,22 @@
   --sans: 'DM Sans', system-ui, sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img,
+svg,
+video,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
 html { background: var(--paper); scroll-behavior: smooth; }
 body { background: var(--paper); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
 a { color: inherit; }
@@ -261,5 +276,10 @@ footer p, footer > a:last-child { font-size: 10px; letter-spacing: .1em; text-tr
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

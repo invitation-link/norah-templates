@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /builder
+Disallow: /invite/
+Disallow: /invite.html
 
 Host: https://www.invitelink.shop
 Sitemap: https://www.invitelink.shop/sitemap.xml

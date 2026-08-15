@@ -26,7 +26,59 @@
     'audio/x-wav': 'wav'
   };
 
-  // Preset assets definition
+  const ALLOWED_DB_FIELDS = new Set([
+    'slug',
+    'event_type',
+    'home_name',
+    'welcome_text',
+    'invite_eyebrow',
+    'hosts',
+    'invite_text',
+    'event_date',
+    'event_time',
+    'detail_time_extra',
+    'venue_name',
+    'venue_address',
+    'venue_maps_url',
+    'phone',
+    'color_primary',
+    'color_accent',
+    'bg_image_door',
+    'bg_image_invite',
+    'bg_image_closing',
+    'bg_music_url',
+    'show_bible_verse',
+    'bible_verse',
+    'bible_ref',
+    'closing_heading',
+    'closing_quote',
+    'closing_subtext',
+    'hosts_tagline',
+    'see_you_btn_text',
+    'show_presence_note',
+    'presence_note',
+    'rsvp_option1_title',
+    'rsvp_option1_subtitle',
+    'rsvp_option2_title',
+    'rsvp_option2_subtitle',
+    'rsvp_option3_title',
+    'rsvp_option3_subtitle',
+    'modal_contact_blessing',
+    'gesture',
+    'is_published'
+  ]);
+
+  function sanitizeDbPayload(raw) {
+    const clean = {};
+    for (const key of Object.keys(raw)) {
+      if (ALLOWED_DB_FIELDS.has(key)) {
+        clean[key] = raw[key];
+      }
+    }
+    clean.is_published = true;
+    return clean;
+  }
+
   // Theme presets definitions for background assets
   const THEME_PRESETS = {
     housewarming: {
@@ -52,12 +104,6 @@
         { name: "Elegant Floral Entrance", url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800" },
         { name: "Romantic Floral Setting", url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800" },
         { name: "Wedding Detail", url: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800" }
-      ],
-      invite: [
-        { name: "Romantic Rose Petals", url: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800" },
-        { name: "Elegant Floral Curtain", url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800" }
-      ],
-      closing: [
       ],
       invite: [
         { name: "Romantic Rose Petals", url: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800" },
@@ -217,7 +263,7 @@
     }
   };
 
-  // The shared library powers the gallery, live demos, and builder from one source.
+  // Shared library sync
   const sharedLibrary = window.INVITE_TEMPLATE_LIBRARY;
   if (sharedLibrary) {
     Object.assign(THEME_PRESETS, sharedLibrary.presets);
@@ -225,12 +271,16 @@
   }
 
   let currentStep = 1;
-  let activePresetScreen = null; // tracking which field the preset modal is open for
+  let activePresetScreen = null;
+  let previewReady = false;
+
+  function getIframe() {
+    return document.getElementById('previewIframe');
+  }
 
   document.addEventListener('DOMContentLoaded', init);
 
   function init() {
-    // 1. Initialize Supabase Client
     if (typeof supabase !== 'undefined') {
       supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     } else {
@@ -249,6 +299,7 @@
     setupFaqModal();
     setupThemeSelector();
     setupOccasionActions();
+    setupDraftPersistence();
     setupFormSubmission();
   }
 
@@ -276,7 +327,6 @@
       currentStep = stepNum;
       updatePreview();
 
-      // Auto-navigate preview based on step
       if (stepNum === 1) {
         changePreviewScreen('door');
       } else if (stepNum === 2) {
@@ -288,7 +338,6 @@
 
     document.querySelectorAll('.next-step').forEach(btn => {
       btn.addEventListener('click', () => {
-        // Simple form validation before moving to next step
         const currentFs = document.getElementById(`step-${currentStep}`);
         const inputs = currentFs.querySelectorAll('input[required], textarea[required]');
         let valid = true;
@@ -316,7 +365,6 @@
         if (stepNum < currentStep) {
           showStep(stepNum);
         } else if (stepNum > currentStep) {
-          // Allow going forward only if current fields are valid
           let canGo = true;
           for (let s = currentStep; s < stepNum; s++) {
             const fs = document.getElementById(`step-${s}`);
@@ -337,6 +385,8 @@
     const primaryHex = document.getElementById('colorPrimaryHex');
     const accentInput = document.getElementById('colorAccent');
     const accentHex = document.getElementById('colorAccentHex');
+
+    if (!primaryInput || !primaryHex || !accentInput || !accentHex) return;
 
     primaryInput.addEventListener('input', () => {
       primaryHex.value = primaryInput.value;
@@ -366,7 +416,7 @@
     document.querySelectorAll('.trigger-file-select').forEach(btn => {
       btn.addEventListener('click', () => {
         const fileInput = btn.closest('.uploader-control').querySelector('.file-input');
-        fileInput.click();
+        if (fileInput) fileInput.click();
       });
     });
 
@@ -381,13 +431,16 @@
             return;
           }
           const spanLabel = input.closest('.media-field').querySelector('.selected-asset-name');
-          spanLabel.textContent = `Local File Selected: ${file.name} (will upload on publish)`;
-          spanLabel.style.color = '#C4A35A'; // gold tint to show pending
-          
-          // Generate a temp local object URL for instant live preview inside iframe!
+          if (spanLabel) {
+            spanLabel.textContent = `Local File Selected: ${file.name} (will upload on publish)`;
+            spanLabel.style.color = '#C4A35A';
+          }
+
           const tempUrl = URL.createObjectURL(file);
           const hiddenInput = input.closest('.uploader-control').querySelector('input[type="hidden"]');
-          hiddenInput.dataset.tempUrl = tempUrl; // Store temporary preview url
+          if (hiddenInput) {
+            hiddenInput.dataset.tempUrl = tempUrl;
+          }
           updatePreview();
         }
       });
@@ -418,22 +471,26 @@
     const presenceToggle = document.getElementById('showPresenceNote');
     const presenceFields = document.getElementById('presenceNoteFields');
 
-    bibleToggle.addEventListener('change', () => {
-      bibleFields.classList.toggle('hidden', !bibleToggle.checked);
-      updatePreview();
-    });
+    if (bibleToggle && bibleFields) {
+      bibleToggle.addEventListener('change', () => {
+        bibleFields.classList.toggle('hidden', !bibleToggle.checked);
+        updatePreview();
+      });
+    }
 
-    presenceToggle.addEventListener('change', () => {
-      presenceFields.classList.toggle('hidden', !presenceToggle.checked);
-      updatePreview();
-    });
+    if (presenceToggle && presenceFields) {
+      presenceToggle.addEventListener('change', () => {
+        presenceFields.classList.toggle('hidden', !presenceToggle.checked);
+        updatePreview();
+      });
+    }
   }
 
   // --- Preset Modal Dialog ---
   function setupPresetModal() {
     const modal = document.getElementById('presetModal');
     const closeBtn = document.getElementById('presetModalClose');
-    const grid = document.getElementById('presetGrid');
+    if (!modal) return;
 
     document.querySelectorAll('.btn-select-preset').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -443,74 +500,106 @@
       });
     });
 
-    closeBtn.addEventListener('click', () => {
-      modal.classList.remove('active');
-    });
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    }
 
     modal.addEventListener('click', (e) => {
       if (e.target === modal) modal.classList.remove('active');
     });
+  }
 
-    function renderPresets(type) {
-      grid.innerHTML = '';
-      const themeSelect = document.getElementById('templateTheme');
-      const selectedTheme = themeSelect ? themeSelect.value : 'housewarming';
-      const list = (THEME_PRESETS[selectedTheme] && THEME_PRESETS[selectedTheme][type]) || [];
-      list.forEach(preset => {
-        const card = document.createElement('div');
-        card.className = `preset-card ${type === 'music' ? 'audio-preset-card' : ''}`;
-        
-        if (type === 'music') {
-          card.innerHTML = `
-            <div style="font-size:20px;">🎵</div>
-            <div>
-              <div style="font-size:12px; font-weight:600;">${preset.name}</div>
-              <div style="font-size:10px; color:var(--text-muted);">Preset Track</div>
-            </div>
-          `;
-        } else {
-          card.innerHTML = `
-            <img src="${preset.url}" alt="${preset.name}">
-            <div class="preset-card__label">${preset.name}</div>
-          `;
-        }
+  function renderPresets(screenType) {
+    const grid = document.getElementById('presetGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
 
-        card.addEventListener('click', () => {
-          // Select preset
-          const hiddenInput = document.getElementById(`bg${type.charAt(0).toUpperCase() + type.slice(1)}`) || document.getElementById('bgMusicUrl');
-          hiddenInput.value = preset.url;
-          delete hiddenInput.dataset.tempUrl; // remove any temp file preview URL
-          
-          const label = document.getElementById(`label${type.charAt(0).toUpperCase() + type.slice(1)}`) || document.getElementById('labelMusic');
-          label.textContent = `Preset Selected: ${preset.name}`;
-          label.style.color = '';
+    const currentTheme = document.getElementById('templateTheme').value;
+    const presets = (THEME_PRESETS[currentTheme] && THEME_PRESETS[currentTheme][screenType]) || [];
 
-          // Reset the file input value so we don't upload a redundant file
-          const fileInput = hiddenInput.closest('.uploader-control').querySelector('.file-input');
-          fileInput.value = '';
+    presets.forEach(preset => {
+      const item = document.createElement('div');
+      item.className = 'preset-item';
+      
+      if (screenType === 'music') {
+        item.innerHTML = `
+          <div class="preset-music-icon">🎵</div>
+          <div class="preset-label">${preset.name}</div>
+        `;
+      } else {
+        item.innerHTML = `
+          <img src="${preset.url}" alt="${preset.name}" loading="lazy">
+          <div class="preset-label">${preset.name}</div>
+        `;
+      }
 
-          modal.classList.remove('active');
-          updatePreview();
-        });
-
-        grid.appendChild(card);
+      item.addEventListener('click', () => {
+        selectPreset(screenType, preset);
+        const modal = document.getElementById('presetModal');
+        if (modal) modal.classList.remove('active');
       });
+
+      grid.appendChild(item);
+    });
+  }
+
+  function selectPreset(screenType, preset) {
+    let hiddenInputId, labelId, fileInputId;
+    if (screenType === 'door') {
+      hiddenInputId = 'bgImageDoor';
+      labelId = 'labelDoor';
+      fileInputId = 'fileDoor';
+    } else if (screenType === 'invite') {
+      hiddenInputId = 'bgImageInvite';
+      labelId = 'labelInvite';
+      fileInputId = 'fileInvite';
+    } else if (screenType === 'closing') {
+      hiddenInputId = 'bgImageClosing';
+      labelId = 'labelClosing';
+      fileInputId = 'fileClosing';
+    } else if (screenType === 'music') {
+      hiddenInputId = 'bgMusicUrl';
+      labelId = 'labelMusic';
+      fileInputId = 'fileMusic';
     }
+
+    const hidden = document.getElementById(hiddenInputId);
+    if (hidden) {
+      delete hidden.dataset.tempUrl;
+      hidden.value = preset.url;
+    }
+
+    const fileInput = document.getElementById(fileInputId);
+    if (fileInput) fileInput.value = '';
+
+    const label = document.getElementById(labelId);
+    if (label) {
+      label.textContent = `Preset: ${preset.name}`;
+      label.style.color = 'var(--text-muted)';
+    }
+
+    updatePreview();
   }
 
   // --- Quick FAQ Modal ---
   function setupFaqModal() {
-    const openBtn = document.getElementById('openFaqModalBtn');
     const modal = document.getElementById('builderFaqModal');
+    const openBtn = document.getElementById('openFaqModalBtn');
     const closeBtn = document.getElementById('builderFaqClose');
-    if (!modal) return;
+    if (!modal || !openBtn) return;
 
-    if (openBtn) {
-      openBtn.addEventListener('click', () => modal.classList.add('active'));
-    }
+    openBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+    });
+
     if (closeBtn) {
-      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
     }
+
     modal.addEventListener('click', (e) => {
       if (e.target === modal) modal.classList.remove('active');
     });
@@ -520,83 +609,78 @@
       const q = item.querySelector('.builder-faq-question');
       if (q) {
         q.addEventListener('click', () => {
-          item.classList.toggle('is-open');
+          const isOpen = item.classList.contains('is-open');
+          faqItems.forEach(other => other.classList.remove('is-open'));
+          if (!isOpen) item.classList.add('is-open');
         });
       }
     });
   }
 
-  // --- Theme / Category switching logic ---
-  function applyTheme(theme) {
-    const defaults = THEME_DEFAULTS[theme];
+  // --- Theme Template Selector ---
+  function applyTheme(themeKey) {
+    const defaults = THEME_DEFAULTS[themeKey];
     if (!defaults) return;
 
-    // Apply values to inputs
-    document.getElementById('homeName').value = defaults.home_name;
-    document.getElementById('welcomeText').value = defaults.welcome_text;
-    document.getElementById('inviteEyebrow').value = defaults.invite_eyebrow;
-    document.getElementById('inviteText').value = defaults.invite_text;
-    document.getElementById('rsvpOption1Title').value = defaults.rsvp_option1_title;
-    document.getElementById('rsvpOption1Subtitle').value = defaults.rsvp_option1_subtitle;
-    document.getElementById('rsvpOption2Title').value = defaults.rsvp_option2_title;
-    document.getElementById('rsvpOption2Subtitle').value = defaults.rsvp_option2_subtitle;
-    document.getElementById('rsvpOption3Title').value = defaults.rsvp_option3_title;
-    document.getElementById('rsvpOption3Subtitle').value = defaults.rsvp_option3_subtitle;
-    document.getElementById('modalContactBlessing').value = defaults.modal_contact_blessing;
-    document.getElementById('bibleVerse').value = defaults.bible_verse;
-    document.getElementById('bibleRef').value = defaults.bible_ref;
-    document.getElementById('closingQuote').value = defaults.closing_quote;
-    document.getElementById('closingSubtext').value = defaults.closing_subtext;
-    document.getElementById('hostsTagline').value = defaults.hosts_tagline;
-    document.getElementById('seeYouBtnText').value = defaults.see_you_btn_text;
-    document.getElementById('presenceNote').value = defaults.presence_note;
+    for (const [key, value] of Object.entries(defaults)) {
+      if (key.startsWith('bg_')) {
+        let hiddenId, labelId;
+        if (key === 'bg_image_door') { hiddenId = 'bgImageDoor'; labelId = 'labelDoor'; }
+        if (key === 'bg_image_invite') { hiddenId = 'bgImageInvite'; labelId = 'labelInvite'; }
+        if (key === 'bg_image_closing') { hiddenId = 'bgImageClosing'; labelId = 'labelClosing'; }
+        if (key === 'bg_music_url') { hiddenId = 'bgMusicUrl'; labelId = 'labelMusic'; }
 
-    // Color Pickers
-    document.getElementById('colorPrimary').value = defaults.color_primary;
-    document.getElementById('colorPrimaryHex').value = defaults.color_primary;
-    document.getElementById('colorAccent').value = defaults.color_accent;
-    document.getElementById('colorAccentHex').value = defaults.color_accent;
+        const hidden = document.getElementById(hiddenId);
+        if (hidden) {
+          delete hidden.dataset.tempUrl;
+          hidden.value = value;
+        }
+        const label = document.getElementById(labelId);
+        if (label) {
+          label.textContent = `Default preset`;
+          label.style.color = 'var(--text-muted)';
+        }
+        continue;
+      }
 
-    // Image/Audio hidden fields
-    document.getElementById('bgImageDoor').value = defaults.bg_image_door;
-    delete document.getElementById('bgImageDoor').dataset.tempUrl;
-    document.getElementById('labelDoor').textContent = `Default Preset (${defaults.bg_image_door.split('/').pop().split('?')[0]})`;
+      if (key === 'color_primary') {
+        const p = document.getElementById('colorPrimary');
+        const pHex = document.getElementById('colorPrimaryHex');
+        if (p) p.value = value;
+        if (pHex) pHex.value = value;
+        continue;
+      }
 
-    document.getElementById('bgImageInvite').value = defaults.bg_image_invite;
-    delete document.getElementById('bgImageInvite').dataset.tempUrl;
-    document.getElementById('labelInvite').textContent = `Default Preset (${defaults.bg_image_invite.split('/').pop().split('?')[0]})`;
+      if (key === 'color_accent') {
+        const a = document.getElementById('colorAccent');
+        const aHex = document.getElementById('colorAccentHex');
+        if (a) a.value = value;
+        if (aHex) aHex.value = value;
+        continue;
+      }
 
-    document.getElementById('bgImageClosing').value = defaults.bg_image_closing;
-    delete document.getElementById('bgImageClosing').dataset.tempUrl;
-    document.getElementById('labelClosing').textContent = `Default Preset (${defaults.bg_image_closing.split('/').pop().split('?')[0]})`;
-
-    document.getElementById('bgMusicUrl').value = defaults.bg_music_url;
-    delete document.getElementById('bgMusicUrl').dataset.tempUrl;
-    document.getElementById('labelMusic').textContent = `Default Preset (${defaults.bg_music_url.split('/').pop().split('?')[0]})`;
-
-    // Clear file inputs
-    document.getElementById('fileDoor').value = '';
-    document.getElementById('fileInvite').value = '';
-    document.getElementById('fileClosing').value = '';
-    document.getElementById('fileMusic').value = '';
+      const input = document.getElementsByName(key)[0];
+      if (input && input.type !== 'file') {
+        input.value = value;
+      }
+    }
 
     updatePreview();
   }
 
   function setupThemeSelector() {
     const themeSelect = document.getElementById('templateTheme');
-    if (themeSelect) {
-      themeSelect.addEventListener('change', () => {
-        applyTheme(themeSelect.value);
-      });
+    if (!themeSelect) return;
 
-      // Parse query parameter to set template on load
-      const urlParams = new URLSearchParams(window.location.search);
-      const initialTemplate = urlParams.get('template');
-      if (initialTemplate && THEME_DEFAULTS[initialTemplate]) {
-        themeSelect.value = initialTemplate;
-        applyTheme(initialTemplate);
-      }
+    themeSelect.addEventListener('change', () => {
+      applyTheme(themeSelect.value);
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialTemplate = urlParams.get('template');
+    if (initialTemplate && THEME_DEFAULTS[initialTemplate]) {
+      themeSelect.value = initialTemplate;
+      applyTheme(initialTemplate);
     }
   }
 
@@ -617,41 +701,42 @@
   function setupSlugGenerator() {
     const homeInput = document.getElementById('homeName');
     const slugInput = document.getElementById('slug');
+    if (!slugInput) return;
 
-    // Generate random slug suggestion on load
     slugInput.value = Math.random().toString(36).substring(2, 8);
 
-    // Auto-update subdomain prefix
-    document.getElementById('domainPrefix').textContent = `${window.location.host}/invite/`;
+    const domainPrefix = document.getElementById('domainPrefix');
+    if (domainPrefix) {
+      domainPrefix.textContent = `${window.location.host}/invite/`;
+    }
 
-    // Help suggest slug from home title
-    homeInput.addEventListener('input', () => {
-      if (slugInput.value.length < 5 || slugInput.value.match(/^[a-z0-9]{6}$/)) {
-        const normalized = homeInput.value
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/(^-|-$)/g, '');
-        if (normalized) {
-          slugInput.value = `${normalized}-${Math.random().toString(36).substring(2, 5)}`;
+    if (homeInput) {
+      homeInput.addEventListener('input', () => {
+        if (slugInput.value.length < 5 || slugInput.value.match(/^[a-z0-9]{6}$/)) {
+          const normalized = homeInput.value
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+          if (normalized) {
+            slugInput.value = `${normalized}-${Math.random().toString(36).substring(2, 5)}`;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   // --- Live Preview Messaging ---
-  const iframe = document.getElementById('previewIframe');
-  let previewReady = false;
-
   function changePreviewScreen(screen) {
-    if (previewReady && iframe.contentWindow) {
+    const iframe = getIframe();
+    if (previewReady && iframe && iframe.contentWindow) {
       iframe.contentWindow.postMessage({ type: 'show_screen', screen }, window.location.origin);
     }
   }
 
   function setupLivePreview() {
-    // Listen for iframe messages
     window.addEventListener('message', (event) => {
-      if (event.origin !== window.location.origin || event.source !== iframe.contentWindow) return;
+      const iframe = getIframe();
+      if (!iframe || event.origin !== window.location.origin || event.source !== iframe.contentWindow) return;
       if (event.data && event.data.type === 'preview_ready') {
         previewReady = true;
         updatePreview();
@@ -660,20 +745,17 @@
         const input = document.getElementsByName(field)[0] || document.getElementById(field);
         if (input) {
           input.value = value;
-          // Refresh other places in preview using the updated dataset
           updatePreview();
         }
       }
     });
 
-    // Listen to form input changes to sync preview instantly
     const formInputs = document.querySelectorAll('input, textarea, select');
     formInputs.forEach(input => {
       input.addEventListener('input', updatePreview);
       input.addEventListener('change', updatePreview);
     });
 
-    // Setup focus listeners to switch preview screens automatically
     const focusMapping = {
       'welcomeText': 'door',
       'homeName': 'door',
@@ -710,7 +792,6 @@
       }
     }
 
-    // Also trigger when selecting files or presets
     document.querySelectorAll('.btn-select-preset, .trigger-file-select').forEach(btn => {
       btn.addEventListener('click', () => {
         const screen = btn.dataset.screen;
@@ -724,37 +805,101 @@
   function getFormData() {
     const form = document.getElementById('builderForm');
     const data = {};
+    if (!form) return data;
     const formData = new FormData(form);
-    
+
     for (const [key, value] of formData.entries()) {
       if (key.startsWith('bg_') || key === 'bg_music_url') continue;
       data[key] = value;
     }
 
-    // Handles toggles
-    data.show_bible_verse = document.getElementById('showBibleVerse').checked;
-    data.show_presence_note = document.getElementById('showPresenceNote').checked;
+    const bibleCheck = document.getElementById('showBibleVerse');
+    data.show_bible_verse = bibleCheck ? bibleCheck.checked : false;
 
-    // Handles image paths (prioritize local temporary object URL for preview)
+    const presenceCheck = document.getElementById('showPresenceNote');
+    data.show_presence_note = presenceCheck ? presenceCheck.checked : false;
+
     const doorHidden = document.getElementById('bgImageDoor');
-    data.bg_image_door = doorHidden.dataset.tempUrl || doorHidden.value;
+    if (doorHidden) data.bg_image_door = doorHidden.dataset.tempUrl || doorHidden.value;
 
     const inviteHidden = document.getElementById('bgImageInvite');
-    data.bg_image_invite = inviteHidden.dataset.tempUrl || inviteHidden.value;
+    if (inviteHidden) data.bg_image_invite = inviteHidden.dataset.tempUrl || inviteHidden.value;
 
     const closingHidden = document.getElementById('bgImageClosing');
-    data.bg_image_closing = closingHidden.dataset.tempUrl || closingHidden.value;
+    if (closingHidden) data.bg_image_closing = closingHidden.dataset.tempUrl || closingHidden.value;
 
     const musicHidden = document.getElementById('bgMusicUrl');
-    data.bg_music_url = musicHidden.dataset.tempUrl || musicHidden.value;
+    if (musicHidden) data.bg_music_url = musicHidden.dataset.tempUrl || musicHidden.value;
 
     return data;
   }
 
   function updatePreview() {
     if (!previewReady) return;
+    const iframe = getIframe();
+    if (!iframe || !iframe.contentWindow) return;
     const payload = getFormData();
     iframe.contentWindow.postMessage({ type: 'preview', payload }, window.location.origin);
+  }
+
+  // --- Draft Autosave & Restore ---
+  function setupDraftPersistence() {
+    const DRAFT_KEY = 'invitelink_draft_v1';
+    const form = document.getElementById('builderForm');
+    if (!form) return;
+
+    let saveTimeout = null;
+    function saveDraft() {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        try {
+          const raw = getFormData();
+          const clean = {};
+          for (const [k, v] of Object.entries(raw)) {
+            if (typeof v === 'string' && v.startsWith('blob:')) continue;
+            clean[k] = v;
+          }
+          localStorage.setItem(DRAFT_KEY, JSON.stringify(clean));
+        } catch (e) {
+          console.warn('Draft save error:', e);
+        }
+      }, 500);
+    }
+
+    form.addEventListener('input', saveDraft);
+    form.addEventListener('change', saveDraft);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.get('template') && !urlParams.get('demo')) {
+      try {
+        const stored = localStorage.getItem(DRAFT_KEY);
+        if (stored) {
+          const draft = JSON.parse(stored);
+          for (const [key, val] of Object.entries(draft)) {
+            const input = document.getElementsByName(key)[0] || document.getElementById(key);
+            if (input && val != null) {
+              if (input.type === 'checkbox') {
+                input.checked = Boolean(val);
+              } else if (input.type !== 'file') {
+                input.value = val;
+              }
+            }
+          }
+          const bibleToggle = document.getElementById('showBibleVerse');
+          const bibleFields = document.getElementById('bibleVerseFields');
+          if (bibleToggle && bibleFields) {
+            bibleFields.classList.toggle('hidden', !bibleToggle.checked);
+          }
+          const presenceToggle = document.getElementById('showPresenceNote');
+          const presenceFields = document.getElementById('presenceNoteFields');
+          if (presenceToggle && presenceFields) {
+            presenceFields.classList.toggle('hidden', !presenceToggle.checked);
+          }
+        }
+      } catch (e) {
+        console.warn('Draft restore error:', e);
+      }
+    }
   }
 
   // --- Submit & Upload Assets ---
@@ -767,25 +912,26 @@
     const successCard = document.getElementById('successCard');
     let uploadedPaths = [];
 
+    if (!form || !publishBtn) return;
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // Lock screen / buttons
+
       publishBtn.disabled = true;
       publishBtn.textContent = "Publishing...";
-      progressContainer.classList.remove('hidden');
+      if (progressContainer) progressContainer.classList.remove('hidden');
       uploadedPaths = [];
 
       try {
-        // 1. Verify slug uniqueness
-        const slug = document.getElementById('slug').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+        const slugInput = document.getElementById('slug');
+        const slug = slugInput ? slugInput.value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '') : '';
         if (!slug) {
-          alert("Please enter a valid slug.");
+          alert("Please enter a valid URL slug.");
           resetPublishButton();
           return;
         }
 
-        label.textContent = "Checking URL availability...";
+        if (label) label.textContent = "Checking URL availability...";
         const { data: existing, error: checkError } = await supabaseClient
           .from('invitations')
           .select('id')
@@ -803,9 +949,8 @@
           return;
         }
 
-        // 2. Upload files if any selected
-        const payload = getFormData();
-        payload.slug = slug;
+        const rawData = getFormData();
+        rawData.slug = slug;
 
         const filesToUpload = [
           { inputId: 'fileDoor', fieldName: 'bg_image_door', folder: 'doors' },
@@ -825,9 +970,9 @@
             const fileExt = FILE_EXTENSIONS[file.type];
             const uniqueId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${i}`;
             const filePath = `${folder}/${slug}-${uniqueId}.${fileExt}`;
-            
-            label.textContent = `Uploading ${file.name}...`;
-            
+
+            if (label) label.textContent = `Uploading ${file.name}...`;
+
             const { data: uploadData, error: uploadError } = await supabaseClient
               .storage
               .from('invitations')
@@ -839,46 +984,59 @@
             }
             uploadedPaths.push(filePath);
 
-            // Get Public URL
             const { data: publicUrlData } = supabaseClient
               .storage
               .from('invitations')
               .getPublicUrl(filePath);
 
-            payload[fieldName] = publicUrlData.publicUrl;
+            rawData[fieldName] = publicUrlData.publicUrl;
           }
         }
 
-        // 3. Save to database
-        label.textContent = "Creating web invitation...";
+        // Whitelist and sanitize payload before inserting into DB
+        const payload = sanitizeDbPayload(rawData);
+
+        if (label) label.textContent = "Creating web invitation...";
         const { error: insertError } = await supabaseClient
           .from('invitations')
           .insert([payload]);
 
         if (insertError) {
           console.error(insertError);
-          throw new Error("Database insertion failed");
+          if (insertError.code === '23505') {
+            throw new Error(`The link slug "/invite/${slug}" is already taken. Please choose another one.`);
+          }
+          throw new Error("Database insertion failed. Please try again.");
         }
         uploadedPaths = [];
 
-        // 4. Success Screen
-        progressContainer.classList.add('hidden');
-        successCard.classList.remove('hidden');
+        // Clear local draft on success
+        localStorage.removeItem('invitelink_draft_v1');
+
+        // Success Screen
+        if (progressContainer) progressContainer.classList.add('hidden');
+        if (successCard) successCard.classList.remove('hidden');
         document.querySelectorAll('.success-back-row').forEach(el => el.classList.add('hidden'));
 
         const finalUrl = `${window.location.protocol}//${window.location.host}/invite/${slug}`;
-        document.getElementById('liveInviteLink').value = finalUrl;
-        document.getElementById('viewLiveBtn').href = finalUrl;
+        const liveInviteLink = document.getElementById('liveInviteLink');
+        if (liveInviteLink) liveInviteLink.value = finalUrl;
         
-        const waMsg = encodeURIComponent(`You're invited to ${payload.home_name}. View the invitation here: ${finalUrl}`);
-        document.getElementById('shareWhatsAppBtn').href = `https://wa.me/?text=${waMsg}`;
+        const viewLiveBtn = document.getElementById('viewLiveBtn');
+        if (viewLiveBtn) viewLiveBtn.href = finalUrl;
 
-        // Setup Copy Link
-        document.getElementById('copyLinkBtn').addEventListener('click', () => {
-          navigator.clipboard.writeText(finalUrl);
-          document.getElementById('copyLinkBtn').textContent = "Copied!";
-          setTimeout(() => document.getElementById('copyLinkBtn').textContent = "Copy Link", 2000);
-        });
+        const waMsg = encodeURIComponent(`You're invited to ${payload.home_name}. View the invitation here: ${finalUrl}`);
+        const shareWhatsAppBtn = document.getElementById('shareWhatsAppBtn');
+        if (shareWhatsAppBtn) shareWhatsAppBtn.href = `https://wa.me/?text=${waMsg}`;
+
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        if (copyLinkBtn) {
+          copyLinkBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(finalUrl);
+            copyLinkBtn.textContent = "Copied!";
+            setTimeout(() => { copyLinkBtn.textContent = "Copy Link"; }, 2000);
+          });
+        }
 
       } catch (err) {
         console.error(err);
@@ -893,8 +1051,8 @@
 
     function resetPublishButton() {
       publishBtn.disabled = false;
-      publishBtn.textContent = "Generate Invite Link";
-      progressContainer.classList.add('hidden');
+      publishBtn.textContent = "Generate Invitation Link";
+      if (progressContainer) progressContainer.classList.add('hidden');
     }
   }
 
