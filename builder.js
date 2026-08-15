@@ -259,16 +259,19 @@
       bg_image_door: "/assets/templates/babyshower.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800",
       bg_image_closing: "/assets/templates/babyshower.jpg",
-      bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
     }
   };
 
-  // Shared library sync
-  const sharedLibrary = window.INVITE_TEMPLATE_LIBRARY;
-  if (sharedLibrary) {
-    Object.assign(THEME_PRESETS, sharedLibrary.presets);
-    Object.assign(THEME_DEFAULTS, sharedLibrary.defaults);
+  function syncLibrary() {
+    const sharedLibrary = window.INVITE_TEMPLATE_LIBRARY;
+    if (sharedLibrary) {
+      if (sharedLibrary.presets) Object.assign(THEME_PRESETS, sharedLibrary.presets);
+      if (sharedLibrary.defaults) Object.assign(THEME_DEFAULTS, sharedLibrary.defaults);
+    }
   }
+
+  // Initial sync if already loaded
+  syncLibrary();
 
   let currentStep = 1;
   let activePresetScreen = null;
@@ -281,6 +284,7 @@
   document.addEventListener('DOMContentLoaded', init);
 
   function init() {
+    syncLibrary();
     if (typeof supabase !== 'undefined') {
       supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     } else {
@@ -619,6 +623,7 @@
 
   // --- Theme Template Selector ---
   function applyTheme(themeKey) {
+    syncLibrary();
     const defaults = THEME_DEFAULTS[themeKey];
     if (!defaults) return;
 
