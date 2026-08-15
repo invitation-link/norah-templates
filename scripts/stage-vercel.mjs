@@ -15,6 +15,7 @@ const productionFiles = [
   'templates.css',
   'templates.js',
   'templates-data.js',
+  'faq.html',
   'robots.txt',
   'sitemap.xml',
   'vercel.json'

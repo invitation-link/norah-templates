@@ -55,6 +55,7 @@ function Header() {
       <nav aria-label="Primary navigation">
         <a href="#occasions">Collection</a>
         <a href="#journey">Experience</a>
+        <a href="#faq">FAQ</a>
         <a className="nav-cta" href="/?template=wedding">Create yours <${Arrow} /></a>
       </nav>
     <//>
@@ -264,6 +265,80 @@ function Journey() {
   `;
 }
 
+const faqs = [
+  {
+    q: 'How do guests experience an Invite Link invitation?',
+    a: 'When guests click your unique link on mobile or desktop, they are welcomed by an elegant, atmospheric cover. A single tap opens the entrance with smooth motion, soft background music, floating petal animations, event timings, venue directions with Google Maps integration, and an instant WhatsApp RSVP button.'
+  },
+  {
+    q: 'Can I customize colors, photos, and music for any occasion?',
+    a: 'Yes! You can choose from our curated presets or upload your own custom high-resolution photos for each screen (Entrance Door, Main Invitation Card, and Closing Blessing). You can also set custom primary and accent colors, and choose or upload background audio.'
+  },
+  {
+    q: 'How does the WhatsApp RSVP system work?',
+    a: 'Guests tap their response ("Gladly attending", "Will try to come", or "Sending blessings"), which automatically prepares a personalized WhatsApp message with their RSVP status and sends it directly to your designated phone number with one touch.'
+  },
+  {
+    q: 'Can I update venue details or timings after sharing the link?',
+    a: 'Yes! Any updates saved in the studio update your live invitation immediately. Because the link remains constant, all guests automatically see the latest venue, date, and schedule without having to resend anything.'
+  },
+  {
+    q: 'Is there a limit on how many guests can open the invitation?',
+    a: 'No limit. Your invitation is deployed on high-speed global edge servers and supports unlimited guest views and smooth playback on all iPhone, Android, and desktop browsers.'
+  },
+  {
+    q: 'What occasions and event types are supported?',
+    a: 'Invite Link includes dedicated, beautifully designed templates for Housewarming, Weddings, Engagements, Birthdays, Baby Showers, Naming Ceremonies, Anniversaries, and Graduations.'
+  }
+];
+
+function FAQ() {
+  const [openIndex, setOpenIndex] = useState(0);
+
+  return html`
+    <section className="faq-section" id="faq" aria-labelledby="faq-title">
+      <${motion.div} className="faq-sticky" initial="hidden" whileInView="visible" viewport=${{ once: true, amount: 0.3 }} variants=${rise}>
+        <p className="section-index">04 / Questions & answers</p>
+        <h2 id="faq-title">Everything you need to know.</h2>
+        <p>Details about guest experience, customization, WhatsApp RSVPs, and live link sharing.</p>
+      <//>
+      <div className="faq-list">
+        ${faqs.map((faq, index) => {
+          const isOpen = openIndex === index;
+          return html`
+            <div className=${isOpen ? 'faq-item is-open' : 'faq-item'} key=${faq.q}>
+              <button
+                type="button"
+                className="faq-question"
+                onClick=${() => setOpenIndex(isOpen ? null : index)}
+                aria-expanded=${isOpen}
+              >
+                <h3>${faq.q}</h3>
+                <span className="faq-icon-wrapper" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14" /></svg>
+                </span>
+              </button>
+              <${AnimatePresence} initial=${false}>
+                ${isOpen && html`
+                  <${motion.div}
+                    className="faq-answer"
+                    initial=${{ opacity: 0, height: 0 }}
+                    animate=${{ opacity: 1, height: 'auto' }}
+                    exit=${{ opacity: 0, height: 0 }}
+                    transition=${{ duration: 0.35, ease }}
+                  >
+                    <p>${faq.a}</p>
+                  <//>
+                `}
+              <//>
+            </div>
+          `;
+        })}
+      </div>
+    </section>
+  `;
+}
+
 function PortalApp() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedTemplate, setSelectedTemplate] = useState(null);
@@ -302,8 +377,9 @@ function PortalApp() {
             <a className="button button--light" href="/?template=wedding">Open the studio <${Arrow} /></a>
           <//>
         </section>
+        <${FAQ} />
         <section className="final-cta" aria-labelledby="final-title">
-          <p className="section-index">04 / Make it yours</p>
+          <p className="section-index">05 / Make it yours</p>
           <${motion.h2} id="final-title" initial=${{ opacity: 0, y: 32 }} whileInView=${{ opacity: 1, y: 0 }} viewport=${{ once: true }} transition=${{ duration: 0.8, ease }}>
             Your people already matter. Make the invitation feel that way.
           <//>
@@ -313,7 +389,10 @@ function PortalApp() {
       <footer>
         <a className="brand brand--footer" href="/templates.html">INVITE LINK</a>
         <p>Made for the moments people keep.</p>
-        <a href="/">Open builder</a>
+        <div style=${{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <a href="/faq">FAQ</a>
+          <a href="/">Open builder</a>
+        </div>
       </footer>
       <${AnimatePresence}>
         ${selectedTemplate && html`<${PreviewDialog} key=${selectedTemplate} templateKey=${selectedTemplate} onClose=${() => setSelectedTemplate(null)} />`}

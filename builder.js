@@ -240,6 +240,7 @@
     setupLivePreview();
     setupSlugGenerator();
     setupPresetModal();
+    setupFaqModal();
     setupThemeSelector();
     setupOccasionActions();
     setupFormSubmission();
@@ -489,6 +490,34 @@
         grid.appendChild(card);
       });
     }
+  }
+
+  // --- Quick FAQ Modal ---
+  function setupFaqModal() {
+    const openBtn = document.getElementById('openFaqModalBtn');
+    const modal = document.getElementById('builderFaqModal');
+    const closeBtn = document.getElementById('builderFaqClose');
+    if (!modal) return;
+
+    if (openBtn) {
+      openBtn.addEventListener('click', () => modal.classList.add('active'));
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    }
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    const faqItems = modal.querySelectorAll('.builder-faq-item');
+    faqItems.forEach(item => {
+      const q = item.querySelector('.builder-faq-question');
+      if (q) {
+        q.addEventListener('click', () => {
+          item.classList.toggle('is-open');
+        });
+      }
+    });
   }
 
   // --- Theme / Category switching logic ---

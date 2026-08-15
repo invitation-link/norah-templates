@@ -28,7 +28,10 @@
             </svg>
             <h1>INVITE LINK</h1>
           </a>
-          <a class="template-library-link" href="/templates.html">Live demos</a>
+          <div class="builder-nav-group">
+            <a class="template-library-link" href="/templates.html">Templates</a>
+            <button type="button" class="builder-faq-btn" id="openFaqModalBtn">FAQ</button>
+          </div>
         </div>
         <p class="subtitle">Create and publish a polished invitation link for any celebration</p>
       </header>
@@ -380,6 +383,8 @@
           <iframe id="previewIframe" src="/invite.html?mode=preview&amp;v=20260718-1" frameborder="0"></iframe>
         </div>
       </div>
+        </div>
+      </div>
       <div class="preview-label">Live Mobile Preview</div>
     </div>
 
@@ -394,6 +399,58 @@
       </div>
       <div class="preset-grid" id="presetGrid">
         <!-- Dynaimc preset options -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick FAQ Modal -->
+  <div class="builder-faq-overlay" id="builderFaqModal">
+    <div class="builder-faq-modal" role="dialog" aria-modal="true" aria-labelledby="builderFaqTitle">
+      <div class="builder-faq-header">
+        <h3 id="builderFaqTitle">Frequently Asked Questions</h3>
+        <button class="builder-faq-close" id="builderFaqClose" aria-label="Close FAQ">&times;</button>
+      </div>
+      <div class="builder-faq-body">
+        <div class="builder-faq-item is-open">
+          <button type="button" class="builder-faq-question">
+            <span>How do guests open my invitation?</span>
+            <span class="builder-faq-icon">+</span>
+          </button>
+          <div class="builder-faq-answer">
+            <p>Guests receive your link on WhatsApp or SMS. Tapping the link opens an interactive entrance. One tap opens the door with smooth motion, soft background music, floating petals, venue directions, and an instant RSVP button.</p>
+          </div>
+        </div>
+        <div class="builder-faq-item">
+          <button type="button" class="builder-faq-question">
+            <span>Can I customize colors, photos, and music?</span>
+            <span class="builder-faq-icon">+</span>
+          </button>
+          <div class="builder-faq-answer">
+            <p>Yes! In Step 3 (Design), you can choose from preset themes or upload your own photos for each screen, select custom primary & accent colors, and choose or upload background music.</p>
+          </div>
+        </div>
+        <div class="builder-faq-item">
+          <button type="button" class="builder-faq-question">
+            <span>How does the WhatsApp RSVP work?</span>
+            <span class="builder-faq-icon">+</span>
+          </button>
+          <div class="builder-faq-answer">
+            <p>Guests select their response option on the card, which generates a pre-formatted WhatsApp message directly to your contact number with one touch.</p>
+          </div>
+        </div>
+        <div class="builder-faq-item">
+          <button type="button" class="builder-faq-question">
+            <span>Can I update details after publishing?</span>
+            <span class="builder-faq-icon">+</span>
+          </button>
+          <div class="builder-faq-answer">
+            <p>Yes. Any updates update your live invitation immediately without changing your URL, so all guests will automatically see the latest timings and venue info.</p>
+          </div>
+        </div>
+      </div>
+      <div class="builder-faq-footer">
+        <span>Need more answers or custom assistance?</span>
+        <a href="/faq">View Full FAQ Page →</a>
       </div>
     </div>
   </div>

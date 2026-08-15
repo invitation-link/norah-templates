@@ -4,6 +4,7 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/templates", "destination": "/templates.html" },
+    { "source": "/faq", "destination": "/faq.html" },
     { "source": "/invite/:slug", "destination": "/invite.html" }
   ],
   "headers": [

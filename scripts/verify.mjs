@@ -12,6 +12,7 @@ const requiredFiles = [
   'templates.css',
   'templates.js',
   'templates-data.js',
+  'faq.html',
   'invite.html',
   'invite.css',
   'invite.js',
