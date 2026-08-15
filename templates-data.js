@@ -30,7 +30,20 @@
         moment_label: 'The beginning of always', moment_text: 'Come for the vows. Stay for the laughter, the dancing and the memories we will carry home.',
         detail_time_extra: 'Dinner and dancing to follow', closing_heading: 'With all our hearts', gesture: 'petals'
       },
-      demo: { hosts: 'The Morales & The Bennett Families', event_date: futureDate, event_time: '6:30 PM onwards', venue_name: 'The Grand Pavilion', venue_address: 'Central Park South, New York', venue_maps_url: 'https://maps.google.com/?q=Central+Park+South+New+York', phone: '919999999999' }
+      demo: {
+        hosts: 'The Morales & The Bennett Families',
+        event_date: futureDate,
+        event_time: '6:30 PM onwards',
+        venue_name: 'The Grand Pavilion',
+        venue_address: 'Central Park South, New York',
+        venue_maps_url: 'https://maps.google.com/?q=Central+Park+South+New+York',
+        phone: '919999999999',
+        ceremonies: [
+          { name: 'Sacred Vows & Ring Exchange', time: '4:30 PM', venue: 'The Rose Garden Terrace', maps_url: 'https://maps.google.com/?q=Central+Park+South+New+York' },
+          { name: 'Cocktail Hour & Champagne Toast', time: '6:00 PM', venue: 'The Glasshouse Promenade', maps_url: 'https://maps.google.com/?q=Central+Park+South+New+York' },
+          { name: 'Dinner, Dancing & Celebration', time: '7:30 PM onwards', venue: 'The Grand Pavilion Ballroom', maps_url: 'https://maps.google.com/?q=Central+Park+South+New+York' }
+        ]
+      }
     },
     engagement: {
       meta: {
@@ -238,7 +251,20 @@
         moment_label: 'The rhythm of celebration', moment_text: 'Before the vows and sacred rituals, we celebrate the joy of two families dancing as one.',
         detail_time_extra: 'Mehndi at 5:00 PM · Sangeet & Dinner at 7:30 PM', closing_heading: 'Dance with us', gesture: 'marigold'
       },
-      demo: { hosts: 'Priya & Arjun', event_date: futureDate, event_time: '5:30 PM onwards', venue_name: 'The Grand Lawn, Taj Palace', venue_address: 'Colaba, Mumbai', venue_maps_url: 'https://maps.google.com/?q=Taj+Palace+Mumbai', phone: '919999999999' }
+      demo: {
+        hosts: 'Priya & Arjun',
+        event_date: futureDate,
+        event_time: '5:30 PM onwards',
+        venue_name: 'The Grand Lawn, Taj Palace',
+        venue_address: 'Colaba, Mumbai',
+        venue_maps_url: 'https://maps.google.com/?q=Taj+Palace+Mumbai',
+        phone: '919999999999',
+        ceremonies: [
+          { name: 'Mehndi & Henna Ceremony', time: '4:00 PM', venue: 'Lotus Lawn Garden', maps_url: 'https://maps.google.com/?q=Taj+Palace+Mumbai' },
+          { name: 'Dhol Beats & Family Sangeet', time: '7:00 PM', venue: 'Grand Durbar Hall', maps_url: 'https://maps.google.com/?q=Taj+Palace+Mumbai' },
+          { name: 'Cocktails & Gala Dinner', time: '9:00 PM onwards', venue: 'Palace Ballroom', maps_url: 'https://maps.google.com/?q=Taj+Palace+Mumbai' }
+        ]
+      }
     },
     cocktail: {
       meta: {
@@ -290,7 +316,20 @@
         moment_label: 'A sacred beginning', moment_text: 'As we invoke auspicious blessings for our family, your presence and prayers will sanctify our new home.',
         detail_time_extra: 'Pooja & Havan at 9:00 AM · Mahaprasad Lunch at 12:30 PM', closing_heading: 'Shubham Karoti Kalyanam', gesture: 'light'
       },
-      demo: { hosts: 'Sharma & Verma Families', event_date: futureDate, event_time: '9:00 AM onwards', venue_name: 'Ananda Nilayam', venue_address: 'Dwarka, New Delhi', venue_maps_url: 'https://maps.google.com/?q=Dwarka+New+Delhi', phone: '919999999999' }
+      demo: {
+        hosts: 'The Sharma & Verma Families',
+        event_date: futureDate,
+        event_time: '9:00 AM onwards',
+        venue_name: 'Shree Krishna Mandapam',
+        venue_address: 'Jubilee Hills, Hyderabad',
+        venue_maps_url: 'https://maps.google.com/?q=Jubilee+Hills+Hyderabad',
+        phone: '919999999999',
+        ceremonies: [
+          { name: 'Ganapati Pooja & Sankalpam', time: '9:00 AM', venue: 'Main Temple Sanctum', maps_url: 'https://maps.google.com/?q=Jubilee+Hills+Hyderabad' },
+          { name: 'Navagraha Homam & Blessings', time: '10:30 AM', venue: 'Yagya Shala', maps_url: 'https://maps.google.com/?q=Jubilee+Hills+Hyderabad' },
+          { name: 'Maha Prasadam & Community Feast', time: '12:30 PM onwards', venue: 'Annadanam Hall', maps_url: 'https://maps.google.com/?q=Jubilee+Hills+Hyderabad' }
+        ]
+      }
     },
     gala: {
       meta: {

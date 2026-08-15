@@ -1411,6 +1411,201 @@ body[data-occasion="naming"] .screen::after { background: linear-gradient(180deg
 .invite-cta-footer__note {
   font-family: var(--font-sans);
   font-size: 12px;
+.countdown__label {
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.countdown__sep {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--gold-muted);
+  padding-bottom: 14px;
+}
+
+/* ============================================
+   ADD TO CALENDAR
+   ============================================ */
+.add-to-calendar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 14px 28px;
+  background: var(--maroon);
+  border: none;
+  border-radius: var(--r-full);
+  color: var(--text-on-maroon);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(107, 32, 54, 0.25);
+  transition: all 0.4s var(--ease-cin);
+  -webkit-tap-highlight-color: transparent;
+}
+.add-to-calendar:active {
+  transform: scale(0.95);
+}
+.add-to-calendar:hover {
+  background: var(--maroon-deep);
+  box-shadow: 0 6px 28px rgba(107, 32, 54, 0.35);
+}
+.add-to-calendar svg {
+  color: var(--gold-light);
+  flex-shrink: 0;
+}
+
+/* ============================================
+   CONFETTI BURST (for RSVP)
+   ============================================ */
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: confettiBurst 2.5s ease-out forwards;
+}
+
+@keyframes fadeInUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+@keyframes scriptureReveal { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes breathe { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
+@keyframes ctaPulse { 0%,100% { opacity:1; box-shadow: 0 2px 20px rgba(107,32,54,0.1); } 50% { opacity:0.88; box-shadow: 0 2px 28px rgba(107,32,54,0.18); } }
+@keyframes ripple { 0% { transform:scale(1); opacity:.35; } 60% { transform:scale(1.2); opacity:0; } 100% { transform:scale(1); opacity:0; } }
+@keyframes shimmer { 0% { background-position:-200% center; } 100% { background-position:200% center; } }
+@keyframes crossPulse { 0%,100% { transform:scale(1); opacity:.35; } 50% { transform:scale(1.12); opacity:.1; } }
+@keyframes sunlightDrift { 0% { transform:translate(0,0); } 100% { transform:translate(20px,10px); } }
+@keyframes candleFlicker { 0% { opacity:.45; transform:scale(1); } 25% { opacity:.7; transform:scale(1.03); } 50% { opacity:.4; transform:scale(.97); } 75% { opacity:.75; transform:scale(1.02); } 100% { opacity:.5; transform:scale(1); } }
+@keyframes ab1 { 0%,100% { height:30%; } 50% { height:70%; } }
+@keyframes ab2 { 0%,100% { height:60%; } 50% { height:30%; } }
+@keyframes ab3 { 0%,100% { height:40%; } 50% { height:80%; } }
+@keyframes ab4 { 0%,100% { height:70%; } 50% { height:40%; } }
+@keyframes particleDrift { 0% { transform:translateY(0) scale(0); opacity:0; } 10% { opacity:.4; transform:translateY(-10vh) scale(1); } 90% { opacity:.15; } 100% { transform:translateY(-105vh) translateX(30px) scale(.2); opacity:0; } }
+@keyframes petalFall { 0% { opacity:1; transform:translateY(0) translateX(0) rotate(0deg) scale(1); } 100% { opacity:0; transform:translateY(80vh) translateX(var(--drift)) rotate(var(--spin)) scale(.3); } }
+@keyframes confettiFall { 0% { opacity:1; transform:translateY(0) scale(1); } 100% { opacity:0; transform:translateY(60vh) scale(.5); } }
+@keyframes confettiBurst {
+  0% { opacity:1; transform:translateY(0) translateX(0) rotate(0deg) scale(1); }
+  100% { opacity:0; transform:translateY(var(--fall-y, 80vh)) translateX(var(--drift-x, 0px)) rotate(var(--spin, 720deg)) scale(0.3); }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (min-width:481px) { #app { box-shadow:0 0 100px rgba(107,75,56,0.05); } }
+@media (max-width:360px) {
+  .door-title, .invitation-name { letter-spacing:5px; }
+  .details-card { padding:16px 18px; }
+  .door-content { padding:44px 20px 36px; }
+  .scripture__text { font-size:13px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
+  .reveal { opacity:1; transform:none; }
+  .screen::before,.screen::after { display:none; }
+}
+@supports (padding-top:env(safe-area-inset-top)) {
+  .door-content { padding-top:calc(56px + env(safe-area-inset-top)); }
+}
+
+/* =============================================
+   VIRAL CTA FOOTER — Create Your Own
+   ============================================= */
+.invite-cta-footer {
+  position: relative;
+  z-index: 10;
+  padding: 48px 24px 56px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.06) 100%);
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.invite-cta-footer__inner {
+  max-width: 360px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.invite-cta-footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.invite-cta-footer__logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.invite-cta-footer__wordmark {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--maroon);
+  letter-spacing: 0.5px;
+}
+
+.invite-cta-footer__tagline {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--text-secondary, #6B5A4E);
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.invite-cta-footer__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--maroon);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--r-full, 100px);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.invite-cta-footer__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  background: var(--maroon-deep, var(--maroon));
+}
+
+.invite-cta-footer__btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.invite-cta-footer__btn svg {
+  flex-shrink: 0;
+}
+
+.invite-cta-footer__note {
+  font-family: var(--font-sans);
+  font-size: 12px;
   color: var(--text-secondary, #8B7B6E);
   letter-spacing: 0.5px;
   margin: 0;
@@ -1419,4 +1614,139 @@ body[data-occasion="naming"] .screen::after { background: linear-gradient(180deg
 /* Hide CTA footer in preview mode */
 body.is-preview .invite-cta-footer {
   display: none;
+}
+
+/* =============================================
+   LIVE COUNTDOWN TIMER WIDGET
+   ============================================= */
+.countdown-widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 24px auto;
+  padding: 16px 20px;
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(196, 163, 90, 0.25);
+  border-radius: var(--r-lg, 18px);
+  box-shadow: 0 4px 20px rgba(33, 23, 20, 0.05);
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 52px;
+}
+
+.countdown-number {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--maroon, #6B2036);
+  line-height: 1.1;
+}
+
+.countdown-label {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary, #6B5A4E);
+  margin-top: 2px;
+}
+
+.countdown-sep {
+  font-family: var(--font-display, serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold, #C4A35A);
+  margin-top: -12px;
+}
+
+/* =============================================
+   MULTI-EVENT CEREMONY ITINERARY CARDS
+   ============================================= */
+.ceremonies-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 28px auto 20px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.ceremonies-header {
+  text-align: center;
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--maroon, #6B2036);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.ceremony-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(196, 163, 90, 0.2);
+  border-radius: var(--r-md, 16px);
+  padding: 18px 20px;
+  box-shadow: 0 4px 18px rgba(33, 23, 20, 0.05);
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ceremony-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(33, 23, 20, 0.08);
+}
+
+.ceremony-title {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--maroon, #6B2036);
+  margin-bottom: 6px;
+}
+
+.ceremony-time {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold, #C4A35A);
+  margin-bottom: 4px;
+}
+
+.ceremony-venue {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 13px;
+  color: var(--text-secondary, #6B5A4E);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.ceremony-directions-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--maroon, #6B2036);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold, #C4A35A);
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+
+.ceremony-directions-btn:hover {
+  color: var(--maroon-deep, #541729);
 }

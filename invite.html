@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#FAF6F1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Invitation</title>
+  <title>Invitation — Invite Link</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="alternate icon" href="/favicon.ico">
@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/invite.css?v=20260718-1">
+  <link rel="stylesheet" href="/invite.css?v=20260718-2">
   
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -144,7 +144,7 @@
       <div class="invitation-content">
         <p class="invitation-eyebrow reveal reveal-d1" id="invitationEyebrow">With Grateful Hearts,</p>
         <p class="invitation-hosts reveal reveal-d2" id="invitationHosts">Hosts</p>
-        <p class="invitation-invite reveal reveal-d2" id="invitationInvite">invite you to bless our new home.</p>
+        <p class="invitation-invite reveal reveal-d2" id="invitationInvite">invite you to bless our celebration.</p>
         <h2 class="invitation-name reveal reveal-d3" id="invitationName">OUR CELEBRATION</h2>
 
         <!-- Details Card -->
@@ -174,8 +174,8 @@
             </div>
             <div class="detail-info">
               <span class="detail-label">Venue</span>
-              <span class="detail-value" id="detailVenueName">Flat No. 505, Kalkura Heights</span>
-              <span class="detail-extra" id="detailVenueAddress">Opp. Robosoft Technologies, NH66, Santekatte, Udupi</span>
+              <span class="detail-value" id="detailVenueName">The Grand Pavilion</span>
+              <span class="detail-extra" id="detailVenueAddress">Central Park South, New York</span>
             </div>
           </div>
         </div>
@@ -183,6 +183,35 @@
         <div class="occasion-moment reveal reveal-d5">
           <span class="occasion-moment__label" id="occasionMomentLabel">The moment</span>
           <p id="occasionMomentText">Some moments become part of the family story forever.</p>
+        </div>
+
+        <!-- Live Countdown Timer -->
+        <div class="countdown-widget reveal reveal-d5" id="countdownWidget">
+          <div class="countdown-unit">
+            <span class="countdown-number" id="cdDays">00</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-number" id="cdHours">00</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-number" id="cdMinutes">00</span>
+            <span class="countdown-label">Mins</span>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-number" id="cdSeconds">00</span>
+            <span class="countdown-label">Secs</span>
+          </div>
+        </div>
+
+        <!-- Multi-Event Ceremony Itinerary Container -->
+        <div class="ceremonies-container reveal reveal-d5" id="ceremoniesContainer" style="display:none;">
+          <h3 class="ceremonies-header">Ceremonies & Celebrations</h3>
+          <div id="ceremoniesList"></div>
         </div>
 
         <!-- Action Cards -->
@@ -220,7 +249,7 @@
         <!-- Bible Verse -->
         <blockquote class="door-scripture reveal reveal-d1" id="doorScripture" style="margin-bottom: 32px;">
           <p id="scriptureText">"Whoever dwells in the shelter of the Most High..."</p>
-          <cite id="scriptureRef">â€” Psalm 91:1</cite>
+          <cite id="scriptureRef">— Psalm 91:1</cite>
         </blockquote>
 
         <h2 class="closing-heading reveal reveal-d2" id="closingHeading">Thank You</h2>
@@ -334,7 +363,7 @@
     </div>
   </div>
 
-  <script src="/templates-data.js?v=20260718-1"></script>
-  <script src="/invite.js?v=20260718-1"></script>
+  <script src="/templates-data.js?v=20260718-2"></script>
+  <script src="/invite.js?v=20260718-2"></script>
 </body>
 </html>

@@ -235,6 +235,12 @@
     safeSetText('occasionMomentLabel', data.moment_label || (themeDefaults && themeDefaults.moment_label) || 'The moment');
     safeSetText('occasionMomentText', data.moment_text || (themeDefaults && themeDefaults.moment_text) || 'Some moments become part of the family story forever.');
 
+    // Live Countdown Timer
+    initCountdown(data.event_date);
+
+    // Multi-Event Ceremony Itinerary
+    renderCeremonies(data.ceremonies);
+
     // Closing Screen
     if (data.show_bible_verse && data.bible_verse) {
       safeSetDisplay('doorScripture', 'block');
@@ -768,6 +774,75 @@
         ticking = true;
       }
     }, { passive: true });
+  }
+
+  /* ---- LIVE COUNTDOWN TIMER ---- */
+  let countdownInterval = null;
+  function initCountdown(targetDateStr) {
+    if (countdownInterval) clearInterval(countdownInterval);
+    const widget = byId('countdownWidget');
+    if (!widget) return;
+
+    let targetDate = new Date(targetDateStr || '2026-12-12T18:00:00');
+    if (isNaN(targetDate.getTime())) {
+      targetDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+    }
+
+    function update() {
+      const now = new Date().getTime();
+      const diff = targetDate.getTime() - now;
+
+      if (diff <= 0) {
+        safeSetText('cdDays', '00');
+        safeSetText('cdHours', '00');
+        safeSetText('cdMinutes', '00');
+        safeSetText('cdSeconds', '00');
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      safeSetText('cdDays', String(days).padStart(2, '0'));
+      safeSetText('cdHours', String(hours).padStart(2, '0'));
+      safeSetText('cdMinutes', String(minutes).padStart(2, '0'));
+      safeSetText('cdSeconds', String(seconds).padStart(2, '0'));
+    }
+
+    update();
+    countdownInterval = setInterval(update, 1000);
+  }
+
+  /* ---- MULTI-EVENT CEREMONY ITINERARY ---- */
+  function renderCeremonies(ceremonies) {
+    const container = byId('ceremoniesContainer');
+    const list = byId('ceremoniesList');
+    if (!container || !list) return;
+
+    if (!Array.isArray(ceremonies) || ceremonies.length === 0) {
+      container.style.display = 'none';
+      list.innerHTML = '';
+      return;
+    }
+
+    container.style.display = 'flex';
+    list.innerHTML = ceremonies.map(c => `
+      <div class="ceremony-card">
+        <div class="ceremony-title">${escapeHtml(c.name || 'Ceremony')}</div>
+        <div class="ceremony-time">${escapeHtml(c.time || '')}</div>
+        <div class="ceremony-venue">${escapeHtml(c.venue || '')}</div>
+        ${c.maps_url ? `<a class="ceremony-directions-btn" href="${escapeHtml(c.maps_url)}" target="_blank" rel="noopener">Get Directions →</a>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, function (m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+    });
   }
 
 })();
