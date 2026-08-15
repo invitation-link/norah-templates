@@ -25,6 +25,7 @@ const productionFiles = [
   'manifest.json',
   'site.webmanifest',
   'favicon.svg',
+  'favicon.ico',
   'robots.txt',
   'sitemap.xml',
   'vercel.json'

@@ -21,6 +21,7 @@ const requiredFiles = [
   'refund.html',
   'manifest.json',
   'favicon.svg',
+  'favicon.ico',
   'invite.html',
   'invite.css',
   'invite.js',
