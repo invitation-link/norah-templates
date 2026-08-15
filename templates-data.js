@@ -213,6 +213,110 @@
         detail_time_extra: 'Dinner and a proud toast to follow', closing_heading: 'Onward', gesture: 'ribbons'
       },
       demo: { hosts: 'Tara & The Sharma Family', event_date: futureDate, event_time: '6:00 PM onwards', venue_name: 'The Tactical Club', venue_address: 'Secunderabad, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Secunderabad+Hyderabad', phone: '919999999999' }
+    },
+    sangeet: {
+      meta: {
+        name: 'Sangeet & Mehndi', collection: 'Rhythm & Marigolds',
+        note: 'Vibrant festive energy, dhol beats, henna fragrance, and celebration with both families.',
+        image: '/assets/templates/sangeet.jpg', focal: 'center 40%'
+      },
+      defaults: {
+        home_name: 'DANCE, DHOL & DIL', welcome_text: 'Let the music play', invite_eyebrow: 'Together with our families,',
+        invite_text: 'invite you to an evening of music, henna, laughter and non-stop dancing.',
+        rsvp_option1_title: 'Ready to dance!', rsvp_option1_subtitle: 'Dhol is calling, we are in.',
+        rsvp_option2_title: 'Will try to join', rsvp_option2_subtitle: 'Saving energy for the party.',
+        rsvp_option3_title: 'Sending love & cheer', rsvp_option3_subtitle: 'Cheering from afar!',
+        modal_contact_blessing: 'Bring your brightest smile and best dance moves',
+        bible_verse: 'Let us celebrate with music, song, and joyful hearts.', bible_ref: 'Festive Blessing',
+        closing_quote: 'A night written in rhythm, laughter, and lifelong memories.', closing_subtext: 'Thank you for bringing the magic to our celebration.',
+        hosts_tagline: 'With joy & excitement', see_you_btn_text: 'Hit The Dance Floor', presence_note: 'Attire: Bright Festive & Indo-Western',
+        color_primary: '#156643', color_accent: '#E5A93C',
+        bg_image_door: '/assets/templates/sangeet.jpg',
+        bg_image_invite: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=84',
+        bg_image_closing: '/assets/templates/sangeet.jpg',
+        bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+        moment_label: 'The rhythm of celebration', moment_text: 'Before the vows and sacred rituals, we celebrate the joy of two families dancing as one.',
+        detail_time_extra: 'Mehndi at 5:00 PM · Sangeet & Dinner at 7:30 PM', closing_heading: 'Dance with us', gesture: 'marigold'
+      },
+      demo: { hosts: 'Ananya & Siddharth', event_date: futureDate, event_time: '5:30 PM onwards', venue_name: 'The Grand Lawn, Taj Krishna', venue_address: 'Banjara Hills, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Taj+Krishna+Hyderabad', phone: '919999999999' }
+    },
+    cocktail: {
+      meta: {
+        name: 'Cocktail Soirée', collection: 'Midnight & Champagne',
+        note: 'Chic rooftop skyline views, candlelit marble, sparkling drinks, and intimate celebration.',
+        image: '/assets/templates/cocktail.jpg', focal: 'center 38%'
+      },
+      defaults: {
+        home_name: 'NIGHTCAP & NEON', welcome_text: 'An evening under the skyline', invite_eyebrow: 'You are cordially invited,',
+        invite_text: 'to join us for craft cocktails, gourmet dinner, and unforgettable conversations.',
+        rsvp_option1_title: 'Count me in', rsvp_option1_subtitle: 'Glasses up, ready to toast.',
+        rsvp_option2_title: 'Might make it', rsvp_option2_subtitle: 'Will let you know soon.',
+        rsvp_option3_title: 'Sending good vibes', rsvp_option3_subtitle: 'Raise a glass for me!',
+        modal_contact_blessing: 'The best nights are spent with favorite people',
+        bible_verse: 'Here is to the nights that turned into morning with friends that turned into family.', bible_ref: 'A toast to good times',
+        closing_quote: 'Good drinks, great music, and even better company.', closing_subtext: 'Thank you for sharing the night with us.',
+        hosts_tagline: 'Cheers & Warm Regards', see_you_btn_text: 'Join The Soirée', presence_note: 'Dress code: Cocktail Chic / Black Tie Optional',
+        color_primary: '#1B2430', color_accent: '#D4AF37',
+        bg_image_door: '/assets/templates/cocktail.jpg',
+        bg_image_invite: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=900&q=84',
+        bg_image_closing: '/assets/templates/cocktail.jpg',
+        bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+        moment_label: 'An intimate evening', moment_text: 'Curated craft drinks, vinyl jazz, and an evening designed to celebrate life in good company.',
+        detail_time_extra: 'Cocktails at 7:30 PM · Dinner at 9:00 PM', closing_heading: 'Cheers to tonight', gesture: 'sparkle'
+      },
+      demo: { hosts: 'Vikram, Neha & Friends', event_date: futureDate, event_time: '7:30 PM onwards', venue_name: 'Sky Lounge Rooftop', venue_address: 'Hitec City, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Hitec+City+Hyderabad', phone: '919999999999' }
+    },
+    pooja: {
+      meta: {
+        name: 'Pooja & Blessing', collection: 'Sacred Light',
+        note: 'Traditional spiritual house blessing, sacred chanting, glowing brass diyas, and vegetarian feast.',
+        image: '/assets/templates/pooja.jpg', focal: 'center 45%'
+      },
+      defaults: {
+        home_name: 'SHUBH AARAMBH', welcome_text: 'With the grace of the divine', invite_eyebrow: 'With humble and grateful hearts,',
+        invite_text: 'invite you and your family to join us for our sacred Griha Pravesh Pooja & Havan.',
+        rsvp_option1_title: 'Joyfully attending', rsvp_option1_subtitle: 'Ready with all our blessings.',
+        rsvp_option2_title: 'Will try to attend', rsvp_option2_subtitle: 'In our prayers & thoughts.',
+        rsvp_option3_title: 'Sending divine wishes', rsvp_option3_subtitle: 'May prosperity fill your home.',
+        modal_contact_blessing: 'Your holy presence and blessings mean the world to us',
+        bible_verse: 'Om Sarve Bhavantu Sukhinah, Sarve Santu Niramayah.', bible_ref: 'Brihadaranyaka Upanishad',
+        closing_quote: 'May this abode be blessed with peace, abundance, and endless joy.', closing_subtext: 'Thank you for blessing our sacred beginning.',
+        hosts_tagline: 'With devotion & gratitude', see_you_btn_text: 'Seek Blessings', presence_note: 'Traditional attire · Mahaprasad lunch to follow',
+        color_primary: '#8A282B', color_accent: '#E2A32D',
+        bg_image_door: '/assets/templates/pooja.jpg',
+        bg_image_invite: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=84',
+        bg_image_closing: '/assets/templates/pooja.jpg',
+        bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
+        moment_label: 'A sacred beginning', moment_text: 'As we invoke auspicious blessings for our family, your presence and prayers will sanctify our new home.',
+        detail_time_extra: 'Pooja & Havan at 9:00 AM · Mahaprasad Lunch at 12:30 PM', closing_heading: 'Shubham Karoti Kalyanam', gesture: 'light'
+      },
+      demo: { hosts: 'Sharma & Varma Families', event_date: futureDate, event_time: '9:00 AM onwards', venue_name: 'Ananda Nilayam', venue_address: 'Kondapur, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Kondapur+Hyderabad', phone: '919999999999' }
+    },
+    gala: {
+      meta: {
+        name: 'Gala & Launch', collection: 'The Horizon',
+        note: 'Architectural elegance, black-tie dinner, executive networking, and visionary milestones.',
+        image: '/assets/templates/gala.jpg', focal: 'center 36%'
+      },
+      defaults: {
+        home_name: 'THE HORIZON SUMMIT', welcome_text: 'An exclusive milestone evening', invite_eyebrow: 'You are cordially invited,',
+        invite_text: 'to celebrate our annual keynote gala, innovation showcase, and leadership dinner.',
+        rsvp_option1_title: 'Confirm Attendance', rsvp_option1_subtitle: 'Executive pass reserved.',
+        rsvp_option2_title: 'Regretfully Decline', rsvp_option2_subtitle: 'Wishing success to the summit.',
+        rsvp_option3_title: 'Delegate Representative', rsvp_option3_subtitle: 'Sending team member.',
+        modal_contact_blessing: 'We look forward to welcoming you to an extraordinary evening',
+        bible_verse: 'Innovation distinguishes between a leader and a follower.', bible_ref: 'Keynote Quote',
+        closing_quote: 'Building the future together, one milestone at a time.', closing_subtext: 'Thank you for being part of our journey.',
+        hosts_tagline: 'With high esteem & gratitude', see_you_btn_text: 'Reserve VIP Seat', presence_note: 'Black Tie & Formal Evening Attire',
+        color_primary: '#1A1D20', color_accent: '#C8A261',
+        bg_image_door: '/assets/templates/gala.jpg',
+        bg_image_invite: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=900&q=84',
+        bg_image_closing: '/assets/templates/gala.jpg',
+        bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+        moment_label: 'Vision in motion', moment_text: 'An evening of keynote insights, networking with industry pioneers, and celebrating breakthrough achievements.',
+        detail_time_extra: 'Welcome Drinks at 6:30 PM · Keynote & Dinner at 7:30 PM', closing_heading: 'To the future', gesture: 'stars'
+      },
+      demo: { hosts: 'Apex Ventures & Leadership Team', event_date: futureDate, event_time: '6:30 PM onwards', venue_name: 'The Glass Atrium, Grand Hyatt', venue_address: 'Financial District, Hyderabad', venue_maps_url: 'https://maps.google.com/?q=Financial+District+Hyderabad', phone: '919999999999' }
     }
   };
 

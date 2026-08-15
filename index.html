@@ -126,14 +126,24 @@
           <div class="form-group">
             <label for="templateTheme">Occasion</label>
             <select id="templateTheme" name="event_type">
-              <option value="housewarming">Housewarming</option>
-              <option value="wedding">Wedding</option>
-              <option value="engagement">Engagement</option>
-              <option value="birthday">Birthday</option>
-              <option value="babyshower">Baby shower</option>
-              <option value="naming">Naming ceremony</option>
-              <option value="anniversary">Anniversary</option>
-              <option value="graduation">Graduation</option>
+              <optgroup label="Weddings & Romance">
+                <option value="wedding">Wedding (Vows in Bloom)</option>
+                <option value="sangeet">Sangeet & Mehndi (Rhythm & Marigolds)</option>
+                <option value="engagement">Engagement (The First Yes)</option>
+                <option value="anniversary">Anniversary (Still, Always)</option>
+              </optgroup>
+              <optgroup label="Home & Spiritual Blessings">
+                <option value="housewarming" selected>Housewarming (A New Door)</option>
+                <option value="pooja">Pooja & House Blessing (Sacred Light)</option>
+                <option value="babyshower">Baby Shower (Little Wonder)</option>
+                <option value="naming">Naming Ceremony (Hello, Little One)</option>
+              </optgroup>
+              <optgroup label="Soirées & Milestones">
+                <option value="cocktail">Cocktail Soirée (Midnight & Champagne)</option>
+                <option value="birthday">Birthday Celebration (Another Sun)</option>
+                <option value="graduation">Graduation (The Next Chapter)</option>
+                <option value="gala">Gala & Keynote (The Horizon)</option>
+              </optgroup>
             </select>
             <small>Choose the occasion first; it sets the starting copy, colors, imagery, and RSVP language.</small>
             <div class="occasion-actions">

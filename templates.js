@@ -16,13 +16,25 @@ import {
 // gallery and morphing-dialog patterns, powered by Motion for React.
 
 const html = htm.bind(React.createElement);
-const library = window.INVITE_TEMPLATE_LIBRARY;
-const order = ['wedding', 'engagement', 'housewarming', 'birthday', 'babyshower', 'naming', 'anniversary', 'graduation'];
+const order = [
+  'wedding',
+  'sangeet',
+  'engagement',
+  'cocktail',
+  'housewarming',
+  'pooja',
+  'birthday',
+  'babyshower',
+  'naming',
+  'anniversary',
+  'graduation',
+  'gala'
+];
 const filters = [
-  { id: 'all', label: 'All occasions', keys: order },
-  { id: 'love', label: 'Love stories', keys: ['wedding', 'engagement', 'anniversary'] },
-  { id: 'family', label: 'Family moments', keys: ['housewarming', 'birthday', 'babyshower', 'naming'] },
-  { id: 'milestones', label: 'Milestones', keys: ['graduation'] }
+  { id: 'all', label: 'All occasions (12)', keys: order },
+  { id: 'weddings', label: 'Weddings & Sangeet', keys: ['wedding', 'sangeet', 'engagement', 'anniversary'] },
+  { id: 'home', label: 'Home & Blessings', keys: ['housewarming', 'pooja', 'babyshower', 'naming'] },
+  { id: 'parties', label: 'Soirées & Celebrations', keys: ['cocktail', 'birthday', 'graduation', 'gala'] }
 ];
 const journey = [
   ['01', 'Anticipation', 'A cinematic cover and one gentle tap make opening the invitation feel personal.'],
