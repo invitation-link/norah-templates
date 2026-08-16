@@ -2,7 +2,7 @@
 
 Invite Link turns an occasion into an interactive invitation guests can open and share on WhatsApp.
 
-Live: https://invite-link-rosy.vercel.app
+Live: https://invitelink.shop
 
 ## Product
 

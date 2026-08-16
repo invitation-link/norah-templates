@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Great_Vibes, Inter, Playfair_Display } from "next/font/google";
 import { Toaster } from "sonner";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import AnalyticsConsent from "./components/analytics/AnalyticsConsent";
 import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 import MicrosoftClarity from "./components/analytics/MicrosoftClarity";
@@ -69,6 +70,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {clarityId && <MicrosoftClarity projectId={clarityId} />}
         {(gaId || clarityId) && <AnalyticsConsent />}
         <AuthProvider><SmoothScroll>{children}<Toaster position="top-center" richColors /></SmoothScroll></AuthProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

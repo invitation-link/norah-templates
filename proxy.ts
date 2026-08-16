@@ -1,44 +1,30 @@
-// Next.js Proxy for route protection.
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { createServerClient } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
 
-const protectedRoutes = ['/dashboard']
-const authRoutes = ['/login', '/signup']
+export async function proxy(request: NextRequest) {
+  let response = NextResponse.next({ request });
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !anonKey) return response;
 
-export async function proxy(req: NextRequest) {
-    const res = NextResponse.next()
-    const hasAuthCookie = req.cookies.getAll().some(cookie =>
-        cookie.name.startsWith('sb-') && cookie.name.includes('-auth-token')
-    )
-    const path = req.nextUrl.pathname
-    const isProtectedRoute = protectedRoutes.some(route =>
-        path === route || path.startsWith(`${route}/`)
-    )
-    const isAuthRoute = authRoutes.some(route => path === route)
-    const authConfigured = Boolean(
-        process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    )
-
-    // Browsing and customization stay open. The owner dashboard is protected
-    // only after real authentication credentials are connected.
-    if (isProtectedRoute && authConfigured && !hasAuthCookie) {
-        const redirectUrl = new URL('/', req.url)
-        redirectUrl.searchParams.set('login', 'true')
-        redirectUrl.searchParams.set('redirect', path)
-        return NextResponse.redirect(redirectUrl)
-    }
-
-    if (isAuthRoute && hasAuthCookie) {
-        return NextResponse.redirect(new URL('/dashboard', req.url))
-    }
-
-    return res
+  const supabase = createServerClient(url, anonKey, {
+    cookies: {
+      getAll: () => request.cookies.getAll(),
+      setAll: (cookies) => {
+        cookies.forEach(({ name, value }) => request.cookies.set(name, value));
+        response = NextResponse.next({ request });
+        cookies.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+      },
+    },
+  });
+  const { data: { user } } = await supabase.auth.getUser();
+  const path = request.nextUrl.pathname;
+  if (path.startsWith("/dashboard") && !user) {
+    const destination = new URL("/login", request.url);
+    destination.searchParams.set("next", path);
+    return NextResponse.redirect(destination);
+  }
+  return response;
 }
 
-export const config = {
-    matcher: [
-        '/dashboard/:path*',
-        '/login',
-        '/signup',
-    ],
-}
+export const config = { matcher: ["/dashboard/:path*"] };

@@ -1,0 +1,16 @@
+.scene { position: relative; width: 100%; height: 100%; min-height: 100dvh; overflow: hidden; display: grid; place-items: center; background: #1c110b; color: #fff7df; }
+.backdrop { object-fit: cover; transform: scale(1.04); }
+.shade { position: absolute; inset: 0; background: linear-gradient(180deg,rgba(14,7,3,.35),rgba(14,7,3,.78)); }
+.threshold,.details { position: relative; z-index: 2; width: min(88%,430px); text-align: center; }
+.threshold small,.details small { color: #f2cc69; font-size: 10px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; }
+.threshold h1,.details h1 { margin: 12px 0; font-family: var(--font-playfair),Georgia,serif; font-size: clamp(42px,11vw,68px); line-height: .98; font-weight: 540; }
+.threshold p,.details p { color: #eee2ca; line-height: 1.65; }
+.threshold button { width: 144px; height: 144px; margin-top: 22px; border: 1px solid rgba(242,204,105,.65); border-radius: 50%; background: rgba(22,11,5,.64); color: #fff7df; cursor: pointer; box-shadow: inset 0 0 0 8px rgba(242,204,105,.08),0 20px 70px rgba(0,0,0,.45); }
+.threshold button span { font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.details { padding: 28px 22px; border: 1px solid rgba(242,204,105,.3); background: rgba(23,12,6,.74); backdrop-filter: blur(14px); }
+.details h1 { font-size: clamp(36px,9vw,55px); }
+.details > div { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.15); text-align: left; }
+.details svg { flex: 0 0 auto; color: #f2cc69; }
+.details span { font-size: 13px; font-weight: 800; }
+.details em { display: block; margin-top: 3px; color: #d3c7b5; font-size: 11px; font-style: normal; font-weight: 500; }
+.closing { margin-top: 20px; color: #f2cc69 !important; font-family: var(--font-playfair),Georgia,serif; font-style: italic; }

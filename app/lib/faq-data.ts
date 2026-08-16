@@ -363,7 +363,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
             },
             {
                 question: 'How much do premium templates cost?',
-                answer: 'Premium templates start from ₹199 for basic upgrades. Prices vary based on features and template exclusivity. All prices are one-time with no subscriptions.'
+                answer: 'Essential is ₹399 per invitation and Premium is ₹999 per invitation. Bespoke design starts at ₹4,999. All are one-time purchases with no subscription.'
             },
             {
                 question: 'Is there a subscription required?',

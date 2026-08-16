@@ -1,32 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Loader2, Phone, X } from "lucide-react";
+import { ArrowRight, Loader2, Mail, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { signInWithGoogle, signInWithPseudoPhone } from "@/lib/auth";
+import { signInWithGoogle, signInWithMagicLink } from "@/lib/auth";
 import styles from "./LoginModal.module.css";
+import { trackEvent } from "@/app/lib/analytics";
 
-interface LoginModalProps { isOpen: boolean; onClose: () => void; onSuccess?: () => void; redirectTo?: string; }
+interface LoginModalProps { isOpen: boolean; onClose: () => void; redirectTo?: string; }
 
-export function LoginModal({ isOpen, onClose, onSuccess, redirectTo }: LoginModalProps) {
-  const [phone, setPhone] = useState("");
+export function LoginModal({ isOpen, onClose, redirectTo }: LoginModalProps) {
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   if (!isOpen) return null;
 
   const handleContinue = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (phone.length !== 10) { toast.error("Enter a valid 10-digit phone number"); return; }
+    if (!/^\S+@\S+\.\S+$/.test(email)) { toast.error("Enter a valid email address"); return; }
     setLoading(true);
-    const result = await signInWithPseudoPhone(phone);
+    trackEvent("auth_started", { method: "email_magic_link" });
+    const result = await signInWithMagicLink(email, redirectTo);
     setLoading(false);
     if (!result.success) { toast.error(result.error || "Could not sign in"); return; }
-    toast.success("Welcome to Invite Link"); onSuccess?.(); onClose();
-    if (redirectTo) window.location.href = redirectTo;
+    toast.success("Check your email for a secure sign-in link");
   };
 
   const handleGoogle = async () => {
     setLoading(true);
+    trackEvent("auth_started", { method: "google" });
     const result = await signInWithGoogle(redirectTo);
     if (!result.success) { setLoading(false); toast.error(result.error || "Could not sign in with Google"); }
   };
@@ -41,11 +43,11 @@ export function LoginModal({ isOpen, onClose, onSuccess, redirectTo }: LoginModa
         <h2 id="login-title">Keep your invitation close.</h2>
         <p>Sign in only when you are ready to publish. Your draft stays exactly as you made it.</p>
         <button type="button" className={styles.google} onClick={handleGoogle} disabled={loading}><strong>G</strong> Continue with Google <ArrowRight size={17} /></button>
-        <div className={styles.divider}><span>or use your phone</span></div>
+        <div className={styles.divider}><span>or use a secure email link</span></div>
         <form onSubmit={handleContinue}>
-          <label htmlFor="login-phone">Mobile number</label>
-          <div className={styles.phone}><span>+91</span><input id="login-phone" type="tel" inputMode="numeric" autoComplete="tel" value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, "").slice(0, 10))} placeholder="98765 43210" disabled={loading} /></div>
-          <button type="submit" className={styles.submit} disabled={loading || phone.length !== 10}>{loading ? <Loader2 className={styles.spin} /> : <Phone size={17} />} Continue to publish</button>
+          <label htmlFor="login-email">Email address</label>
+          <div className={styles.phone}><input id="login-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" disabled={loading} /></div>
+          <button type="submit" className={styles.submit} disabled={loading || !email}>{loading ? <Loader2 className={styles.spin} /> : <Mail size={17} />} Email me a secure link</button>
         </form>
         <small>By continuing, you agree to keep every invitation respectful and lawful.</small>
       </section>

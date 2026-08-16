@@ -50,7 +50,7 @@ const templates: Template[] = [
     feeling: "Warm, cinematic, intimate",
     interaction: "Tap to open the door",
     image: "/images/templates/live/norah-housewarming.png",
-    demoUrl: "https://norah-housewarming.vercel.app/",
+    demoUrl: "/demo/new-door",
     tone: "dark",
   },
   {
@@ -60,7 +60,7 @@ const templates: Template[] = [
     feeling: "Magical, playful, wonder-filled",
     interaction: "Dive into the celebration",
     image: "/images/templates/live/underwater-one.png",
-    demoUrl: "https://invite-platform-six.vercel.app/rudhrakshi",
+    demoUrl: "/demo/underwater-one",
     tone: "light",
   },
   {
@@ -246,13 +246,11 @@ export default function Home() {
             Choose a beautifully choreographed experience, personalize the details, and share one unforgettable link.
           </motion.p>
           <motion.div variants={reveal} transition={{ duration: 0.55 }} className={styles.heroActions}>
-            <Link href="/create" className={styles.primaryButton} onClick={() => trackEvent("create_started", { placement: "hero" })}>
-              Create your invite <ArrowRight size={19} aria-hidden="true" />
-            </Link>
-            <a href="#templates" className={styles.secondaryButton}>
+            <button type="button" className={styles.primaryButton} onClick={() => openPreview(templates[1], "hero_cta")}>
               <Play size={17} fill="currentColor" aria-hidden="true" />
-              Explore live designs
-            </a>
+              Try a live invitation
+            </button>
+            <Link href="/create" className={styles.secondaryButton} onClick={() => trackEvent("create_started", { placement: "hero" })}>Create your invitation <ArrowRight size={17} /></Link>
           </motion.div>
           <motion.p variants={reveal} className={styles.heroNote}>
             No design skills needed. Preview before you publish.
@@ -275,7 +273,7 @@ export default function Home() {
               priority
               className={styles.posterImage}
             />
-            <button type="button" className={styles.posterPlay} onClick={() => openPreview(templates[0], "hero_poster")}>
+            <button type="button" className={styles.posterPlay} onClick={() => openPreview(templates[1], "hero_poster")}>
               <span><Play size={18} fill="currentColor" aria-hidden="true" /></span>
               Watch it open
             </button>
@@ -438,7 +436,7 @@ export default function Home() {
           <div className={styles.linkBubble}>
             <div className={styles.linkPreview}><Image src="/brand/invite-link-mark.png" alt="" width={510} height={445} /></div>
             <strong>Aarav turns one</strong>
-            <span>invitelink.in/aarav</span>
+            <span>invitelink.shop/aarav</span>
           </div>
         </div>
         <div className={styles.shareCopy}>
@@ -463,7 +461,7 @@ export default function Home() {
       <footer className={styles.footer}>
         <Brand compact />
         <p>Beautiful interactive invitations, made to be felt.</p>
-        <div><Link href="/templates">Templates</Link><Link href="/faq">FAQ</Link><Link href="/about">About</Link></div>
+        <div><Link href="/templates">Templates</Link><Link href="/pricing">Pricing</Link><Link href="/faq">FAQ</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/refund">Refunds</Link></div>
         <span>© 2026 Invite Link</span>
       </footer>
 

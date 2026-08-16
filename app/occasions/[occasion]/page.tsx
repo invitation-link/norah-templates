@@ -11,6 +11,10 @@ const occasions = {
   birthday: { label: "Birthday", type: "BIRTHDAY" as ProductOccasion, title: "Interactive birthday invitations that begin with surprise.", description: "Create a birthday invitation guests can tap, reveal and remember—complete with photos, party details and WhatsApp RSVP.", keyword: "interactive birthday invitation" },
   wedding: { label: "Wedding", type: "WEDDING" as ProductOccasion, title: "Digital wedding invitations with a sense of ceremony.", description: "Personalize an elegant interactive wedding invitation with your names, story, venue and RSVP, then share one beautiful link.", keyword: "digital wedding invitation" },
   housewarming: { label: "Housewarming", type: "HOUSEWARMING" as ProductOccasion, title: "Open the door to your new beginning.", description: "Create a warm interactive housewarming or Griha Pravesh invitation with directions, family details and a cinematic opening.", keyword: "housewarming invitation online" },
+  "baby-shower": { label: "Baby shower", type: "BIRTHDAY" as ProductOccasion, title: "A gentle invitation for a beautiful beginning.", description: "Create an interactive baby shower invitation with family details, blessings, directions and a private RSVP.", keyword: "baby shower invitation online" },
+  engagement: { label: "Engagement", type: "WEDDING" as ProductOccasion, title: "Let the first promise feel unforgettable.", description: "Share an elegant interactive engagement invitation with your names, story, venue and private RSVP.", keyword: "digital engagement invitation" },
+  "naming-ceremony": { label: "Naming ceremony", type: "BIRTHDAY" as ProductOccasion, title: "Introduce a little name with a lot of love.", description: "Create a warm naming ceremony invitation for WhatsApp with family details, venue, blessings and RSVP.", keyword: "naming ceremony invitation online" },
+  corporate: { label: "Corporate", type: "CORPORATE" as ProductOccasion, title: "A focused invitation for people who value their time.", description: "Publish an interactive corporate event invitation with agenda, maps and clear attendance tracking.", keyword: "corporate event invitation online" },
   celebrations: { label: "Celebration", type: "CELEBRATION" as ProductOccasion, title: "Invitation experiences for every reason to celebrate.", description: "Turn anniversaries, parties and milestones into an interactive invitation link made for effortless WhatsApp sharing.", keyword: "online celebration invitation" },
 } as const;
 
@@ -47,7 +51,7 @@ export default async function OccasionPage({ params }: { params: Promise<{ occas
         <div className={styles.grid}>{templates.map((template) => <article key={template.id}><div><Image src={template.previewImage} alt={`${template.name} ${item.label.toLowerCase()} invitation opening`} fill sizes="(max-width: 700px) 100vw, 50vw" /></div><span>{template.interaction}</span><h3>{template.name}</h3><p>{template.description}</p><a href={template.liveUrl} target={template.liveUrl.startsWith("http") ? "_blank" : undefined} rel={template.liveUrl.startsWith("http") ? "noreferrer" : undefined}><Play /> Preview experience</a></article>)}</div>
       </section>
       <section className={styles.copy}><div><span>Choose. Personalize. Share.</span><h2>An invitation link, not another attachment.</h2></div><p>Guests open it directly in their browser. You keep control of the names, date, venue, photos and message while Invite Link protects the composition, animation and mobile experience.</p></section>
-      <footer><h2>Make the invitation part of the memory.</h2><Link href="/create">Start creating <ArrowRight /></Link><Link href="/privacy">Privacy</Link></footer>
+      <footer><h2>Make the invitation part of the memory.</h2><Link href="/create">Start creating <ArrowRight /></Link><Link href="/pricing">Pricing</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link></footer>
     </main>
   );
 }

@@ -2,8 +2,8 @@
 export interface InviteData {
   id: string;
   slug: string;
-  type: "BIRTHDAY" | "WEDDING" | "CORPORATE" | "CASUAL";
-  tier: "FREE" | "PREMIUM";
+  type: "BIRTHDAY" | "WEDDING" | "HOUSEWARMING" | "CORPORATE" | "CASUAL";
+  tier: "FREE" | "ESSENTIAL" | "PREMIUM";
   
   // Core Details
   eventTitle: string;

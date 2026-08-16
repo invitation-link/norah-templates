@@ -23,6 +23,7 @@
 .meta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; padding: 24px; border: 1px solid rgba(7,26,56,.1); border-top: 0; }
 .meta > div > span { color: #a96f00; font-size: 9px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
 .meta h2 { margin: 6px 0 7px; font-family: var(--font-playfair), Georgia, serif; font-size: 31px; }
+.meta h2 a { color: inherit; text-decoration: none; }
 .meta p { max-width: 480px; margin: 0; color: #657285; font-size: 12px; line-height: 1.55; }
 .meta small { display: block; margin-top: 12px; color: #526075; font-size: 10px; font-weight: 750; }
 .meta > a { min-height: 46px; display: inline-flex; align-items: center; gap: 8px; padding: 0 15px; border: 1px solid #071a38; border-radius: 999px; color: #071a38; text-decoration: none; font-size: 11px; font-weight: 800; }

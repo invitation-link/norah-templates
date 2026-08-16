@@ -334,7 +334,7 @@ export default function TirangaExperience({ incomingName, shareId, community }: 
   const showSound = stage === "ready" || stage === "hoisting";
   const showPetals = stage === "pride";
   const sceneActive = stage === "ready" || stage === "hoisting" || stage === "unfurling" || stage === "pride" || stage === "anthem";
-  const urlLabel = (shareUrl || "invite-link-rosy.vercel.app/tiranga").replace(/^https?:\/\//, "");
+  const urlLabel = (shareUrl || "invitelink.shop/tiranga").replace(/^https?:\/\//, "");
 
   return (
     <main className={styles.shell} style={{ "--progress": progress, "--reveal": reveal } as React.CSSProperties}>

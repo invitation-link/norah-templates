@@ -1,52 +1,20 @@
 # Invite Link
 
-> India's premier digital invitation platform for creating and sharing interactive, WhatsApp-friendly event invitations.
+Invite Link is an India-first interactive digital invitation maker at https://invitelink.shop.
 
-## What is Invite Link?
+## Product
 
-Invite Link helps people choose, personalize and share beautifully designed interactive invitations for birthdays, weddings, housewarmings and celebrations.
+- Free: basic personalized invitation with Invite Link credit and one end sponsor.
+- Essential: ₹399 one-time for full standard customization, custom slug and no third-party ads.
+- Premium: ₹999 one-time for premium interactions, media, analytics and no Invite Link branding.
+- Bespoke: custom invitation design from ₹4,999.
 
-## Key Features
+## Core pages
 
-- **Free Forever**: Create unlimited digital invitations at no cost
-- **No App Download**: Works directly in any web browser
-- **WhatsApp Optimized**: Perfect preview cards when shared on WhatsApp
-- **Interactive Elements**: Music, animations, countdown timers, photo galleries
-- **RSVP Tracking**: Real-time guest responses and analytics
-- **Indian Events**: Specialized templates for Haldi, Sangeet, Griha Pravesh, Mundan
+- Templates: https://invitelink.shop/templates
+- Pricing: https://invitelink.shop/pricing
+- Create: https://invitelink.shop/create
+- FAQ: https://invitelink.shop/faq
+- Contact: https://invitelink.shop/contact
 
-## Template Categories
-
-1. **Wedding Invitations**: Traditional, modern, destination wedding styles
-2. **Birthday Invitations**: Kids parties, milestone birthdays, theme parties
-3. **Housewarming Invitations**: Griha Pravesh, Vastu Puja ceremonies
-4. **Baby Shower Invitations**: Godh Bharai, baby announcement cards
-5. **Corporate Events**: Conference invites, product launches, team events
-6. **Anniversary Invitations**: Silver, golden jubilee celebrations
-
-## How to Create an Invitation
-
-1. Visit https://invite-platform-navy.vercel.app/templates
-2. Browse and select a template that matches your event
-3. Customize with your event name, date, venue, and photos
-4. Click "Save & Get Link" to generate your unique shareable URL
-5. Share the link on WhatsApp, SMS, or any messaging platform
-
-## Target Audience
-
-- Indian families planning weddings and engagements
-- Parents organizing birthday parties for children
-- Professionals hosting corporate events and conferences
-- Anyone looking for eco-friendly alternatives to paper invitations
-
-## Contact
-
-Website: https://invite-platform-navy.vercel.app
-Phone: +91-9553966113
-
-## Technical Details
-
-- Platform: Next.js web application
-- Hosting: Vercel Edge Network (global CDN)
-- Database: Supabase (PostgreSQL)
-- Mobile-first responsive design
+Personalized invitation and dashboard URLs are not intended for search indexing.

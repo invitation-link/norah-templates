@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { User } from '@supabase/supabase-js'
 import { getSupabaseClient, onAuthStateChange, signOut as authSignOut } from '@/lib/auth'
+import { trackEvent } from '@/app/lib/analytics'
 
 interface AuthContextType {
     user: User | null
@@ -41,6 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const subscription = onAuthStateChange((user) => {
             setUser(user)
             setLoading(false)
+            if (user) trackEvent('auth_completed', { provider: user.app_metadata?.provider || 'unknown' })
         })
 
         return () => {

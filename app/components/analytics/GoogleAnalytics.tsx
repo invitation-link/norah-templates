@@ -1,22 +1,19 @@
 "use client";
 
 import Script from "next/script";
-import { usePathname, useSearchParams } from "next/navigation";
-import { Suspense, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 function RouteMeasurement() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
-    const query = searchParams.toString();
-    const pagePath = `${pathname}${query ? `?${query}` : ""}`;
     window.gtag?.("event", "page_view", {
       page_title: document.title,
-      page_location: window.location.href,
-      page_path: pagePath,
+      page_location: `${window.location.origin}${pathname}`,
+      page_path: pathname,
     });
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return null;
 }
@@ -42,7 +39,7 @@ export default function GoogleAnalytics({ measurementId }: { measurementId: stri
         `}
       </Script>
       <Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`} />
-      <Suspense fallback={null}><RouteMeasurement /></Suspense>
+      <RouteMeasurement />
     </>
   );
 }

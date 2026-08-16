@@ -2,7 +2,7 @@ import { InviteData, TemplateProps } from "./types";
 import dynamic from "next/dynamic";
 import { ComponentType } from "react";
 
-export type TemplateCategory = "BIRTHDAY" | "WEDDING" | "CORPORATE" | "CASUAL";
+export type TemplateCategory = "BIRTHDAY" | "WEDDING" | "HOUSEWARMING" | "CORPORATE" | "CASUAL";
 
 export interface TemplateMetadata {
     id: string;
@@ -16,6 +16,24 @@ export interface TemplateMetadata {
 
 // 1. The Registry
 export const TEMPLATE_REGISTRY: TemplateMetadata[] = [
+    {
+        id: "new-door",
+        name: "The New Door",
+        description: "A warm housewarming reveal built around opening the door to a new beginning.",
+        category: "HOUSEWARMING",
+        tier: "PREMIUM",
+        thumbnailUrl: "/images/templates/live/norah-housewarming.png",
+        component: dynamic(() => import("./new-door")),
+    },
+    {
+        id: "underwater-one",
+        name: "Underwater One",
+        description: "A playful undersea first-birthday reveal filled with bubbles and wonder.",
+        category: "BIRTHDAY",
+        tier: "PREMIUM",
+        thumbnailUrl: "/images/templates/live/underwater-one.png",
+        component: dynamic(() => import("./underwater-one")),
+    },
     {
         id: "ganishka-original",
         name: "Golden Unboxing",

@@ -269,7 +269,7 @@ export default function FAQPage() {
                         <Link href="/faq" className="text-gray-400 hover:text-white transition-colors">FAQ</Link>
                     </div>
                     <p className="text-gray-500 text-xs mt-8">
-                        © 2026 Invitation Link. Made with ❤️ in India.
+                        © 2026 Invite Link. Made in India. · <Link href="/pricing">Pricing</Link> · <Link href="/contact">Contact</Link> · <Link href="/privacy">Privacy</Link> · <Link href="/terms">Terms</Link> · <Link href="/refund">Refunds</Link>
                     </p>
                 </div>
             </footer>

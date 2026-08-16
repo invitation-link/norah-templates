@@ -1,0 +1,17 @@
+.ocean { position: relative; width: 100%; height: 100%; min-height: 100dvh; overflow: hidden; display: grid; place-items: center; background: #023a58; color: white; }
+.backdrop { object-fit: cover; }
+.blue { position: absolute; inset: 0; background: linear-gradient(180deg,rgba(0,71,105,.25),rgba(0,33,65,.8)); backdrop-filter: saturate(1.1); }
+.bubble { position: absolute; z-index: 1; bottom: -40px; width: 18px; height: 18px; border: 1px solid rgba(255,255,255,.65); border-radius: 50%; animation: rise 7s linear infinite; }
+@keyframes rise { to { transform: translateY(-110dvh) scale(1.5); opacity: 0; } }
+.intro,.card { position: relative; z-index: 2; width: min(88%,430px); text-align: center; }
+.intro small,.card small { color: #f9d478; font-size: 10px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; }
+.intro h1,.card h1 { margin: 12px 0; font-family: var(--font-playfair),Georgia,serif; font-size: clamp(45px,12vw,70px); line-height: .95; }
+.intro p,.card p { color: #e5f8ff; line-height: 1.6; }
+.intro button { min-height: 52px; margin-top: 20px; padding: 0 24px; border: 0; border-radius: 999px; background: #f9d478; color: #032d45; cursor: pointer; font-weight: 900; }
+.card { padding: 28px 22px; border: 1px solid rgba(255,255,255,.36); border-radius: 28px 28px 8px 8px; background: rgba(0,48,75,.72); backdrop-filter: blur(14px); }
+.card h1 { font-size: clamp(38px,10vw,58px); }
+.card > div { display: flex; gap: 12px; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.18); text-align: left; }
+.card svg { flex: 0 0 auto; color: #f9d478; }
+.card span { font-size: 13px; font-weight: 800; }
+.card em { display: block; margin-top: 3px; color: #cdeaf5; font-size: 11px; font-style: normal; font-weight: 500; }
+.card > strong { display: block; margin-top: 20px; color: #f9d478; font-family: var(--font-playfair),Georgia,serif; font-style: italic; }

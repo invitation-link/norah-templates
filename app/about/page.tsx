@@ -111,8 +111,8 @@ export default function AboutPage() {
                             <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mb-4">
                                 <Users className="w-6 h-6 text-orange-600" />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">Free Forever</h3>
-                            <p className="text-gray-600">Basic invitations are always free. We believe everyone deserves beautiful invitations regardless of budget.</p>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">A useful free beginning</h3>
+                            <p className="text-gray-600">Publish a basic ad-supported invitation at no cost, then upgrade only when you want deeper customization.</p>
                         </div>
                     </div>
 
@@ -143,9 +143,8 @@ export default function AboutPage() {
             {/* Footer */}
             <footer className="bg-gray-100 py-12 text-center">
                 <div className="container mx-auto px-6">
-                    <p className="text-gray-500 text-sm">
-                        © 2026 Invite Link. Made in India.
-                    </p>
+                    <div className="flex flex-wrap justify-center gap-5 mb-4 text-sm"><Link href="/pricing">Pricing</Link><Link href="/contact">Contact</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/refund">Refunds</Link></div>
+                    <p className="text-gray-500 text-sm">© 2026 Invite Link. Made in India.</p>
                 </div>
             </footer>
         </div>
