@@ -191,7 +191,8 @@ export default function Home() {
   );
 
   const openPreview = (template: Template, placement: string) => {
-    trackEvent("template_preview_open", { template_id: template.id, template_category: template.category, placement });
+    trackEvent("template_view", { template_id: template.id, template_category: template.category, placement });
+    trackEvent("live_demo_open", { template_id: template.id, placement });
     setPreview(template);
   };
 
@@ -253,7 +254,7 @@ export default function Home() {
             <Link href="/create" className={styles.secondaryButton} onClick={() => trackEvent("create_started", { placement: "hero" })}>Create your invitation <ArrowRight size={17} /></Link>
           </motion.div>
           <motion.p variants={reveal} className={styles.heroNote}>
-            No design skills needed. Preview before you publish.
+            No app download · Works on WhatsApp · Maps included · Edits stay live
           </motion.p>
         </motion.div>
 
@@ -305,6 +306,18 @@ export default function Home() {
           <Link href="/occasions/wedding">Wedding</Link><i aria-hidden="true" />
           <Link href="/occasions/housewarming">Housewarming</Link><i aria-hidden="true" />
           <Link href="/occasions/celebrations">Celebrations</Link>
+        </div>
+      </section>
+
+      <section className={styles.outcomeCompare} aria-labelledby="live-link-difference">
+        <div className={styles.compareIntro}>
+          <span className={styles.kicker}>The difference guests feel</span>
+          <h2 id="live-link-difference">A static file announces.<br />A live link welcomes.</h2>
+          <p>Keep the convenience of WhatsApp while giving every guest the details and actions they need in one place.</p>
+        </div>
+        <div className={styles.compareRows}>
+          <div><span>Image or PDF</span><strong>One frozen screen</strong><p>Details get buried, map links are separate and every correction means sending a new file.</p></div>
+          <div><span>Invite Link</span><strong>One living invitation</strong><p>Interactive opening, countdown, directions, RSVP and edits that stay current after sharing.</p></div>
         </div>
       </section>
 

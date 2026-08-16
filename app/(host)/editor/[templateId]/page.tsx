@@ -157,6 +157,7 @@ export default function EditorPage() {
   };
   const copyLink = async () => {
     await navigator.clipboard.writeText(shareUrl);
+    trackEvent("link_copy", { template_id: templateId, plan: planId });
     toast.success("Invite link copied");
   };
   const uploadCover = (file?: File) => {
@@ -176,11 +177,13 @@ export default function EditorPage() {
     trackEvent("publish_success", { template_id: templateId, plan: planId, invitation_type: draft.type });
   };
   const publishFree = async () => {
+    trackEvent("publish_intent", { template_id: templateId, plan: planId });
     if (!user) { setShowLogin(true); return; }
     try { const id = await persistDraft(); await publishSavedInvitation(id); toast.success("Your invitation is live"); }
     catch (error) { toast.error(error instanceof Error ? error.message : "Could not publish"); }
   };
   const preparePaid = async () => {
+    trackEvent("publish_intent", { template_id: templateId, plan: planId });
     if (!user) { setShowLogin(true); return; }
     try { await persistDraft(); trackEvent("checkout_started", { template_id: templateId, plan: planId, value: PRICING[planId].amount, currency: "INR" }); }
     catch (error) { toast.error(error instanceof Error ? error.message : "Could not prepare checkout"); }
@@ -277,7 +280,7 @@ export default function EditorPage() {
                   <button type="button" onClick={() => { setDraft((current) => ({ ...current, tier: "ESSENTIAL", galleryImages: [], musicUrl: "" })); trackEvent("plan_selected", { template_id: templateId, plan: "ESSENTIAL", value: 399, currency: "INR" }); }} className={draft.tier === "ESSENTIAL" ? styles.selectedPlan : ""}>
                     <span>Essential</span><strong>₹399</strong><p>Full standard customization<br />Custom slug · no third-party ads</p><em>{draft.tier === "ESSENTIAL" ? <><Check size={15} /> Selected</> : "Choose Essential"}</em>
                   </button>
-                  <button type="button" onClick={() => { update("tier", "PREMIUM"); trackEvent("plan_selected", { template_id: templateId, plan: "PREMIUM", value: 999, currency: "INR" }); }} className={draft.tier === "PREMIUM" ? styles.selectedPlan : ""}>
+                  <button type="button" onClick={() => { update("tier", "PREMIUM"); trackEvent("plan_selected", { template_id: templateId, plan: "PREMIUM", value: 999, currency: "INR" }); trackEvent("upgrade_click", { template_id: templateId, from_plan: planId, to_plan: "PREMIUM" }); }} className={draft.tier === "PREMIUM" ? styles.selectedPlan : ""}>
                     <span><Crown size={15} /> Premium</span><strong>₹999</strong><p>Premium interactions and analytics<br />No Invite Link branding</p><em>{draft.tier === "PREMIUM" ? <><Check size={15} /> Selected</> : "Choose Premium"}</em>
                   </button>
                 </div>

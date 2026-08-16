@@ -32,6 +32,8 @@ export function PaymentButton({ planId, invitationId, onSuccess, className, chil
 
   const pay = async () => {
     setLoading(true)
+    trackEvent('publish_intent', { plan: planId })
+    trackEvent('checkout_start', { plan: planId, value: pricing.amount, currency: 'INR' })
     try {
       if (!(await loadRazorpay())) throw new Error('Could not load Razorpay')
       const response = await apiFetch('/api/payments/orders', { method: 'POST', body: JSON.stringify({ invitationId, planId }) })
