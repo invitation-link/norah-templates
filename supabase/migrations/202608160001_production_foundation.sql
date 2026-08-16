@@ -164,18 +164,17 @@ alter table public.invitation_events enable row level security;
 alter table public.bespoke_requests enable row level security;
 alter table public.rate_limits enable row level security;
 
-drop policy if exists "Anyone can create invitations" on public.invitations;
-drop policy if exists "Public can view published invitations" on public.invitations;
-drop policy if exists "Users can view own invitations" on public.invitations;
-drop policy if exists "Users can update own invitations" on public.invitations;
-drop policy if exists "Users can delete own invitations" on public.invitations;
-drop policy if exists "profiles_self_select" on public.profiles;
-drop policy if exists "profiles_self_update" on public.profiles;
-drop policy if exists "invitations_owner_all" on public.invitations;
-drop policy if exists "rsvps_owner_select" on public.rsvps;
-drop policy if exists "payments_owner_select" on public.payments;
-drop policy if exists "events_owner_select" on public.invitation_events;
-drop policy if exists "bespoke_owner_select" on public.bespoke_requests;
+do $$
+declare p record;
+begin
+  for p in
+    select tablename, policyname from pg_policies
+    where schemaname = 'public'
+      and tablename in ('profiles','invitations','rsvps','payments','invitation_events','bespoke_requests','rate_limits')
+  loop
+    execute format('drop policy %I on public.%I', p.policyname, p.tablename);
+  end loop;
+end $$;
 
 create policy "profiles_self_select" on public.profiles for select to authenticated using (auth.uid() = id);
 create policy "profiles_self_update" on public.profiles for update to authenticated using (auth.uid() = id) with check (auth.uid() = id);
@@ -190,6 +189,9 @@ grant select, insert, update, delete on public.profiles, public.invitations, pub
 revoke all on function public.check_rate_limit(text,text,integer,integer) from public, anon, authenticated;
 grant execute on function public.check_rate_limit(text,text,integer,integer) to service_role;
 
+alter table public.tiranga_contacts enable row level security;
+alter table public.tiranga_participants enable row level security;
+alter table public.tiranga_shares enable row level security;
 revoke all on public.tiranga_contacts, public.tiranga_participants, public.tiranga_shares from anon, authenticated;
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)

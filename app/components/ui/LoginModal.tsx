@@ -13,6 +13,7 @@ interface LoginModalProps { isOpen: boolean; onClose: () => void; redirectTo?: s
 export function LoginModal({ isOpen, onClose, redirectTo }: LoginModalProps) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
   if (!isOpen) return null;
 
   const handleContinue = async (event: React.FormEvent) => {
@@ -42,8 +43,7 @@ export function LoginModal({ isOpen, onClose, redirectTo }: LoginModalProps) {
         <span>Save and publish</span>
         <h2 id="login-title">Keep your invitation close.</h2>
         <p>Sign in only when you are ready to publish. Your draft stays exactly as you made it.</p>
-        <button type="button" className={styles.google} onClick={handleGoogle} disabled={loading}><strong>G</strong> Continue with Google <ArrowRight size={17} /></button>
-        <div className={styles.divider}><span>or use a secure email link</span></div>
+        {googleEnabled && <><button type="button" className={styles.google} onClick={handleGoogle} disabled={loading}><strong>G</strong> Continue with Google <ArrowRight size={17} /></button><div className={styles.divider}><span>or use a secure email link</span></div></>}
         <form onSubmit={handleContinue}>
           <label htmlFor="login-email">Email address</label>
           <div className={styles.phone}><input id="login-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" disabled={loading} /></div>
