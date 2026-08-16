@@ -188,6 +188,8 @@ revoke all on public.profiles, public.invitations, public.rsvps, public.payments
 grant select, insert, update, delete on public.profiles, public.invitations, public.rsvps, public.payments, public.invitation_events, public.bespoke_requests to authenticated;
 revoke all on function public.check_rate_limit(text,text,integer,integer) from public, anon, authenticated;
 grant execute on function public.check_rate_limit(text,text,integer,integer) to service_role;
+revoke all on function public.handle_new_user() from public, anon, authenticated;
+grant execute on function public.handle_new_user() to service_role;
 
 alter table public.tiranga_contacts enable row level security;
 alter table public.tiranga_participants enable row level security;
