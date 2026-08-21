@@ -127,6 +127,7 @@ export default function EditorPage() {
         if (!response.ok) throw new Error(body.error || "Could not save the invitation");
         id = body.invitation.id;
         setInvitationId(id);
+        trackEvent("invite_created", { template_id: templateId, plan: planId, invitation_type: draft.type });
         if (body.invitation.slug !== draft.slug) update("slug", body.invitation.slug);
       }
       if (pendingCover && planId !== "FREE_AD_SUPPORTED") {
