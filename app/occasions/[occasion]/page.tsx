@@ -39,7 +39,7 @@ export default async function OccasionPage({ params }: { params: Promise<{ occas
   if (!item) return null;
   const templates = PRODUCT_TEMPLATES.filter((template) => template.occasion === item.type);
   const url = `${SITE_URL}/occasions/${occasion}`;
-  const schemaItems = templates.map((template) => ({ name: template.name, url: template.liveUrl.startsWith("/") ? `${SITE_URL}${template.liveUrl}` : template.liveUrl, image: `${SITE_URL}${template.previewImage}` }));
+  const schemaItems = templates.map((template) => ({ name: template.name, url: `${SITE_URL}/templates/${template.id}`, image: `${SITE_URL}${template.previewImage}` }));
   return (
     <main className={styles.page}>
       <JsonLd data={[schemas.breadcrumb([{ name: "Home", url: SITE_URL }, { name: `${item.label} invitations`, url }]), schemas.itemList(`${item.label} invitation templates`, schemaItems)]} />
