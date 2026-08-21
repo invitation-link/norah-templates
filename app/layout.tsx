@@ -47,7 +47,11 @@ export const metadata: Metadata = {
     description: "Choose, personalize and share a beautifully choreographed invitation experience.", images: ["/images/invite-link-og.png"],
   },
   alternates: { canonical: SITE_URL },
-  other: { "apple-mobile-web-app-capable": "yes", "apple-mobile-web-app-status-bar-style": "black-translucent" },
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "google-adsense-account": "ca-pub-6050776660852486",
+  },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#071A38", colorScheme: "light", interactiveWidget: "resizes-content" };
@@ -73,3 +77,4 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     </html>
   );
 }
+
