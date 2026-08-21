@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "jest"
+    "test": "jest",
+    "seo:indexnow": "node scripts/notify-indexnow.mjs",
+    "seo:indexnow:dry": "node scripts/notify-indexnow.mjs --dry-run"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
