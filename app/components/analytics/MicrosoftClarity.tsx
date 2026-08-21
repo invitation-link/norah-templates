@@ -15,6 +15,7 @@ export default function MicrosoftClarity({ projectId }: { projectId: string }) {
     <Script id="microsoft-clarity" strategy="afterInteractive">
       {`
         (function(c,l,a,r,i,t,y){
+          if (l.location.hostname !== 'www.invitelink.shop') return;
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
           var consent = localStorage.getItem('invite-link-analytics-consent') === 'granted' ? 'granted' : 'denied';
           c[a]('consentv2', { source: 'InviteLink', ad_Storage: 'denied', analytics_Storage: consent });
