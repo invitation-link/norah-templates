@@ -8,7 +8,7 @@ import {
   ImagePlus, Link2, MapPin, MessageCircle, Palette, Play, Save, Send, Sparkles,
 } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import InvitationExperience from "@/app/components/invitation/InvitationExperience";
 import { useAuth } from "@/app/components/providers/AuthProvider";
@@ -69,7 +69,9 @@ function initialDraft(templateId: string): InviteData {
 export default function EditorPage() {
   const { templateId: rawTemplateId } = useParams<{ templateId: string }>();
   const templateId = String(rawTemplateId);
-  const editId = useSearchParams().get("invitation");
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("invitation");
+  const resumeFreePublish = searchParams.get("publish") === "free";
   const template = getTemplateById(templateId);
   const [step, setStep] = useState(0);
   const [draft, setDraft] = useState<InviteData>(() => initialDraft(templateId));
@@ -79,6 +81,10 @@ export default function EditorPage() {
   const [saving, setSaving] = useState(false);
   const [fontChoice, setFontChoice] = useState(draft.fontFamily || "Classic");
   const [showLogin, setShowLogin] = useState(false);
+  const [loginRedirect, setLoginRedirect] = useState(`/editor/${templateId}`);
+  const [publishedUrl, setPublishedUrl] = useState<string | null>(null);
+  const resumedPublish = useRef(false);
+  const publishFreeRef = useRef<() => Promise<void>>(async () => {});
   const { user } = useAuth();
 
   useEffect(() => {
@@ -105,6 +111,7 @@ export default function EditorPage() {
 
   const TemplateComponent = template?.component;
   const shareUrl = useMemo(() => typeof window === "undefined" ? `/p/${templateId}/${draft.slug}` : `${window.location.origin}/p/${templateId}/${draft.slug}`, [draft.slug, templateId]);
+  const liveUrl = publishedUrl || shareUrl;
 
   const update = <K extends keyof InviteData>(key: K, value: InviteData[K]) => setDraft((current) => ({ ...current, [key]: value }));
   const next = () => setStep((current) => Math.min(current + 1, steps.length - 1));
@@ -157,7 +164,7 @@ export default function EditorPage() {
     catch (error) { toast.error(error instanceof Error ? error.message : "Could not save draft"); }
   };
   const copyLink = async () => {
-    await navigator.clipboard.writeText(shareUrl);
+    await navigator.clipboard.writeText(liveUrl);
     trackEvent("link_copy", { template_id: templateId, plan: planId });
     toast.success("Invite link copied");
   };
@@ -174,18 +181,39 @@ export default function EditorPage() {
     const response = await apiFetch(`/api/invitations/${id}/publish`, { method: "POST", body: "{}" });
     const body = await response.json();
     if (!response.ok) throw new Error(body.error || "Could not publish the invitation");
+    const publishedSlug = body.invitation?.slug || draft.slug;
+    if (publishedSlug !== draft.slug) update("slug", publishedSlug);
+    setPublishedUrl(`${window.location.origin}/p/${templateId}/${publishedSlug}`);
     setPublished(true);
     trackEvent("publish_success", { template_id: templateId, plan: planId, invitation_type: draft.type });
   };
   const publishFree = async () => {
     trackEvent("publish_intent", { template_id: templateId, plan: planId });
-    if (!user) { setShowLogin(true); return; }
+    if (!user) {
+      localStorage.setItem(`invite-link-publish-intent-${templateId}`, "free");
+      setLoginRedirect(`/editor/${templateId}?publish=free`);
+      setShowLogin(true);
+      return;
+    }
     try { const id = await persistDraft(); await publishSavedInvitation(id); toast.success("Your invitation is live"); }
     catch (error) { toast.error(error instanceof Error ? error.message : "Could not publish"); }
   };
+  useEffect(() => {
+    publishFreeRef.current = publishFree;
+  });
+
+  useEffect(() => {
+    if (!user || !resumeFreePublish || resumedPublish.current) return;
+    const intentKey = `invite-link-publish-intent-${templateId}`;
+    if (localStorage.getItem(intentKey) !== "free") return;
+    resumedPublish.current = true;
+    localStorage.removeItem(intentKey);
+    window.history.replaceState(null, "", `/editor/${templateId}`);
+    void publishFreeRef.current();
+  }, [resumeFreePublish, templateId, user]);
   const preparePaid = async () => {
     trackEvent("publish_intent", { template_id: templateId, plan: planId });
-    if (!user) { setShowLogin(true); return; }
+    if (!user) { setLoginRedirect(`/editor/${templateId}`); setShowLogin(true); return; }
     try { await persistDraft(); trackEvent("checkout_started", { template_id: templateId, plan: planId, value: PRICING[planId].amount, currency: "INR" }); }
     catch (error) { toast.error(error instanceof Error ? error.message : "Could not prepare checkout"); }
   };
@@ -305,8 +333,8 @@ export default function EditorPage() {
                     <button type="button" className={styles.publishButton} onClick={preparePaid} disabled={saving}><Send size={18} /> {user ? "Continue to secure payment" : "Sign in to continue"}</button>}
                 </> : <div className={styles.published}>
                   <div className={styles.successMark}><Check size={32} /></div>
-                  <span>Your live link</span><strong>{shareUrl}</strong>
-                  <div><button type="button" onClick={copyLink}><Clipboard size={17} /> Copy link</button><a href={`https://wa.me/?text=${encodeURIComponent(`You're invited! ${shareUrl}`)}`} target="_blank" rel="noreferrer" onClick={() => trackEvent("share", { method: "WhatsApp", content_type: "invitation", item_id: templateId })}><MessageCircle size={17} /> Share on WhatsApp</a></div>
+                  <span>Your live link</span><strong>{liveUrl}</strong>
+                  <div><button type="button" onClick={copyLink}><Clipboard size={17} /> Copy link</button><a href={`https://wa.me/?text=${encodeURIComponent(`You're invited! ${liveUrl}`)}`} target="_blank" rel="noreferrer" onClick={() => trackEvent("share", { method: "WhatsApp", content_type: "invitation", item_id: templateId })}><MessageCircle size={17} /> Share on WhatsApp</a></div>
                   <Link href="/dashboard">Go to My Invitations <ArrowRight size={17} /></Link>
                 </div>}
               </>}
@@ -328,7 +356,7 @@ export default function EditorPage() {
         </div>
         <p><Play size={14} fill="currentColor" /> Interact with this preview exactly like a guest.</p>
       </aside>
-      <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} redirectTo={`/editor/${templateId}`} />
+      <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} redirectTo={loginRedirect} />
     </div>
   );
 }
@@ -344,3 +372,4 @@ function Field({ label, value, onChange, placeholder, type = "text", hint, multi
 function ReviewRow({ icon, label, value, onEdit }: { icon: React.ReactNode; label: string; value: string; onEdit: () => void }) {
   return <div className={styles.reviewRow}><i>{icon}</i><p><span>{label}</span><strong>{value}</strong></p><button type="button" onClick={onEdit}>Edit</button></div>;
 }
+
