@@ -28,10 +28,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         return {
             title: `${template.name} Interactive Invitation Template`,
             description: template.description,
-            alternates: { canonical: `${SITE_URL}/u/${slug}` },
+            alternates: { canonical: `${SITE_URL}/templates/${slug}` },
+            robots: { index: false, follow: true, noarchive: true },
             openGraph: {
                 type: "website",
-                url: `${SITE_URL}/u/${slug}`,
+                url: `${SITE_URL}/templates/${slug}`,
                 siteName: "Invite Link",
                 title: `${template.name} Interactive Invitation Template`,
                 description: template.description,
