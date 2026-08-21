@@ -396,26 +396,7 @@
     </div>
   </footer>
 
-  <script>
-    (function () {
-      function track(eventName, parameters) {
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-        window.gtag("event", eventName, parameters || {});
-        if (typeof window.clarity === "function") window.clarity("event", eventName);
-      }
 
-      document.addEventListener("click", function (event) {
-        var link = event.target.closest("a[href]");
-        if (!link) return;
-        var href = link.getAttribute("href") || "";
-        var placement = link.closest(".hero") ? "hero" : link.closest(".template-card") ? "template_card" : link.closest(".pricing-card") ? "pricing" : link.closest(".navbar") ? "navigation" : "page";
 
-        if (href === "/templates") track("template_view", { placement: placement });
-        if (href === "/create") track("customize_start", { placement: placement, link_text: link.textContent.trim() });
-      });
-    })();
-  </script>
 </body>
 </html>
-
