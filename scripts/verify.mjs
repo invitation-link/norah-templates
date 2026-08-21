@@ -27,6 +27,26 @@ const requiredFiles = [
   'invite.js',
   'robots.txt',
   'sitemap.xml',
+  'sitemap-pages.xml',
+  'sitemap-templates.xml',
+  'sitemap-guides.xml',
+  'acquisition.css',
+  'acquisition.js',
+  'indexnow-key.txt',
+  'scripts/notify-indexnow.mjs',
+  'scripts/stage-vercel.mjs',
+  'guides/index.html',
+  'guides/how-to-create-digital-invitation/index.html',
+  'guides/digital-invitation-vs-video-invitation/index.html',
+  'guides/whatsapp-wedding-invitation-guide/index.html',
+  'guides/what-to-write-on-housewarming-invitation/index.html',
+  'templates/wedding/index.html',
+  'templates/birthday/index.html',
+  'templates/housewarming/index.html',
+  'templates/varalakshmi-vratham/index.html',
+  'templates/wedding/floral-indian-wedding/index.html',
+  'templates/birthday/under-the-sea-birthday/index.html',
+  'templates/housewarming/traditional-indian/index.html',
   'vercel.json'
 ];
 const errors = [];
@@ -68,7 +88,7 @@ function checkDomContract(jsFile, htmlFile) {
 }
 
 function checkLocalAssets() {
-  const sourceFiles = ['index.html', 'builder.css', 'builder.js', 'templates.html', 'templates.css', 'templates.js', 'templates-data.js', 'invite.html', 'invite.css', 'invite.js'];
+  const sourceFiles = requiredFiles.filter((file) => /\.(?:html|css|js)$/.test(file));
   const assetPattern = /["'(]\/((?:assets)\/[^"')?\s]+)/g;
 
   for (const sourceFile of sourceFiles) {
@@ -123,18 +143,21 @@ checkJavaScript('builder.js');
 checkJavaScript('invite.js');
 checkJavaScript('templates.js');
 checkJavaScript('templates-data.js');
+checkJavaScript('acquisition.js');
+checkJavaScript('scripts/notify-indexnow.mjs');
+checkJavaScript('scripts/stage-vercel.mjs');
 checkJson('vercel.json');
-checkDomContract('builder.js', 'index.html');
+checkDomContract('builder.js', 'create.html');
 checkDomContract('invite.js', 'invite.html');
 checkDomContract('templates.js', 'templates.html');
 checkLocalAssets();
 checkMessagingOrigins();
 
-if (!read('index.html').includes('id="templateTheme"')) {
-  errors.push('The occasion selector #templateTheme is missing from index.html.');
+if (!read('create.html').includes('id="templateTheme"')) {
+  errors.push('The occasion selector #templateTheme is missing from create.html.');
 }
 
-const occasionCount = (read('index.html').match(/<option value=/g) || []).length;
+const occasionCount = (read('create.html').match(/<option value=/g) || []).length;
 if (occasionCount < 8) errors.push(`Expected at least 8 occasion options, found ${occasionCount}.`);
 
 if (!read('vercel.json').includes('"source": "/templates"')) {
@@ -159,10 +182,31 @@ function checkAnalytics() {
     const content = read(file);
     if (!content.includes('G-81CCB5ZMLX')) errors.push(`${file} is missing Google Analytics 4 (G-81CCB5ZMLX).`);
     if (!content.includes('wzp3yr2x2l')) errors.push(`${file} is missing Microsoft Clarity (wzp3yr2x2l).`);
+    if (!content.includes('/acquisition.js')) errors.push(`${file} is missing the consent-aware acquisition layer.`);
+    if (content.includes('googletagmanager.com/gtag/js') || content.includes('clarity.ms/tag/')) {
+      errors.push(`${file} loads analytics before the shared consent layer.`);
+    }
   }
 }
 
 checkAnalytics();
+
+if (!read('sitemap.xml').includes('<sitemapindex')) errors.push('sitemap.xml is not a sitemap index.');
+for (const sitemap of ['sitemap-pages.xml', 'sitemap-templates.xml', 'sitemap-guides.xml']) {
+  if (!read(sitemap).includes('<urlset')) errors.push(`${sitemap} is not a URL sitemap.`);
+  if (/\/invite\//.test(read(sitemap)) || /\/i\//.test(read(sitemap))) {
+    errors.push(`${sitemap} contains a private invitation URL.`);
+  }
+}
+if (!read('robots.txt').includes('User-agent: OAI-SearchBot')) errors.push('robots.txt does not explicitly allow OAI-SearchBot on public pages.');
+if (!read('invite.html').includes('noindex, nofollow')) errors.push('invite.html is missing a noindex directive.');
+for (const legacyRoute of ['/occasions/wedding', '/occasions/birthday', '/occasions/housewarming', '/occasions/celebrations']) {
+  if (!read('vercel.json').includes(`"source": "${legacyRoute}"`)) errors.push(`vercel.json is missing the legacy redirect for ${legacyRoute}.`);
+}
+for (const eventName of ['template_view', 'template_preview', 'customize_start', 'sign_up', 'invite_created', 'invite_published', 'share_whatsapp']) {
+  const eventSources = `${read('acquisition.js')}\n${read('templates.js')}\n${read('builder.js')}`;
+  if (!eventSources.includes(eventName)) errors.push(`The acquisition funnel is missing the ${eventName} event.`);
+}
 
 if (process.argv.includes('--external')) {
   await checkExternalAssets();

@@ -18,13 +18,13 @@
   <meta property="og:url" content="https://www.invitelink.shop/pricing">
   <meta property="og:title" content="Simple, One-Time Event Pricing — Invite Link">
   <meta property="og:description" content="No recurring subscriptions. Design for free, publish your unique interactive invitation link for one flat fee.">
-  <meta property="og:image" content="https://www.invitelink.shop/assets/templates/wedding.jpg">
+  <meta property="og:image" content="https://www.invitelink.shop/assets/templates/wedding.webp">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Invite Link Pricing — No Subscriptions, One-Time Event Pass">
   <meta name="twitter:description" content="Design for free. Pay once per event. Unlimited guests and instant WhatsApp RSVP.">
-  <meta name="twitter:image" content="https://www.invitelink.shop/assets/templates/wedding.jpg">
+  <meta name="twitter:image" content="https://www.invitelink.shop/assets/templates/wedding.webp">
 
   <!-- Schema.org Product & AggregateRating JSON-LD -->
   <script type="application/ld+json">
@@ -32,7 +32,7 @@
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "Invite Link Event Invitation Pass",
-    "image": "https://www.invitelink.shop/assets/templates/wedding.jpg",
+    "image": "https://www.invitelink.shop/assets/templates/wedding.webp",
     "description": "Interactive digital event invitation with cinematic door opening, music, Google Maps directions, and 1-tap WhatsApp RSVP.",
     "brand": {
       "@type": "Brand",
@@ -91,7 +91,7 @@
   </script>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="alternate icon" href="/favicon.ico">
+
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -252,23 +252,9 @@
     }
   </style>
 
-  <!-- Google Analytics 4 (GA4) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-81CCB5ZMLX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-81CCB5ZMLX');
-  </script>
-
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "wzp3yr2x2l");
-  </script>
+  <link rel="stylesheet" href="/acquisition.css">
+  <!-- Consent-first measurement: G-81CCB5ZMLX, wzp3yr2x2l -->
+  <script src="/acquisition.js"></script>
 </head>
 <body>
 
@@ -288,7 +274,7 @@
       <a href="/faq">FAQ</a>
       <a href="/about">About</a>
       <a href="/contact">Contact</a>
-      <a href="/?template=wedding" class="nav-btn">Create Free Preview</a>
+      <a href="/create?template=wedding" class="nav-btn" data-track="customize_start" data-category="wedding">Create Free Preview</a>
     </nav>
   </header>
 
@@ -335,7 +321,7 @@
             <span>Test WhatsApp RSVP Deep-link</span>
           </li>
         </ul>
-        <a href="/?template=wedding" class="plan-btn plan-btn--outline">Start Free Studio</a>
+        <a href="/create?template=wedding" class="plan-btn plan-btn--outline" data-track="customize_start" data-category="wedding">Start Free Studio</a>
       </div>
 
       <!-- Tier 2: Single Event Pass (Target Tier) -->
@@ -373,7 +359,7 @@
             <span><strong>1 Year Full Cloud Hosting</strong> included</span>
           </li>
         </ul>
-        <a href="/?template=wedding" class="plan-btn plan-btn--primary">Create Your Invite — Free Preview</a>
+        <a href="/create?template=wedding" class="plan-btn plan-btn--primary" data-track="customize_start" data-category="wedding">Create Your Invite — Free Preview</a>
       </div>
 
       <!-- Tier 3: Premium Pass -->
@@ -406,7 +392,7 @@
             <span><strong>Priority WhatsApp Support</strong> from our design team</span>
           </li>
         </ul>
-        <a href="/?template=wedding" class="plan-btn plan-btn--outline">Get Premium Pass</a>
+        <a href="/create?template=wedding" class="plan-btn plan-btn--outline" data-track="customize_start" data-category="wedding">Get Premium Pass</a>
       </div>
 
     </section>

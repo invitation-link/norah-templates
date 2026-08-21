@@ -1,60 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core Money & Discovery Pages -->
-  <url>
-    <loc>https://www.invitelink.shop/</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>1.00</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.invitelink.shop/templates</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>0.95</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.invitelink.shop/pricing</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>0.90</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.invitelink.shop/faq</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>0.85</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.invitelink.shop/about</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>0.75</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.invitelink.shop/contact</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>0.70</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- Legal & Compliance Pages -->
-  <url>
-    <loc>https://www.invitelink.shop/terms</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>0.50</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.invitelink.shop/privacy</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>0.50</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.invitelink.shop/refund</loc>
-    <lastmod>2026-08-15T20:45:00.000Z</lastmod>
-    <priority>0.50</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap><loc>https://www.invitelink.shop/sitemap-pages.xml</loc></sitemap>
+  <sitemap><loc>https://www.invitelink.shop/sitemap-templates.xml</loc></sitemap>
+  <sitemap><loc>https://www.invitelink.shop/sitemap-guides.xml</loc></sitemap>
+</sitemapindex>

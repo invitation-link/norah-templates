@@ -45,6 +45,9 @@ const journey = [
 ];
 
 const ease = [0.16, 1, 0.3, 1];
+const track = (name, params = {}) => {
+  if (typeof window.inviteLinkTrack === 'function') window.inviteLinkTrack(name, params);
+};
 const rise = {
   hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease } }
@@ -70,7 +73,7 @@ function Header() {
         <a href="/faq">FAQ</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
-        <a className="nav-cta" href="/?template=wedding">Create Free Preview <${Arrow} /></a>
+        <a className="nav-cta" href="/create?template=wedding" data-track="customize_start" data-category="wedding">Create Free Preview <${Arrow} /></a>
       </nav>
     <//>
   `;
@@ -108,7 +111,7 @@ function Hero() {
           Open the door. Hear the music. Feel the story. Then say you’ll be there.
         <//>
         <${motion.div} className="hero-actions" initial=${{ opacity: 0, y: 18 }} animate=${{ opacity: 1, y: 0 }} transition=${{ duration: 0.8, delay: 1.05, ease }}>
-          <${motion.a} className="button button--light" href="/invite.html?demo=wedding" whileHover=${{ y: -3 }} whileTap=${{ scale: 0.98 }}>
+          <${motion.a} className="button button--light" href="/invite.html?demo=wedding" data-track="template_preview" data-item-id="wedding" whileHover=${{ y: -3 }} whileTap=${{ scale: 0.98 }}>
             Enter a live invitation <${Arrow} />
           <//>
           <a className="text-link" href="#occasions">Explore the collection <${Arrow} direction="down" /></a>
@@ -156,6 +159,9 @@ function TemplateCard({ templateKey, index, onPreview }) {
       <${motion.button}
         className="template-entry__media"
         type="button"
+        data-track="template_view"
+        data-item-id=${templateKey}
+        data-category=${meta.category}
         onClick=${() => onPreview(templateKey)}
         aria-label=${'Quick preview: ' + meta.name}
         whileHover="hover"
@@ -186,8 +192,8 @@ function TemplateCard({ templateKey, index, onPreview }) {
         <p className="template-entry__note">${meta.note}</p>
         <div className="template-entry__actions">
           <button type="button" onClick=${() => onPreview(templateKey)}>Preview here</button>
-          <a href=${'/invite.html?demo=' + templateKey}>Live demo <${Arrow} /></a>
-          <a href=${'/?template=' + templateKey} style=${{ fontWeight: '700', color: 'var(--wine)' }}>Create your invite — free preview <${Arrow} /></a>
+          <a href=${'/invite.html?demo=' + templateKey} data-track="template_preview" data-item-id=${templateKey}>Live demo <${Arrow} /></a>
+          <a href=${'/create?template=' + templateKey} data-track="customize_start" data-item-id=${templateKey} style=${{ fontWeight: '700', color: 'var(--wine)' }}>Create your invite — free preview <${Arrow} /></a>
         </div>
       </div>
     <//>
@@ -246,8 +252,8 @@ function PreviewDialog({ templateKey, onClose }) {
             <iframe src=${'/invite.html?demo=' + templateKey} title=${meta.name + ' live invitation'} loading="eager"></iframe>
           </div>
           <div className="preview-dialog__actions">
-            <a className="button button--dark" href=${'/?template=' + templateKey}>Create your invite — free preview <${Arrow} /></a>
-            <a href=${'/invite.html?demo=' + templateKey}>Open full-screen demo</a>
+            <a className="button button--dark" href=${'/create?template=' + templateKey} data-track="customize_start" data-item-id=${templateKey}>Create your invite — free preview <${Arrow} /></a>
+            <a href=${'/invite.html?demo=' + templateKey} data-track="template_preview" data-item-id=${templateKey}>Open full-screen demo</a>
           </div>
         </div>
       <//>
@@ -366,6 +372,10 @@ function PortalApp() {
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 130, damping: 24, mass: 0.2 });
   const activeKeys = filters.find((filter) => filter.id === activeFilter).keys;
+  const openPreview = (templateKey) => {
+    track('template_preview', { item_id: templateKey });
+    setSelectedTemplate(templateKey);
+  };
 
   return html`
     <${MotionConfig} reducedMotion="user">
@@ -384,7 +394,7 @@ function PortalApp() {
           <${FilterBar} activeFilter=${activeFilter} onChange=${setActiveFilter} />
           <section className="template-grid" aria-live="polite">
             <${AnimatePresence} mode="popLayout">
-              ${activeKeys.map((key) => html`<${TemplateCard} key=${key} templateKey=${key} index=${order.indexOf(key)} onPreview=${setSelectedTemplate} />`)}
+              ${activeKeys.map((key) => html`<${TemplateCard} key=${key} templateKey=${key} index=${order.indexOf(key)} onPreview=${openPreview} />`)}
             <//>
           </section>
         <//>
@@ -395,7 +405,7 @@ function PortalApp() {
             <p className="section-index">03 / Made with you</p>
             <h2 id="service-title">Your story. Our careful hands.</h2>
             <p>Start from a collection, add the people and details that matter, and preview the invitation as your guest will experience it.</p>
-            <a className="button button--light" href="/?template=wedding">Create your invite — free preview <${Arrow} /></a>
+            <a className="button button--light" href="/create?template=wedding" data-track="customize_start" data-category="wedding">Create your invite — free preview <${Arrow} /></a>
           <//>
         </section>
         <${FAQ} />
@@ -404,7 +414,7 @@ function PortalApp() {
           <${motion.h2} id="final-title" initial=${{ opacity: 0, y: 32 }} whileInView=${{ opacity: 1, y: 0 }} viewport=${{ once: true }} transition=${{ duration: 0.8, ease }}>
             Your people already matter. Make the invitation feel that way.
           <//>
-          <${motion.a} className="button button--dark" href="/?template=wedding" whileHover=${{ y: -3 }} whileTap=${{ scale: 0.98 }}>Create your invite — free preview <${Arrow} /><//>
+          <${motion.a} className="button button--dark" href="/create?template=wedding" data-track="customize_start" data-category="wedding" whileHover=${{ y: -3 }} whileTap=${{ scale: 0.98 }}>Create your invite — free preview <${Arrow} /><//>
         </section>
       </main>
       <footer>
