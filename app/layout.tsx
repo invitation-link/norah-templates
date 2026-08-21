@@ -17,7 +17,7 @@ const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"], variable: "-
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "Invite Link — Interactive Digital Invitation Maker", template: "%s | Invite Link" },
+  title: { default: "Interactive Invitation Links for Every Occasion | Invite Link", template: "%s | Invite Link" },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   keywords: [
@@ -56,8 +56,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const schema = [
     schemas.webSite(SITE_URL),
     schemas.organization(SITE_URL),
-    schemas.softwareApplication(SITE_URL),
-    schemas.howTo("How to create an interactive digital invitation", ["Choose an occasion and interactive template.", "Personalize names, date, venue, photos and message.", "Publish one link and share it on WhatsApp."]),
   ];
   const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const clarityId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
