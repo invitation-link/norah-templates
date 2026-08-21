@@ -3,14 +3,6 @@ Allow: /
 Disallow: /builder
 Disallow: /invite/
 Disallow: /invite.html
-Disallow: /i/
-Disallow: /u/
 
-User-agent: OAI-SearchBot
-Allow: /
-Disallow: /invite/
-Disallow: /invite.html
-Disallow: /i/
-Disallow: /u/
-
+Host: https://www.invitelink.shop
 Sitemap: https://www.invitelink.shop/sitemap.xml

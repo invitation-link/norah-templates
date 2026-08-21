@@ -6,10 +6,10 @@
   const templates = {
     wedding: {
       meta: {
-        name: 'Wedding', tier: 'Premium ?499', category: 'Wedding',
+        name: 'Wedding',
         collection: 'Royal Heritage & Grandeur',
         note: 'Regal crimson velvet, gold filigree arches, Shehnai melodies, and sacred Vedic vows.',
-        image: '/assets/templates/wedding.webp',
+        image: '/assets/templates/wedding.jpg',
         focal: 'center 42%'
       },
       defaults: {
@@ -30,9 +30,9 @@
         presence_note: 'Traditional Festive Attire · Presents in blessings only',
         color_primary: '#63253B',
         color_accent: '#D2B06F',
-        bg_image_door: '/assets/templates/wedding.webp',
+        bg_image_door: '/assets/templates/wedding.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=900&q=84',
-        bg_image_closing: '/assets/templates/wedding.webp',
+        bg_image_closing: '/assets/templates/wedding.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
         moment_label: 'Seven Sacred Steps',
         moment_text: 'Join us as we take the seven sacred pheras around the holy agni, promising companionship, fidelity, and joy for all lifetimes.',
@@ -58,9 +58,9 @@
     },
     engagement: {
       meta: {
-        name: 'Engagement', tier: 'Premium ?499', category: 'Wedding', collection: 'The First Yes',
+        name: 'Engagement', collection: 'The First Yes',
         note: 'Modern romance with a little sparkle and a promise of what comes next.',
-        image: '/assets/templates/engagement.webp', focal: 'center 48%'
+        image: '/assets/templates/engagement.jpg', focal: 'center 48%'
       },
       defaults: {
         home_name: 'ELENA & LUCA', welcome_text: 'We said yes', invite_eyebrow: 'A new chapter begins,',
@@ -73,7 +73,7 @@
         closing_quote: 'A little sparkle, a big promise, and all our favourite people.', closing_subtext: 'Thank you for celebrating the first yes.',
         hosts_tagline: 'With joy from both families', see_you_btn_text: 'Raise a Toast', presence_note: 'Only your love and blessings, please',
         color_primary: '#5D345E', color_accent: '#D6A85F',
-        bg_image_door: '/assets/templates/engagement.webp',
+        bg_image_door: '/assets/templates/engagement.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
@@ -84,9 +84,9 @@
     },
     housewarming: {
       meta: {
-        name: 'Housewarming', tier: 'Free', category: 'Housewarming', collection: 'A New Door',
+        name: 'Housewarming', collection: 'A New Door',
         note: 'Quiet warmth, grateful hearts and the first memories of a new home.',
-        image: '/assets/templates/housewarming.webp', focal: 'center 50%'
+        image: '/assets/templates/housewarming.jpg', focal: 'center 50%'
       },
       defaults: {
         home_name: 'A NEW BEGINNING', welcome_text: 'A new door opens', invite_eyebrow: 'With grateful hearts,',
@@ -99,7 +99,7 @@
         closing_quote: 'A house is built with walls. A home is made with people.', closing_subtext: 'Thank you for becoming part of our first memories here.',
         hosts_tagline: 'With love and gratitude', see_you_btn_text: 'Step Inside', presence_note: 'Presents in blessings only',
         color_primary: '#6B3530', color_accent: '#C7A15A',
-        bg_image_door: '/assets/templates/housewarming.webp',
+        bg_image_door: '/assets/templates/housewarming.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
@@ -110,9 +110,9 @@
     },
     birthday: {
       meta: {
-        name: 'Birthday', tier: 'Free', category: 'Birthday', collection: 'Another Sun',
+        name: 'Birthday', collection: 'Another Sun',
         note: 'Bold colour, playful movement and a celebration that feels impossible to ignore.',
-        image: '/assets/templates/birthday.webp', focal: 'center 50%'
+        image: '/assets/templates/birthday.jpg', focal: 'center 50%'
       },
       defaults: {
         home_name: 'MAYA TURNS 30', welcome_text: 'One more trip around the sun', invite_eyebrow: 'Bring your brightest mood,',
@@ -125,7 +125,7 @@
         closing_quote: 'More life. More laughter. More stories worth retelling.', closing_subtext: 'Thank you for making every year brighter.',
         hosts_tagline: 'With cake and questionable dance moves', see_you_btn_text: 'Join the Party', presence_note: 'Your presence is the present',
         color_primary: '#4338CA', color_accent: '#F59E0B',
-        bg_image_door: '/assets/templates/birthday.webp',
+        bg_image_door: '/assets/templates/birthday.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
@@ -136,9 +136,9 @@
     },
     babyshower: {
       meta: {
-        name: 'Baby Shower', tier: 'Premium ?499', category: 'Celebration', collection: 'Little Wonder',
+        name: 'Baby Shower', collection: 'Little Wonder',
         note: 'Soft, hopeful and full of loving parents celebrating the joy of new life.',
-        image: '/assets/templates/babyshower.webp', focal: 'center 48%'
+        image: '/assets/templates/babyshower.jpg', focal: 'center 48%'
       },
       defaults: {
         home_name: 'A LITTLE WONDER', welcome_text: 'A tiny dream is on the way', invite_eyebrow: 'With hearts already full,',
@@ -151,7 +151,7 @@
         closing_quote: 'Ten little fingers, ten little toes, and more love than we knew we could hold.', closing_subtext: 'Thank you for welcoming this little wonder with us.',
         hosts_tagline: 'With warmth and excitement', see_you_btn_text: 'Shower With Love', presence_note: 'Your blessings are more than enough',
         color_primary: '#9B4F6B', color_accent: '#A7C5B9',
-        bg_image_door: '/assets/templates/babyshower.webp',
+        bg_image_door: '/assets/templates/babyshower.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=900&q=84',
         bg_image_closing: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=84',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
@@ -162,9 +162,9 @@
     },
     naming: {
       meta: {
-        name: 'Naming Ceremony', tier: 'Free', category: 'Celebration', collection: 'Hello, Little One',
+        name: 'Naming Ceremony', collection: 'Hello, Little One',
         note: 'A serene blessing celebration as proud parents introduce their little one with joy.',
-        image: '/assets/templates/naming.webp', focal: 'center 44%'
+        image: '/assets/templates/naming.jpg', focal: 'center 44%'
       },
       defaults: {
         home_name: 'MEET OUR LITTLE STAR', welcome_text: 'A beautiful name awaits', invite_eyebrow: 'With joy in every heartbeat,',
@@ -177,9 +177,9 @@
         closing_quote: 'One little name, spoken with a lifetime of love.', closing_subtext: 'Thank you for welcoming our child into your hearts.',
         hosts_tagline: 'With love from our growing family', see_you_btn_text: 'Meet the Little One', presence_note: 'Blessings only, with all our hearts',
         color_primary: '#526B63', color_accent: '#D1AF72',
-        bg_image_door: '/assets/templates/naming.webp',
+        bg_image_door: '/assets/templates/naming.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=900&q=84',
-        bg_image_closing: '/assets/templates/naming.webp',
+        bg_image_closing: '/assets/templates/naming.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
         moment_label: 'A name for a lifetime', moment_text: 'Join us as our littlest love is introduced to the people who will help shape their world.',
         detail_time_extra: 'Blessings and lunch to follow', closing_heading: 'Hello, little one', gesture: 'stars'
@@ -188,9 +188,9 @@
     },
     anniversary: {
       meta: {
-        name: 'Anniversary', tier: 'Premium ?499', category: 'Celebration', collection: 'Still, Always',
+        name: 'Anniversary', collection: 'Still, Always',
         note: 'Timeless and intimate—a celebration of all the ordinary days that became a life together.',
-        image: '/assets/templates/anniversary.webp', focal: 'center 42%'
+        image: '/assets/templates/anniversary.jpg', focal: 'center 42%'
       },
       defaults: {
         home_name: '25 YEARS OF US', welcome_text: 'Still choosing each other', invite_eyebrow: 'With a lifetime of stories,',
@@ -203,9 +203,9 @@
         closing_quote: 'The grand romance was built in a thousand ordinary days.', closing_subtext: 'Thank you for walking beside us through so many of them.',
         hosts_tagline: 'Still, always, with love', see_you_btn_text: 'Toast With Us', presence_note: 'No gifts—only old stories and warm wishes',
         color_primary: '#4C3D48', color_accent: '#C6A15B',
-        bg_image_door: '/assets/templates/anniversary.webp',
+        bg_image_door: '/assets/templates/anniversary.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=84',
-        bg_image_closing: '/assets/templates/anniversary.webp',
+        bg_image_closing: '/assets/templates/anniversary.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
         moment_label: 'A life in the little things', moment_text: 'The morning tea, the inside jokes, the storms weathered and the joy shared—this is what we are celebrating.',
         detail_time_extra: 'Dinner and memories to follow', closing_heading: 'Still, always', gesture: 'gold'
@@ -214,9 +214,9 @@
     },
     graduation: {
       meta: {
-        name: 'Graduation', tier: 'Premium ?499', category: 'Celebration', collection: 'The Next Chapter',
+        name: 'Graduation', collection: 'The Next Chapter',
         note: 'Optimistic, editorial and ready to turn years of hard work into one bright evening.',
-        image: '/assets/templates/graduation.webp', focal: 'center 48%'
+        image: '/assets/templates/graduation.jpg', focal: 'center 48%'
       },
       defaults: {
         home_name: 'SHE DID IT', welcome_text: 'The next chapter starts here', invite_eyebrow: 'After the late nights and long days,',
@@ -229,9 +229,9 @@
         closing_quote: 'This is not the finish line. It is the view from the first summit.', closing_subtext: 'Thank you for believing before the result arrived.',
         hosts_tagline: 'Proud beyond words', see_you_btn_text: 'Come Celebrate', presence_note: 'Bring your loudest cheer',
         color_primary: '#183B56', color_accent: '#D2A94A',
-        bg_image_door: '/assets/templates/graduation.webp',
+        bg_image_door: '/assets/templates/graduation.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=900&q=84',
-        bg_image_closing: '/assets/templates/graduation.webp',
+        bg_image_closing: '/assets/templates/graduation.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
         moment_label: 'Hard work, made visible', moment_text: 'This moment holds every early morning, every difficult lesson and every person who said: keep going.',
         detail_time_extra: 'Dinner and a proud toast to follow', closing_heading: 'Onward', gesture: 'ribbons'
@@ -242,7 +242,7 @@
       meta: {
         name: 'Sangeet & Mehndi', collection: 'Rhythm & Marigolds',
         note: 'Vibrant festive energy, dhol beats, henna fragrance, and celebration with both families.',
-        image: '/assets/templates/sangeet.webp', focal: 'center 40%'
+        image: '/assets/templates/sangeet.jpg', focal: 'center 40%'
       },
       defaults: {
         home_name: 'DANCE, DHOL & DIL', welcome_text: 'Let the music play', invite_eyebrow: 'Together with our families,',
@@ -255,9 +255,9 @@
         closing_quote: 'A night written in rhythm, laughter, and lifelong memories.', closing_subtext: 'Thank you for bringing the magic to our celebration.',
         hosts_tagline: 'With joy & excitement', see_you_btn_text: 'Hit The Dance Floor', presence_note: 'Attire: Bright Festive & Indo-Western',
         color_primary: '#156643', color_accent: '#E5A93C',
-        bg_image_door: '/assets/templates/sangeet.webp',
+        bg_image_door: '/assets/templates/sangeet.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=84',
-        bg_image_closing: '/assets/templates/sangeet.webp',
+        bg_image_closing: '/assets/templates/sangeet.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
         moment_label: 'The rhythm of celebration', moment_text: 'Before the vows and sacred rituals, we celebrate the joy of two families dancing as one.',
         detail_time_extra: 'Mehndi at 5:00 PM · Sangeet & Dinner at 7:30 PM', closing_heading: 'Dance with us', gesture: 'marigold'
@@ -281,7 +281,7 @@
       meta: {
         name: 'Cocktail Soirée', collection: 'Midnight & Champagne',
         note: 'Chic rooftop skyline views, candlelit marble, sparkling drinks, and intimate celebration.',
-        image: '/assets/templates/cocktail.webp', focal: 'center 38%'
+        image: '/assets/templates/cocktail.jpg', focal: 'center 38%'
       },
       defaults: {
         home_name: 'NIGHTCAP & NEON', welcome_text: 'An evening under the skyline', invite_eyebrow: 'You are cordially invited,',
@@ -294,9 +294,9 @@
         closing_quote: 'Good drinks, great music, and even better company.', closing_subtext: 'Thank you for sharing the night with us.',
         hosts_tagline: 'Cheers & Warm Regards', see_you_btn_text: 'Join The Soirée', presence_note: 'Dress code: Cocktail Chic / Black Tie Optional',
         color_primary: '#1B2430', color_accent: '#D4AF37',
-        bg_image_door: '/assets/templates/cocktail.webp',
+        bg_image_door: '/assets/templates/cocktail.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=900&q=84',
-        bg_image_closing: '/assets/templates/cocktail.webp',
+        bg_image_closing: '/assets/templates/cocktail.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
         moment_label: 'An intimate evening', moment_text: 'Curated craft drinks, vinyl jazz, and an evening designed to celebrate life in good company.',
         detail_time_extra: 'Cocktails at 7:30 PM · Dinner at 9:00 PM', closing_heading: 'Cheers to tonight', gesture: 'sparkle'
@@ -307,7 +307,7 @@
       meta: {
         name: 'Pooja & Blessing', collection: 'Sacred Light',
         note: 'Traditional spiritual house blessing, sacred chanting, glowing brass diyas, and vegetarian feast.',
-        image: '/assets/templates/pooja.webp', focal: 'center 45%'
+        image: '/assets/templates/pooja.jpg', focal: 'center 45%'
       },
       defaults: {
         home_name: 'SHUBH AARAMBH', welcome_text: 'With the grace of the divine', invite_eyebrow: 'With humble and grateful hearts,',
@@ -320,9 +320,9 @@
         closing_quote: 'May this abode be blessed with peace, abundance, and endless joy.', closing_subtext: 'Thank you for blessing our sacred beginning.',
         hosts_tagline: 'With devotion & gratitude', see_you_btn_text: 'Seek Blessings', presence_note: 'Traditional attire · Mahaprasad lunch to follow',
         color_primary: '#8A282B', color_accent: '#E2A32D',
-        bg_image_door: '/assets/templates/pooja.webp',
+        bg_image_door: '/assets/templates/pooja.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=84',
-        bg_image_closing: '/assets/templates/pooja.webp',
+        bg_image_closing: '/assets/templates/pooja.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
         moment_label: 'A sacred beginning', moment_text: 'As we invoke auspicious blessings for our family, your presence and prayers will sanctify our new home.',
         detail_time_extra: 'Pooja & Havan at 9:00 AM · Mahaprasad Lunch at 12:30 PM', closing_heading: 'Shubham Karoti Kalyanam', gesture: 'light'
@@ -346,7 +346,7 @@
       meta: {
         name: 'Gala & Launch', collection: 'The Horizon',
         note: 'Architectural elegance, black-tie dinner, executive networking, and visionary milestones.',
-        image: '/assets/templates/gala.webp', focal: 'center 36%'
+        image: '/assets/templates/gala.jpg', focal: 'center 36%'
       },
       defaults: {
         home_name: 'THE HORIZON SUMMIT', welcome_text: 'An exclusive milestone evening', invite_eyebrow: 'You are cordially invited,',
@@ -359,9 +359,9 @@
         closing_quote: 'Building the future together, one milestone at a time.', closing_subtext: 'Thank you for being part of our journey.',
         hosts_tagline: 'With high esteem & gratitude', see_you_btn_text: 'Reserve VIP Seat', presence_note: 'Black Tie & Formal Evening Attire',
         color_primary: '#1A1D20', color_accent: '#C8A261',
-        bg_image_door: '/assets/templates/gala.webp',
+        bg_image_door: '/assets/templates/gala.jpg',
         bg_image_invite: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=900&q=84',
-        bg_image_closing: '/assets/templates/gala.webp',
+        bg_image_closing: '/assets/templates/gala.jpg',
         bg_music_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
         moment_label: 'Vision in motion', moment_text: 'An evening of keynote insights, networking with industry pioneers, and celebrating breakthrough achievements.',
         detail_time_extra: 'Welcome Drinks at 6:30 PM · Keynote & Dinner at 7:30 PM', closing_heading: 'To the future', gesture: 'stars'
@@ -391,6 +391,3 @@
 
   window.INVITE_TEMPLATE_LIBRARY = { templates, presets, defaults, demos };
 })();
-
-
-

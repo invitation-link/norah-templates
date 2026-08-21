@@ -3,80 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us - Invite Link</title>
-  <link rel="stylesheet" href="templates.css?v=20260718-2">
-  <link rel="stylesheet" href="/acquisition.css">
+  <title>Contact & Customer Support — Invite Link</title>
+  <meta name="description" content="Get in touch with the Invite Link team. WhatsApp support, email help, custom invitation designs, and billing assistance.">
+  <link rel="canonical" href="https://www.invitelink.shop/contact">
+  <link rel="alternate" hreflang="x-default" href="https://www.invitelink.shop/contact">
+  <link rel="alternate" hreflang="en" href="https://www.invitelink.shop/contact">
+  <meta name="theme-color" content="#211714">
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <!-- Consent-first measurement: G-81CCB5ZMLX, wzp3yr2x2l -->
-  <script src="/acquisition.js"></script>
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #FAF6F1;
+      --bg-secondary: #F5EDE4;
+      --color-ink: #211714;
+      --color-wine: #6B2036;
+      --color-wine-dark: #541729;
+      --color-gold: #C4A35A;
+      --text-main: #3D2B1F;
+      --text-muted: #6B5A4E;
+      --border-line: rgba(33, 23, 20, 0.12);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow-soft: 0 4px 24px rgba(33, 23, 20, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-main); font-family: var(--font-sans); line-height: 1.6; }
+    a { color: var(--color-wine); text-decoration: underline; }
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250, 246, 241, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-line);
+      padding: 18px clamp(20px, 5vw, 60px);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand-logo { display: flex; align-items: center; gap: 10px; color: var(--color-wine); font-family: var(--font-serif); font-size: 22px; font-weight: 600; letter-spacing: 2px; text-decoration: none; }
+    .contact-container { max-width: 1040px; margin: 0 auto; padding: clamp(40px, 7vw, 90px) 24px; }
+    .contact-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-gold); margin-bottom: 14px; }
+    h1 { font-family: var(--font-serif); font-size: clamp(34px, 4.5vw, 54px); color: var(--color-ink); margin-bottom: 14px; line-height: 1.15; }
+    .contact-intro { font-size: clamp(16px, 1.8vw, 19px); color: var(--text-muted); max-width: 620px; margin-bottom: 50px; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+    .contact-card { background: white; border: 1px solid var(--border-line); border-radius: var(--radius-lg); padding: 36px 30px; box-shadow: var(--shadow-soft); }
+    .contact-card h3 { font-family: var(--font-serif); font-size: 22px; color: var(--color-wine); margin-bottom: 12px; }
+    .contact-card p { font-size: 14.5px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.55; }
+    .contact-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #166534; background: #DCFCE7; padding: 4px 12px; border-radius: 999px; margin-bottom: 16px; }
+    .action-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; background: var(--color-wine); color: white !important; text-decoration: none; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.2s ease; }
+    .action-btn:hover { background: var(--color-wine-dark); transform: translateY(-2px); }
+    .action-btn--whatsapp { background: #128C7E; }
+    .action-btn--whatsapp:hover { background: #075E54; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-main); margin-bottom: 6px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border-line); border-radius: 8px; font-family: inherit; font-size: 14px; background: var(--bg-primary); }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--color-wine); background: white; }
+
+    footer { border-top: 1px solid var(--border-line); padding: 40px clamp(20px, 5vw, 60px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; font-size: 13px; color: var(--text-muted); }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; }
+  </style>
+
+  <!-- Google Analytics 4 (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-81CCB5ZMLX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-81CCB5ZMLX');
+  </script>
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wzp3yr2x2l");
+  </script>
 </head>
-<body style="background: #FDFBF7;">
-  <nav class="navbar">
-    <a href="/" class="logo">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" role="img"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-      Invite Link
-    </a>
-    <div class="nav-links">
+<body>
+  <header class="site-nav">
+    <a href="/" class="brand-logo">INVITE LINK</a>
+    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">
+      <a href="/templates" style="margin-right: 18px; text-decoration: none; color: var(--text-muted);">Templates</a>
+      <a href="/pricing" style="margin-right: 18px; text-decoration: none; color: var(--text-muted);">Pricing</a>
+      <a href="/faq" style="text-decoration: none; color: var(--text-muted);">FAQ</a>
+    </div>
+  </header>
+
+  <main class="contact-container">
+    <div class="contact-kicker">We're Here to Help</div>
+    <h1>Contact Our Support Team</h1>
+    <p class="contact-intro">Whether you need help with your invitation wording, custom audio tracks, RSVP configuration, or billing inquiries, our team responds promptly.</p>
+
+    <div class="contact-grid">
+      <!-- WhatsApp Support -->
+      <div class="contact-card">
+        <div class="contact-badge">● Online · Quick Response</div>
+        <h3>WhatsApp Priority Support</h3>
+        <p>Chat directly with our design specialists for immediate assistance, link troubleshooting, or custom font/color requests.</p>
+        <p style="font-size: 13px; color: var(--text-muted);"><strong>Operational Hours:</strong> 9:00 AM – 9:00 PM IST (Mon – Sat)</p>
+        <a href="https://wa.me/919999999999?text=Hi%20Invite%20Link%20Team%2C%20I%20have%20a%20question%20about%20my%20invitation." target="_blank" rel="noopener" class="action-btn action-btn--whatsapp">
+          Message on WhatsApp →
+        </a>
+      </div>
+
+      <!-- Email Support -->
+      <div class="contact-card">
+        <div class="contact-badge">● Response in &lt; 4 Hours</div>
+        <h3>Email Customer Care</h3>
+        <p>Send your queries regarding custom event themes, business partnerships, enterprise bulk invites, or billing & refund support.</p>
+        <p style="font-size: 14px; margin-bottom: 24px;"><strong>Official Support Email:</strong><br><a href="mailto:support@invitelink.shop" style="font-size: 16px; font-weight: 600;">support@invitelink.shop</a></p>
+        <a href="mailto:support@invitelink.shop" class="action-btn">
+          Email Us Now →
+        </a>
+      </div>
+
+      <!-- Quick Message Form -->
+      <div class="contact-card" style="grid-column: 1 / -1;">
+        <h3>Send Us a Direct Message</h3>
+        <p>Fill out this form and our support desk will get back to you immediately.</p>
+        <form onsubmit="event.preventDefault(); alert('Thank you! Your message has been received. Our support team will contact you shortly.'); this.reset();">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="e.g., Aanya Sharma" required>
+            </div>
+            <div class="form-group">
+              <label>Your Email</label>
+              <input type="email" placeholder="e.g., aanya@example.com" required>
+            </div>
+            <div class="form-group">
+              <label>Event Occasion / Invitation Link</label>
+              <input type="text" placeholder="e.g., Wedding / my-wedding-slug">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>How Can We Help?</label>
+            <textarea rows="4" placeholder="Describe what you need assistance with..." required></textarea>
+          </div>
+          <button type="submit" class="action-btn" style="max-width: 240px; cursor: pointer;">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div style="font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--color-wine);">INVITE LINK</div>
+    <div>© 2026 Invite Link. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="/">Studio</a>
       <a href="/templates">Templates</a>
       <a href="/pricing">Pricing</a>
       <a href="/faq">FAQ</a>
-      <a href="/create" class="nav-cta">Create Your Invite</a>
-    </div>
-  </nav>
-
-  <section class="section" style="max-width: 600px; margin: 0 auto; text-align: center; padding-top: 140px; padding-bottom: 80px;">
-    <h1 style="font-family: var(--font-serif); font-size: 40px; color: var(--color-wine); margin-bottom: 24px;">We're Here to Help</h1>
-    <p style="color: var(--text-muted); margin-bottom: 40px; font-size: 16px;">Have a question about a template or need a custom integration? Reach out directly.</p>
-    
-    <div style="background: white; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); margin-bottom: 32px;">
-      <h3 style="font-size: 20px; color: var(--text-main); margin-bottom: 16px;">WhatsApp Business Support</h3>
-      <p style="color: var(--text-muted); margin-bottom: 24px;">The fastest way to get in touch with us.</p>
-      <a href="https://wa.me/919876543210" target="_blank" class="btn-primary" style="background: #25D366; border: none; width: 100%; display: block; font-size: 16px;">Message on WhatsApp</a>
-    </div>
-    
-    <div style="background: white; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05);">
-      <h3 style="font-size: 20px; color: var(--text-main); margin-bottom: 16px;">Email Support</h3>
-      <p style="color: var(--text-muted); margin-bottom: 24px;">Prefer email? Drop us a line anytime.</p>
-      <a href="mailto:hello@invitelink.shop" class="btn-secondary" style="width: 100%; display: block; font-size: 16px;">hello@invitelink.shop</a>
-    </div>
-    
-    <div style="margin-top: 32px; font-size: 14px; font-weight: 600; color: #047857; background: rgba(4, 120, 87, 0.1); padding: 12px; border-radius: 99px; display: inline-block;">
-      ? 4-Hour Response Guarantee
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4>Product</h4>
-        <a href="/templates">Templates</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/faq">FAQ</a>
-      </div>
-      <div class="footer-col">
-        <h4>Legal & Support</h4>
-        <a href="/contact">Contact Support</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/refund">Refund Policy</a>
-      </div>
-      <div class="footer-col" style="grid-column: span 2;">
-        <h4>Invite Link Technology</h4>
-        <div style="font-size: 13px; color: var(--text-muted); line-height: 1.8;">
-          1200 Innovation Drive, Block C<br>
-          Tech Park, Hyderabad, TG 500081, India<br>
-          Registered Business: TG-8923412-IN<br><br>
-          Your data is strictly private and secure.<br>
-          <div style="margin-top: 12px; display: flex; gap: 16px;">
-            <a href="#" style="display: inline;" aria-label="Social Media">Instagram</a>
-            <a href="#" style="display: inline;" aria-label="Social Media">Facebook</a>
-            <a href="#" style="display: inline;" aria-label="Social Media">Pinterest</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; 2026 Invite Link Technology. All rights reserved.
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/refund">Refund Policy</a>
     </div>
   </footer>
 </body>

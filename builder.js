@@ -119,13 +119,13 @@
     },
     birthday: {
       door: [
-        { name: "Milestone Celebration", url: "/assets/templates/birthday.webp" },
+        { name: "Milestone Celebration", url: "/assets/templates/birthday.jpg" },
         { name: "Bright Party", url: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800" },
         { name: "Night Sparklers", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" }
       ],
       invite: [
         { name: "Colorful Streamers & Glitter", url: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800" },
-        { name: "Party Friends Celebration", url: "/assets/templates/birthday.webp" }
+        { name: "Party Friends Celebration", url: "/assets/templates/birthday.jpg" }
       ],
       closing: [
         { name: "Golden Sparklers Night", url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" },
@@ -137,16 +137,16 @@
     },
     babyshower: {
       door: [
-        { name: "Expecting Parents Celebration", url: "/assets/templates/babyshower.webp" },
+        { name: "Expecting Parents Celebration", url: "/assets/templates/babyshower.jpg" },
         { name: "Pastel Botanical Garden", url: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800" },
-        { name: "Gentle Celebration", url: "/assets/templates/babyshower.webp" }
+        { name: "Gentle Celebration", url: "/assets/templates/babyshower.jpg" }
       ],
       invite: [
         { name: "Eucalyptus Leaves & Flowers", url: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800" },
         { name: "Gentle Floral Setting", url: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800" }
       ],
       closing: [
-        { name: "Warm Celebration Glow", url: "/assets/templates/babyshower.webp" },
+        { name: "Warm Celebration Glow", url: "/assets/templates/babyshower.jpg" },
         { name: "Gentle Floral Aura", url: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800" }
       ],
       music: [
@@ -178,7 +178,7 @@
       presence_note: "Presents in blessings only",
       color_primary: "#6B2036",
       color_accent: "#C4A35A",
-      bg_image_door: "/assets/templates/housewarming.webp",
+      bg_image_door: "/assets/templates/housewarming.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
       bg_image_closing: "https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=800&q=80",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
@@ -204,7 +204,7 @@
       presence_note: "No gifts please, only your blessings",
       color_primary: "#541729",
       color_accent: "#D4B978",
-      bg_image_door: "/assets/templates/wedding.webp",
+      bg_image_door: "/assets/templates/wedding.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800",
       bg_image_closing: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
@@ -230,7 +230,7 @@
       presence_note: "Your presence is our present!",
       color_primary: "#1D4ED8",
       color_accent: "#F59E0B",
-      bg_image_door: "/assets/templates/birthday.webp",
+      bg_image_door: "/assets/templates/birthday.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800",
       bg_image_closing: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
       bg_music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
@@ -256,9 +256,9 @@
       presence_note: "Gifts are welcome but not required",
       color_primary: "#EC4899",
       color_accent: "#06B6D4",
-      bg_image_door: "/assets/templates/babyshower.webp",
+      bg_image_door: "/assets/templates/babyshower.jpg",
       bg_image_invite: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800",
-      bg_image_closing: "/assets/templates/babyshower.webp",
+      bg_image_closing: "/assets/templates/babyshower.jpg",
     }
   };
 
@@ -276,12 +276,6 @@
   let currentStep = 1;
   let activePresetScreen = null;
   let previewReady = false;
-
-  function trackEvent(name, params = {}) {
-    if (typeof window.inviteLinkTrack === 'function') {
-      window.inviteLinkTrack(name, params);
-    }
-  }
 
   function getIframe() {
     return document.getElementById('previewIframe');
@@ -310,22 +304,7 @@
     setupThemeSelector();
     setupOccasionActions();
     setupDraftPersistence();
-    setupAnalyticsTracking();
     setupFormSubmission();
-  }
-
-  function setupAnalyticsTracking() {
-    const form = document.getElementById('builderForm');
-    if (!form) return;
-    let hasStarted = false;
-    const markStarted = () => {
-      if (hasStarted) return;
-      hasStarted = true;
-      const theme = document.getElementById('templateTheme');
-      trackEvent('customize_start', { item_id: theme ? theme.value : 'unknown' });
-    };
-    form.addEventListener('input', markStarted, { once: true });
-    form.addEventListener('change', markStarted, { once: true });
   }
 
   // --- Step Navigation ---
@@ -765,8 +744,6 @@
       if (!iframe || event.origin !== window.location.origin || event.source !== iframe.contentWindow) return;
       if (event.data && event.data.type === 'preview_ready') {
         previewReady = true;
-        const theme = document.getElementById('templateTheme');
-        trackEvent('template_preview', { item_id: theme ? theme.value : 'unknown', preview_surface: 'builder' });
         updatePreview();
       } else if (event.data && event.data.type === 'edit') {
         const { field, value } = event.data;
@@ -942,33 +919,8 @@
 
     if (!form || !publishBtn) return;
 
-        form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const modal = document.getElementById('emailCaptureModal');
-      if (modal && modal.style.display !== 'flex') {
-        modal.style.display = 'flex';
-        
-        const btnSubmit = document.getElementById('btnSubmitEmail');
-        const btnSkip = document.getElementById('btnSkipEmail');
-        const emailInput = document.getElementById('captureEmail');
-        
-        const continuePublish = () => {
-          if (emailInput && emailInput.value.trim()) {
-            trackEvent('sign_up', { method: 'email_capture' });
-          }
-          modal.style.display = 'none';
-          executePublish();
-        };
-        
-        btnSubmit.onclick = continuePublish;
-        btnSkip.onclick = continuePublish;
-        return;
-      }
-      
-      executePublish();
-
-      async function executePublish() {
 
       publishBtn.disabled = true;
       publishBtn.textContent = "Publishing...";
@@ -1062,8 +1014,6 @@
           throw new Error("Database insertion failed. Please try again.");
         }
         uploadedPaths = [];
-        trackEvent('invite_created', { item_id: payload.event_type || 'invitation', invite_slug: slug });
-        trackEvent('invite_published', { item_id: payload.event_type || 'invitation', invite_slug: slug });
 
         // Clear local draft on success
         localStorage.removeItem('invitelink_draft_v1');
@@ -1082,12 +1032,7 @@
 
         const waMsg = encodeURIComponent(`You're invited to ${payload.home_name}. View the invitation here: ${finalUrl}`);
         const shareWhatsAppBtn = document.getElementById('shareWhatsAppBtn');
-        if (shareWhatsAppBtn) {
-          shareWhatsAppBtn.href = `https://wa.me/?text=${waMsg}`;
-          shareWhatsAppBtn.addEventListener('click', () => {
-            trackEvent('share_whatsapp', { invite_slug: slug, share_surface: 'publish_success' });
-          }, { once: true });
-        }
+        if (shareWhatsAppBtn) shareWhatsAppBtn.href = `https://wa.me/?text=${waMsg}`;
 
         const copyLinkBtn = document.getElementById('copyLinkBtn');
         if (copyLinkBtn) {
@@ -1107,7 +1052,6 @@
         alert(`An error occurred: ${err.message || 'Unknown error'}`);
         resetPublishButton();
       }
-    }
     });
 
     function resetPublishButton() {
@@ -1118,4 +1062,3 @@
   }
 
 })();
-
