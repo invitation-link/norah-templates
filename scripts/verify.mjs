@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const requiredFiles = [
   'index.html',
+  'create.html',
   'builder.css',
   'builder.js',
   'templates.html',
@@ -27,6 +28,9 @@ const requiredFiles = [
   'invite.js',
   'robots.txt',
   'sitemap.xml',
+  'sitemap-pages.xml',
+  'sitemap-templates.xml',
+  'indexnow-key.txt',
   'vercel.json'
 ];
 const errors = [];
@@ -52,6 +56,16 @@ function checkJson(file) {
   }
 }
 
+function checkStructuredData(file) {
+  for (const match of read(file).matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/g)) {
+    try {
+      JSON.parse(match[1]);
+    } catch (error) {
+      errors.push(`${file} has invalid JSON-LD: ${error.message}`);
+    }
+  }
+}
+
 function htmlIds(html) {
   return new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]));
 }
@@ -68,7 +82,7 @@ function checkDomContract(jsFile, htmlFile) {
 }
 
 function checkLocalAssets() {
-  const sourceFiles = ['index.html', 'builder.css', 'builder.js', 'templates.html', 'templates.css', 'templates.js', 'templates-data.js', 'invite.html', 'invite.css', 'invite.js'];
+  const sourceFiles = ['index.html', 'create.html', 'builder.css', 'builder.js', 'templates.html', 'templates.css', 'templates.js', 'templates-data.js', 'invite.html', 'invite.css', 'invite.js'];
   const assetPattern = /["'(]\/((?:assets)\/[^"')?\s]+)/g;
 
   for (const sourceFile of sourceFiles) {
@@ -124,21 +138,46 @@ checkJavaScript('invite.js');
 checkJavaScript('templates.js');
 checkJavaScript('templates-data.js');
 checkJson('vercel.json');
-checkDomContract('builder.js', 'index.html');
+checkStructuredData('index.html');
+checkDomContract('builder.js', 'create.html');
 checkDomContract('invite.js', 'invite.html');
 checkDomContract('templates.js', 'templates.html');
 checkLocalAssets();
 checkMessagingOrigins();
 
-if (!read('index.html').includes('id="templateTheme"')) {
-  errors.push('The occasion selector #templateTheme is missing from index.html.');
+if (!read('create.html').includes('id="templateTheme"')) {
+  errors.push('The occasion selector #templateTheme is missing from create.html.');
 }
 
-const occasionCount = (read('index.html').match(/<option value=/g) || []).length;
+const occasionCount = (read('create.html').match(/<option value=/g) || []).length;
 if (occasionCount < 8) errors.push(`Expected at least 8 occasion options, found ${occasionCount}.`);
 
 if (!read('vercel.json').includes('"source": "/templates"')) {
   errors.push('The /templates route is missing from vercel.json.');
+}
+
+if (!read('vercel.json').includes('"source": "/create"')) {
+  errors.push('The /create route is missing from vercel.json.');
+}
+
+if (!read('index.html').includes('Interactive Invitation Links for Every Occasion')) {
+  errors.push('The homepage is missing its search-intent title.');
+}
+
+if (!read('index.html').includes("Don't Just Send an Invitation.<br>Make Them Feel Invited.")) {
+  errors.push('Yesterday\'s homepage hero is missing or changed.');
+}
+
+if (!read('robots.txt').includes('User-agent: OAI-SearchBot')) {
+  errors.push('robots.txt does not explicitly allow OAI-SearchBot.');
+}
+
+if (!read('sitemap.xml').includes('sitemap-pages.xml') || !read('sitemap.xml').includes('sitemap-templates.xml')) {
+  errors.push('The sitemap index does not reference both split sitemaps.');
+}
+
+if (!read('create.html').includes('name="robots" content="noindex, follow"')) {
+  errors.push('The invitation builder must remain noindex.');
 }
 
 if (!read('invite.js').includes("params.get('demo')")) {
@@ -151,7 +190,7 @@ if (!read('templates.js').includes("from 'motion/react'")) {
 
 function checkAnalytics() {
   const htmlFiles = [
-    'index.html', 'invite.html', 'templates.html', 'pricing.html',
+    'index.html', 'create.html', 'invite.html', 'templates.html', 'pricing.html',
     'faq.html', 'about.html', 'contact.html', 'terms.html',
     'privacy.html', 'refund.html'
   ];

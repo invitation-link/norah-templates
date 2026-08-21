@@ -2,7 +2,17 @@
   "buildCommand": "",
   "outputDirectory": ".",
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/occasions/wedding", "destination": "/templates", "permanent": true },
+    { "source": "/occasions/birthday", "destination": "/templates", "permanent": true },
+    { "source": "/occasions/housewarming", "destination": "/templates", "permanent": true },
+    { "source": "/occasions/celebrations", "destination": "/templates", "permanent": true },
+    { "source": "/templates/wedding", "destination": "/templates", "permanent": true },
+    { "source": "/templates/birthday", "destination": "/templates", "permanent": true },
+    { "source": "/templates/housewarming", "destination": "/templates", "permanent": true }
+  ],
   "rewrites": [
+    { "source": "/create", "destination": "/create.html" },
     { "source": "/templates", "destination": "/templates.html" },
     { "source": "/pricing", "destination": "/pricing.html" },
     { "source": "/faq", "destination": "/faq.html" },
@@ -31,25 +41,37 @@
     {
       "source": "/invite/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
       ]
     },
     {
       "source": "/u/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
       ]
     },
     {
       "source": "/i/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
       ]
     },
     {
       "source": "/invite.html",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/create.html",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, follow" }
+      ]
+    },
+    {
+      "source": "/original-housewarming-invite.html",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
       ]
     },
     {

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create an Interactive Invitation | Invite Link</title>
+  <meta name="description" content="Create luxury interactive digital invitation cards with door-opening animations, background music, Google Maps directions, and 1-tap WhatsApp RSVP. Free live preview.">
+  <link rel="canonical" href="https://www.invitelink.shop/create">
+  <meta name="robots" content="noindex, follow">
+  
+  <!-- Open Graph / WhatsApp / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.invitelink.shop/">
+  <meta property="og:title" content="Invite Link — Interactive Digital Invitation Maker">
+  <meta property="og:description" content="Design cinematic digital invitations with door-opening effects, music, and instant WhatsApp RSVP.">
+  <meta property="og:image" content="https://www.invitelink.shop/assets/templates/wedding.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Invite Link — Interactive Digital Invitation Maker">
+  <meta name="twitter:description" content="Design cinematic digital invitations with door-opening effects, music, and instant WhatsApp RSVP.">
+  <meta name="twitter:image" content="https://www.invitelink.shop/assets/templates/wedding.jpg">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/builder.css?v=20260718-2">
+  
+  <!-- Schema.org Product & AggregateRating JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Invite Link Event Invitation Platform",
+    "image": "https://www.invitelink.shop/assets/templates/wedding.jpg",
+    "description": "Create luxury interactive digital invitation cards with door-opening animations, music, and WhatsApp RSVP.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Invite Link"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "1280",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Free Studio Preview",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.invitelink.shop/pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Single Event Pass",
+        "price": "399",
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.invitelink.shop/pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Single Event Pass (Global)",
+        "price": "12",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.invitelink.shop/pricing"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Supabase CDN Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/templates-data.js?v=20260718-3"></script>
+
+  <!-- Google Analytics 4 (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-81CCB5ZMLX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-81CCB5ZMLX');
+  </script>
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wzp3yr2x2l");
+  </script>
+</head>
+<body>
+  <div class="builder-container">
+    
+    <!-- LEFT PANEL: Configuration Form -->
+    <div class="form-panel">
+      <header class="builder-header">
+        <div class="builder-brand-row">
+          <a class="logo" href="/" aria-label="Invite Link builder home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+              <path d="M9 21V12h6v9"/>
+            </svg>
+            <h1>INVITE LINK</h1>
+          </a>
+          <div class="builder-nav-group">
+            <a class="template-library-link" href="/templates">Templates</a>
+            <a class="template-library-link" href="/pricing">Pricing</a>
+            <a class="template-library-link" href="/faq">FAQ</a>
+            <button type="button" class="builder-faq-btn" id="openFaqModalBtn">Help</button>
+          </div>
+        </div>
+        <p class="subtitle">★ 4.9/5 rated by 1,280+ hosts · Free live preview · One-time event passes from ₹399 / $12</p>
+      </header>
+
+      <!-- Step Navigation Indicator -->
+      <nav class="steps-nav">
+        <div class="step-dot active" data-step="1"><span>1</span>Details</div>
+        <div class="step-dot" data-step="2"><span>2</span>Content</div>
+        <div class="step-dot" data-step="3"><span>3</span>Design</div>
+        <div class="step-dot" data-step="4"><span>4</span>Share</div>
+      </nav>
+
+      <form id="builderForm">
+        
+        <!-- STEP 1: Core Details -->
+        <fieldset class="step-fieldset" id="step-1">
+          <legend>Event Details</legend>
+
+          <div class="form-group">
+            <label for="templateTheme">Occasion</label>
+            <select id="templateTheme" name="event_type">
+              <optgroup label="Weddings & Romance">
+                <option value="wedding">Wedding (Vows in Bloom)</option>
+                <option value="sangeet">Sangeet & Mehndi (Rhythm & Marigolds)</option>
+                <option value="engagement">Engagement (The First Yes)</option>
+                <option value="anniversary">Anniversary (Still, Always)</option>
+              </optgroup>
+              <optgroup label="Home & Spiritual Blessings">
+                <option value="housewarming" selected>Housewarming (A New Door)</option>
+                <option value="pooja">Pooja & House Blessing (Sacred Light)</option>
+                <option value="babyshower">Baby Shower (Little Wonder)</option>
+                <option value="naming">Naming Ceremony (Hello, Little One)</option>
+              </optgroup>
+              <optgroup label="Soirées & Milestones">
+                <option value="cocktail">Cocktail Soirée (Midnight & Champagne)</option>
+                <option value="birthday">Birthday Celebration (Another Sun)</option>
+                <option value="graduation">Graduation (The Next Chapter)</option>
+                <option value="gala">Gala & Keynote (The Horizon)</option>
+              </optgroup>
+            </select>
+            <small>Choose the occasion first; it sets the starting copy, colors, imagery, and RSVP language.</small>
+            <div class="occasion-actions">
+              <a id="occasionDemoLink" href="/invite.html?demo=housewarming" target="_blank" rel="noopener">Open live demo</a>
+              <a href="/templates.html">Browse all templates</a>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="homeName">Invitation Title / Home Name</label>
+            <input type="text" id="homeName" name="home_name" value="A NEW BEGINNING" required placeholder="e.g. NORAH or VILLA GRACE">
+          </div>
+
+          <div class="form-group">
+            <label for="hosts">Hosts</label>
+            <input type="text" id="hosts" name="hosts" value="Your Name & Family" required placeholder="e.g. Joylin & Noel Monis">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eventDate">Event Date</label>
+              <input type="date" id="eventDate" name="event_date" required>
+            </div>
+            <div class="form-group">
+              <label for="eventTime">Event Time</label>
+              <input type="text" id="eventTime" name="event_time" value="6:00 PM onwards" required placeholder="e.g. 12:00 PM Onwards">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="venueName">Venue Name</label>
+            <input type="text" id="venueName" name="venue_name" value="Your venue" required placeholder="e.g. Flat No. 505, Kalkura Heights">
+          </div>
+
+          <div class="form-group">
+            <label for="venueAddress">Venue Address</label>
+            <textarea id="venueAddress" name="venue_address" rows="3" required placeholder="e.g. Opp. Robosoft Technologies, NH66&#10;Santekatte, Udupi – 576105">Add the full venue address</textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="venueMapsUrl">Google Maps Link</label>
+            <input type="url" id="venueMapsUrl" name="venue_maps_url" placeholder="e.g. https://maps.app.goo.gl/...">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">RSVP Contact Number (WhatsApp Enabled)</label>
+            <input type="tel" id="phone" name="phone" required placeholder="e.g. 917259751804 (include country code, no space)">
+            <small>Must include country code without prefix (e.g. 91 for India, 1 for US)</small>
+          </div>
+
+          <div class="actions-row">
+            <span></span>
+            <button type="button" class="btn btn--primary next-step">Next: Content</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 2: Content & Scripture -->
+        <fieldset class="step-fieldset hidden" id="step-2">
+          <legend>Invitation Text & Scriptures</legend>
+
+          <div class="form-group">
+            <label for="welcomeText">Welcome Eyebrow (Screen 1)</label>
+            <input type="text" id="welcomeText" name="welcome_text" value="Welcome to" placeholder="e.g. Welcome to">
+          </div>
+
+          <div class="form-group">
+            <label for="inviteEyebrow">Invitation Eyebrow (Screen 2)</label>
+            <input type="text" id="inviteEyebrow" name="invite_eyebrow" value="With Grateful Hearts," placeholder="e.g. With Grateful Hearts,">
+          </div>
+
+          <div class="form-group">
+            <label for="inviteText">Invitation Statement</label>
+            <textarea id="inviteText" name="invite_text" rows="2" placeholder="e.g. invite you and your family to bless our new beginning">invite you and your family to bless our new beginning.</textarea>
+          </div>
+
+          <!-- RSVP Customizer -->
+          <div style="margin: 10px 0; border: 1px dashed var(--border-color); padding: 16px; border-radius: var(--radius-md); background: var(--bg-primary);">
+            <h4 style="font-size:12px; text-transform:uppercase; margin-bottom:12px; color:var(--color-maroon);">RSVP Options Customization</h4>
+            
+            <div class="form-row" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label for="rsvpOption1Title">Option 1 Title (Attending)</label>
+                <input type="text" id="rsvpOption1Title" name="rsvp_option1_title" value="Gladly attending">
+              </div>
+              <div class="form-group">
+                <label for="rsvpOption1Subtitle">Option 1 Subtitle</label>
+                <input type="text" id="rsvpOption1Subtitle" name="rsvp_option1_subtitle" value="We will be there!">
+              </div>
+            </div>
+
+            <div class="form-row" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label for="rsvpOption2Title">Option 2 Title (Maybe)</label>
+                <input type="text" id="rsvpOption2Title" name="rsvp_option2_title" value="Will try to come">
+              </div>
+              <div class="form-group">
+                <label for="rsvpOption2Subtitle">Option 2 Subtitle</label>
+                <input type="text" id="rsvpOption2Subtitle" name="rsvp_option2_subtitle" value="Trying our best!">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rsvpOption3Title">Option 3 Title (Send Blessings)</label>
+                <input type="text" id="rsvpOption3Title" name="rsvp_option3_title" value="Sending blessings">
+              </div>
+              <div class="form-group">
+                <label for="rsvpOption3Subtitle">Option 3 Subtitle</label>
+                <input type="text" id="rsvpOption3Subtitle" name="rsvp_option3_subtitle" value="In our prayers always.">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="modalContactBlessing">RSVP Modal Header Tagline</label>
+            <input type="text" id="modalContactBlessing" name="modal_contact_blessing" value="Your blessing means the world to us">
+          </div>
+
+          <!-- Bible Verse Toggle -->
+          <div class="form-toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="showBibleVerse" name="show_bible_verse" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <div>
+              <span class="toggle-label">Include Scripture / Quote</span>
+              <span class="toggle-desc">Displayed at the top of the closing screen</span>
+            </div>
+          </div>
+
+          <div class="conditional-fields" id="bibleVerseFields">
+            <div class="form-group">
+              <label for="bibleVerse">Scripture / Quote Text</label>
+              <textarea id="bibleVerse" name="bible_verse" rows="3" placeholder="e.g. Whoever dwells in the shelter of the Most High...">Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty.</textarea>
+            </div>
+            <div class="form-group">
+              <label for="bibleRef">Citation / Reference</label>
+              <input type="text" id="bibleRef" name="bible_ref" value="Psalm 91:1" placeholder="e.g. Psalm 91:1">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="closingQuote">Closing Quote</label>
+            <input type="text" id="closingQuote" name="closing_quote" value="A home is made of moments and people." placeholder="e.g. A home is made of moments and people.">
+          </div>
+
+          <div class="form-group">
+            <label for="closingSubtext">Closing Subtext</label>
+            <input type="text" id="closingSubtext" name="closing_subtext" value="Thank you for becoming part of ours." placeholder="e.g. Thank you for becoming part of ours.">
+          </div>
+
+          <div class="form-group">
+            <label for="hostsTagline">Hosts Thank You Tagline (Screen 3)</label>
+            <input type="text" id="hostsTagline" name="hosts_tagline" value="With Love & Gratitude">
+          </div>
+
+          <div class="form-group">
+            <label for="seeYouBtnText">See You Soon Button Text (Screen 3)</label>
+            <input type="text" id="seeYouBtnText" name="see_you_btn_text" value="See You Soon">
+          </div>
+
+          <!-- Presents in blessings only Toggle -->
+          <div class="form-toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="showPresenceNote" name="show_presence_note" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <div>
+              <span class="toggle-label">Include Gift Note</span>
+              <span class="toggle-desc">Displays a subtle reminder at the bottom of the invite</span>
+            </div>
+          </div>
+
+          <div class="conditional-fields" id="presenceNoteFields">
+            <div class="form-group">
+              <label for="presenceNote">Gift Note Text</label>
+              <input type="text" id="presenceNote" name="presence_note" value="Presents in blessings only" placeholder="e.g. Presents in blessings only">
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <button type="button" class="btn btn--secondary prev-step">Back</button>
+            <button type="button" class="btn btn--primary next-step">Next: Design</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3: Styling & Background Assets -->
+        <fieldset class="step-fieldset hidden" id="step-3">
+          <legend>Design Customization</legend>
+
+          <!-- Color System -->
+          <div class="color-selections">
+            <div class="form-group color-picker-group">
+              <label for="colorPrimary">Primary Color</label>
+              <div class="color-picker-wrapper">
+                <input type="color" id="colorPrimary" name="color_primary" value="#6B2036">
+                <input type="text" id="colorPrimaryHex" value="#6B2036" class="hex-text">
+              </div>
+            </div>
+
+            <div class="form-group color-picker-group">
+              <label for="colorAccent">Accent Color</label>
+              <div class="color-picker-wrapper">
+                <input type="color" id="colorAccent" name="color_accent" value="#C4A35A">
+                <input type="text" id="colorAccentHex" value="#C4A35A" class="hex-text">
+              </div>
+            </div>
+          </div>
+
+          <!-- Media Preset Selector / Uploader -->
+          <div class="media-section">
+            <h3>Background Images (3 Screens)</h3>
+            
+            <div class="media-field">
+              <label>1. Screen 1 (Door Background)</label>
+              <div class="uploader-control">
+                <input type="file" id="fileDoor" accept="image/*" class="file-input">
+                <input type="hidden" id="bgImageDoor" name="bg_image_door" value="https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80">
+                <button type="button" class="btn-upload btn-select-preset" data-screen="door">Choose Preset</button>
+                <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
+              </div>
+              <span class="selected-asset-name" id="labelDoor">Default preset: Welcoming interior</span>
+            </div>
+
+            <div class="media-field">
+              <label>2. Screen 2 (Invitation Background)</label>
+              <div class="uploader-control">
+                <input type="file" id="fileInvite" accept="image/*" class="file-input">
+                <input type="hidden" id="bgImageInvite" name="bg_image_invite" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80">
+                <button type="button" class="btn-upload btn-select-preset" data-screen="invite">Choose Preset</button>
+                <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
+              </div>
+              <span class="selected-asset-name" id="labelInvite">Default preset: Modern home</span>
+            </div>
+
+            <div class="media-field">
+              <label>3. Screen 3 (Thank You Background)</label>
+              <div class="uploader-control">
+                <input type="file" id="fileClosing" accept="image/*" class="file-input">
+                <input type="hidden" id="bgImageClosing" name="bg_image_closing" value="https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=800&q=80">
+                <button type="button" class="btn-upload btn-select-preset" data-screen="closing">Choose Preset</button>
+                <button type="button" class="btn-upload trigger-file-select">Upload Photo</button>
+              </div>
+              <span class="selected-asset-name" id="labelClosing">Default preset: Evening warmth</span>
+            </div>
+
+            <h3>Background Music</h3>
+            <div class="media-field">
+              <label>Background MP3/MP4 Audio Track</label>
+              <div class="uploader-control">
+                <input type="file" id="fileMusic" accept="audio/*" class="file-input">
+                <input type="hidden" id="bgMusicUrl" name="bg_music_url" value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3">
+                <button type="button" class="btn-upload btn-select-preset" data-screen="music">Choose Preset</button>
+                <button type="button" class="btn-upload trigger-file-select">Upload Music</button>
+              </div>
+              <span class="selected-asset-name" id="labelMusic">Default preset: Instrumental acoustic</span>
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <button type="button" class="btn btn--secondary prev-step">Back</button>
+            <button type="button" class="btn btn--primary next-step">Next: Publish</button>
+          </div>
+        </fieldset>
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <button type="button" class="btn btn--secondary prev-step">Back</button>
+            <button type="button" class="btn btn--primary next-step">Next: Publish</button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 4: Share & Generate -->
+        <fieldset class="step-fieldset hidden" id="step-4">
+          <legend>Share & Publish</legend>
+
+          <div class="form-group">
+            <label for="slug">Custom Web Link Slug</label>
+            <div class="slug-input-wrapper">
+              <span class="domain-prefix" id="domainPrefix">invitelink.shop/invite/</span>
+              <input type="text" id="slug" name="slug" required placeholder="e.g. monis-house">
+            </div>
+            <small>This forms your unique link: e.g. /invite/monis-house</small>
+          </div>
+
+          <!-- Pricing Transparency Callout -->
+          <div class="pricing-badge-box" style="background: rgba(107, 32, 54, 0.06); border: 1px solid rgba(107, 32, 54, 0.18); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-weight: 700; font-size: 13px; color: var(--color-wine);">One-Time Event Pass</span>
+              <span style="font-weight: 700; font-size: 14px; color: var(--color-wine);">₹399 / $12</span>
+            </div>
+            <p style="font-size: 11.5px; color: var(--text-muted); margin: 0; line-height: 1.4;">Zero recurring subscriptions. Unlimited guest views on global CDN, no watermark, 1-tap WhatsApp RSVP, and 1 year hosting.</p>
+          </div>
+
+          <!-- Submit Button / Progress Indicator -->
+          <div class="publish-block">
+            <button type="submit" class="btn btn--large btn--primary" id="publishBtn">Generate Invitation Link</button>
+            
+            <div class="progress-bar-container hidden" id="publishProgress">
+              <div class="progress-bar-fill" id="progressFill"></div>
+              <span class="progress-label" id="progressLabel">Uploading assets...</span>
+            </div>
+          </div>
+
+          <!-- Success Screen -->
+          <div class="success-card hidden" id="successCard">
+            <div class="success-icon">✨</div>
+            <h3>Your Invitation is Live!</h3>
+            <p>Share your customized invitation link with guests on WhatsApp or any messaging app.</p>
+            
+            <div class="invite-link-box">
+              <input type="text" id="liveInviteLink" readonly>
+              <button type="button" id="copyLinkBtn">Copy Link</button>
+            </div>
+
+            <div class="success-actions">
+              <a href="" id="viewLiveBtn" target="_blank" class="btn btn--secondary">View Live Card</a>
+              <a href="" id="shareWhatsAppBtn" target="_blank" class="btn btn--whatsapp">Share on WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="actions-row success-back-row">
+            <button type="button" class="btn btn--secondary prev-step">Back</button>
+            <span></span>
+          </div>
+        </fieldset>
+
+      </form>
+
+      <footer class="builder-footer-links" style="margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(33,23,20,0.1); display: flex; flex-wrap: wrap; gap: 14px; font-size: 11px; color: var(--text-muted);">
+        <a href="/templates" style="color: inherit; text-decoration: none;">Templates</a>
+        <a href="/pricing" style="color: inherit; text-decoration: none;">Pricing</a>
+        <a href="/faq" style="color: inherit; text-decoration: none;">FAQ</a>
+        <a href="/about" style="color: inherit; text-decoration: none;">About</a>
+        <a href="/contact" style="color: inherit; text-decoration: none;">Contact</a>
+        <a href="/terms" style="color: inherit; text-decoration: none;">Terms</a>
+        <a href="/privacy" style="color: inherit; text-decoration: none;">Privacy</a>
+        <a href="/refund" style="color: inherit; text-decoration: none;">Refund Policy</a>
+      </footer>
+    </div>
+
+    <!-- RIGHT PANEL: Live Mobile Preview -->
+    <div class="preview-panel">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <iframe id="previewIframe" src="/invite.html?mode=preview&amp;v=20260718-1" frameborder="0"></iframe>
+        </div>
+      </div>
+      <div class="preview-label">Live Mobile Preview</div>
+    </div>
+
+  </div>
+
+  <!-- Preset Selector Modal -->
+  <div class="preset-modal-overlay" id="presetModal">
+    <div class="preset-modal">
+      <div class="preset-modal-header">
+        <h3>Choose Preset Asset</h3>
+        <button class="preset-modal-close" id="presetModalClose">&times;</button>
+      </div>
+      <div class="preset-grid" id="presetGrid">
+        <!-- Dynaimc preset options -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick FAQ Modal -->
+  <div class="builder-faq-overlay" id="builderFaqModal">
+    <div class="builder-faq-modal" role="dialog" aria-modal="true" aria-labelledby="builderFaqTitle">
+      <div class="builder-faq-header">
+        <h3 id="builderFaqTitle">Frequently Asked Questions</h3>
+        <button class="builder-faq-close" id="builderFaqClose" aria-label="Close FAQ">&times;</button>
+      </div>
+      <div class="builder-faq-body">
+        <div class="builder-faq-item is-open">
+          <button type="button" class="builder-faq-question">
+            <span>How do guests open my invitation?</span>
+            <span class="builder-faq-icon">+</span>
+          </button>
+          <div class="builder-faq-answer">
+            <p>Guests receive your link on WhatsApp or SMS. Tapping the link opens an interactive entrance. One tap opens the door with smooth motion, soft background music, floating petals, venue directions, and an instant RSVP button.</p>
+          </div>
+        </div>
+        <div class="builder-faq-item">
+          <button type="button" class="builder-faq-question">
+            <span>Can I customize colors, photos, and music?</span>
+            <span class="builder-faq-icon">+</span>
+          </button>
+          <div class="builder-faq-answer">
+            <p>Yes! In Step 3 (Design), you can choose from preset themes or upload your own photos for each screen, select custom primary & accent colors, and choose or upload background music.</p>
+          </div>
+        </div>
+        <div class="builder-faq-item">
+          <button type="button" class="builder-faq-question">
+            <span>How does the WhatsApp RSVP work?</span>
+            <span class="builder-faq-icon">+</span>
+          </button>
+          <div class="builder-faq-answer">
+            <p>Guests select their response option on the card, which generates a pre-formatted WhatsApp message directly to your contact number with one touch.</p>
+          </div>
+        </div>
+        <div class="builder-faq-item">
+          <button type="button" class="builder-faq-question">
+            <span>Can I update details after publishing?</span>
+            <span class="builder-faq-icon">+</span>
+          </button>
+          <div class="builder-faq-answer">
+            <p>Yes. Any updates update your live invitation immediately without changing your URL, so all guests will automatically see the latest timings and venue info.</p>
+          </div>
+        </div>
+      </div>
+      <div class="builder-faq-footer">
+        <span>Need more answers or custom assistance?</span>
+        <a href="/faq">View Full FAQ Page →</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/templates-data.js?v=20260718-1"></script>
+  <script src="/builder.js?v=20260718-1"></script>
+</body>
+</html>
+

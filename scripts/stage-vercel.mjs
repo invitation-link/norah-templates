@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const productionFiles = [
   'index.html',
+  'create.html',
   'builder.css',
   'builder.js',
   'invite.html',
@@ -28,6 +29,9 @@ const productionFiles = [
   'favicon.ico',
   'robots.txt',
   'sitemap.xml',
+  'sitemap-pages.xml',
+  'sitemap-templates.xml',
+  'indexnow-key.txt',
   'vercel.json'
 ];
 
