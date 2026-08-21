@@ -12,6 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function TemplatesLayout({ children }: { children: React.ReactNode }) {
-  const items = PRODUCT_TEMPLATES.map((template) => ({ name: template.name, url: template.liveUrl.startsWith("/") ? `${SITE_URL}${template.liveUrl}` : template.liveUrl, image: `${SITE_URL}${template.previewImage}` }));
+  const items = PRODUCT_TEMPLATES.map((template) => ({ name: template.name, url: `${SITE_URL}/templates/${template.id}`, image: `${SITE_URL}${template.previewImage}` }));
   return <><JsonLd data={[schemas.breadcrumb([{ name: "Home", url: SITE_URL }, { name: "Templates", url: `${SITE_URL}/templates` }]), schemas.itemList("Interactive invitation templates", items)]} />{children}</>;
 }
