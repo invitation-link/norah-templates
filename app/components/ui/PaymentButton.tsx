@@ -54,6 +54,7 @@ export function PaymentButton({ planId, invitationId, onSuccess, className, chil
             if (!verified.ok) throw new Error(body.error || 'Payment verification failed')
             if (!body.paid) { toast.success('Payment received and awaiting final confirmation.'); return }
             trackEvent('purchase', { transaction_id: result.razorpay_payment_id, value: pricing.amount, currency: 'INR', plan: planId })
+            trackEvent('upgrade_paid', { transaction_id: result.razorpay_payment_id, value: pricing.amount, currency: 'INR', plan: planId })
             toast.success('Payment received. Publishing your invitation…')
             await onSuccess?.()
           } catch (error) {
