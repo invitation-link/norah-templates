@@ -6,6 +6,7 @@
   <meta name="description" content="InviteLink Postcards from Us interaction prototype">
   <title>Postcards from Us — InviteLink Prototype</title>
   <link rel="stylesheet" href="./postcards.css">
+  <script id="invite-config" type="application/json">{"optionalModules":{"travel":true,"memory":false}}</script>
   <script src="./postcards.js" defer></script>
 </head>
 <body>
@@ -68,7 +69,7 @@
       </div>
     </section>
 
-    <section class="travel" aria-labelledby="travel-title" data-travel-concierge>
+    <section id="travel" class="travel" aria-labelledby="travel-title" data-optional-module="travel">
       <div class="section-heading">
         <p class="eyebrow">Travel concierge</p>
         <h2 id="travel-title">The useful part, kept simple</h2>
@@ -85,6 +86,16 @@
         <summary>What to pack</summary>
         <p>Optional weather and dress guidance without turning the invitation into a travel portal.</p>
       </details>
+    </section>
+
+    <section id="memory" class="memory" aria-labelledby="memory-title" data-optional-module="memory" hidden>
+      <div class="section-heading">
+        <p class="eyebrow">After the celebration</p>
+        <h2 id="memory-title">A place for the memories</h2>
+      </div>
+      <p>This optional module is omitted from the base invitation. When enabled, it can become a lightweight post-event destination for approved gallery, wishes or sharing experiences without adding required setup fields.</p>
+      <button type="button" data-memory-action>Open memory space</button>
+      <p role="status" aria-live="polite" data-memory-status></p>
     </section>
 
     <section class="rsvp" aria-labelledby="rsvp-title">
@@ -109,7 +120,7 @@
     <footer class="closing">
       <p class="eyebrow">Last postcard</p>
       <h2>See you in Jaipur.</h2>
-      <p>Optional gallery, destination video and story modules are intentionally absent from the base path to preserve fast personalization.</p>
+      <p>Optional gallery, destination video and story modules remain outside the required setup path to preserve fast personalization.</p>
     </footer>
 
     <nav class="utility-dock" aria-label="Invitation utilities">
