@@ -3,6 +3,7 @@
   const revealButton = document.querySelector('[data-reveal-action]');
   const doors = document.querySelectorAll('[data-door]');
   const revealed = document.querySelectorAll('[data-revealed]');
+  const revealFocus = document.querySelector('[data-reveal-focus]');
   const status = document.querySelector('[data-rsvp-status]');
 
   const open = () => {
@@ -11,6 +12,7 @@
     revealButton?.setAttribute('aria-expanded', 'true');
     revealButton && (revealButton.textContent = 'Celebration opened');
     revealed.forEach((node) => { node.hidden = false; });
+    window.requestAnimationFrame(() => revealFocus?.focus({ preventScroll: false }));
     window.dispatchEvent(new CustomEvent('invitelink:analytics', { detail: { event: 'reveal_complete', template: 'royal-threshold' } }));
   };
 
