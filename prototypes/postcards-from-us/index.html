@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="InviteLink Postcards from Us interaction prototype">
+  <title>Postcards from Us — InviteLink Prototype</title>
+  <link rel="stylesheet" href="./postcards.css">
+  <script src="./postcards.js" defer></script>
+</head>
+<body>
+  <main class="invite" data-template="postcards-from-us">
+    <section class="hero" aria-labelledby="invite-title">
+      <p class="eyebrow">InviteLink · Postcards from Us</p>
+      <h1 id="invite-title">Maya &amp; Arjun</h1>
+      <p class="date-place">18–20 February 2027 · Jaipur</p>
+
+      <div class="postcard-stage" data-postcard-deck>
+        <article class="postcard is-current" data-card="0" aria-live="polite">
+          <p class="postcard__stamp" aria-hidden="true">01</p>
+          <p class="postcard__kicker">A note from Jaipur</p>
+          <h2>Come spend the weekend with us.</h2>
+          <p>Three days, one old city, and a celebration we would love to share with you.</p>
+        </article>
+        <article class="postcard" data-card="1" hidden>
+          <p class="postcard__stamp" aria-hidden="true">02</p>
+          <p class="postcard__kicker">Friday</p>
+          <h2>Welcome evening</h2>
+          <p>Meet us in the courtyard for dinner, music and an easy first night together.</p>
+        </article>
+        <article class="postcard" data-card="2" hidden>
+          <p class="postcard__stamp" aria-hidden="true">03</p>
+          <p class="postcard__kicker">Saturday</p>
+          <h2>The wedding day</h2>
+          <p>The ceremony begins before sunset, followed by dinner and dancing.</p>
+        </article>
+        <div class="deck-actions">
+          <button type="button" data-prev disabled>Previous</button>
+          <button type="button" data-next>Next postcard</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="itinerary" aria-labelledby="itinerary-title">
+      <div class="section-heading">
+        <p class="eyebrow">Weekend itinerary</p>
+        <h2 id="itinerary-title">Your route through the celebration</h2>
+      </div>
+      <div class="event-list" data-itinerary>
+        <article class="event-card">
+          <p class="event-card__day">Friday · 7:00 PM</p>
+          <h3>Welcome Dinner</h3>
+          <p>Courtyard House · Smart casual</p>
+          <div class="event-actions">
+            <a href="https://maps.google.com/?q=Jaipur" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <a href="#" data-calendar="welcome">Add to calendar</a>
+          </div>
+        </article>
+        <article class="event-card">
+          <p class="event-card__day">Saturday · 5:00 PM</p>
+          <h3>Wedding Ceremony</h3>
+          <p>Garden Pavilion · Festive formal</p>
+          <div class="event-actions">
+            <a href="https://maps.google.com/?q=Jaipur" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <a href="#" data-calendar="wedding">Add to calendar</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="travel" aria-labelledby="travel-title" data-travel-concierge>
+      <div class="section-heading">
+        <p class="eyebrow">Travel concierge</p>
+        <h2 id="travel-title">The useful part, kept simple</h2>
+      </div>
+      <details>
+        <summary>Hotel</summary>
+        <p>Optional hotel information lives here and the whole block disappears when no hotel is configured.</p>
+      </details>
+      <details>
+        <summary>Airport &amp; transfers</summary>
+        <p>Optional arrival guidance, transfer windows and planner contact details.</p>
+      </details>
+      <details>
+        <summary>What to pack</summary>
+        <p>Optional weather and dress guidance without turning the invitation into a travel portal.</p>
+      </details>
+    </section>
+
+    <section class="rsvp" aria-labelledby="rsvp-title">
+      <div class="section-heading">
+        <p class="eyebrow">RSVP</p>
+        <h2 id="rsvp-title">Will you join us?</h2>
+      </div>
+      <form data-rsvp-panel>
+        <label>Name <input name="name" autocomplete="name" required></label>
+        <fieldset>
+          <legend>Attendance</legend>
+          <label><input type="radio" name="attendance" value="yes" required> Yes, happily</label>
+          <label><input type="radio" name="attendance" value="no"> Unable to attend</label>
+        </fieldset>
+        <label>Party size <input type="number" name="partySize" min="1" max="8" value="1"></label>
+        <label>Travel or accessibility note <textarea name="note" rows="3"></textarea></label>
+        <button type="submit">Save RSVP</button>
+        <p role="status" aria-live="polite" data-rsvp-status></p>
+      </form>
+    </section>
+
+    <footer class="closing">
+      <p class="eyebrow">Last postcard</p>
+      <h2>See you in Jaipur.</h2>
+      <p>Optional gallery, destination video and story modules are intentionally absent from the base path to preserve fast personalization.</p>
+    </footer>
+
+    <nav class="utility-dock" aria-label="Invitation utilities">
+      <a href="#rsvp-title">RSVP</a>
+      <a href="https://maps.google.com/?q=Jaipur" target="_blank" rel="noopener">Map</a>
+      <button type="button" data-share>Share</button>
+    </nav>
+  </main>
+</body>
+</html>
