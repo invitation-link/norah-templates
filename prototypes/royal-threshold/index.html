@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="InviteLink Royal Threshold interaction prototype">
+  <title>Royal Threshold — InviteLink Prototype</title>
+  <link rel="stylesheet" href="./royal-threshold.css">
+  <script src="./royal-threshold.js" defer></script>
+</head>
+<body>
+  <main class="threshold" data-template="royal-threshold">
+    <section class="threshold__entry" aria-labelledby="entry-title">
+      <div class="threshold__glow" aria-hidden="true"></div>
+      <p class="eyebrow">InviteLink · Royal Threshold</p>
+      <h1 id="entry-title">Ananya &amp; Kabir</h1>
+      <p class="threshold__date">12 December 2026 · Udaipur</p>
+      <div class="door-frame" data-reveal-controller>
+        <button class="door door--left" type="button" aria-label="Open the left palace door" data-door="left"></button>
+        <button class="door door--right" type="button" aria-label="Open the right palace door" data-door="right"></button>
+        <button class="reveal-action" type="button" data-reveal-action aria-expanded="false">Enter the celebration</button>
+      </div>
+      <p class="entry-help">Tap either door or use the button. No detail is locked behind motion.</p>
+    </section>
+
+    <section class="courtyard" data-revealed hidden aria-labelledby="welcome-title">
+      <div class="section-heading">
+        <p class="eyebrow">The first courtyard</p>
+        <h2 id="welcome-title">With the blessings of our families</h2>
+        <p>Join us for a weekend of celebrations across Udaipur.</p>
+      </div>
+
+      <div class="event-grid" data-event-list>
+        <article class="event-card" data-event="haldi">
+          <p class="event-card__index">01</p>
+          <h3>Haldi Morning</h3>
+          <p>11 Dec · 10:00 AM</p>
+          <p>Garden Courtyard</p>
+          <div class="event-card__actions">
+            <a href="https://maps.google.com/?q=Udaipur" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <a href="#" data-calendar-event="haldi">Add to calendar</a>
+          </div>
+        </article>
+        <article class="event-card" data-event="sangeet">
+          <p class="event-card__index">02</p>
+          <h3>Sangeet Under the Stars</h3>
+          <p>11 Dec · 7:00 PM</p>
+          <p>Moon Court</p>
+          <div class="event-card__actions">
+            <a href="https://maps.google.com/?q=Udaipur" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <a href="#" data-calendar-event="sangeet">Add to calendar</a>
+          </div>
+        </article>
+        <article class="event-card" data-event="wedding">
+          <p class="event-card__index">03</p>
+          <h3>Wedding Ceremony</h3>
+          <p>12 Dec · 5:30 PM</p>
+          <p>Lake Courtyard</p>
+          <div class="event-card__actions">
+            <a href="https://maps.google.com/?q=Udaipur" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <a href="#" data-calendar-event="wedding">Add to calendar</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="story" data-revealed hidden aria-labelledby="story-title">
+      <div class="section-heading">
+        <p class="eyebrow">A quiet alcove</p>
+        <h2 id="story-title">A story module that can disappear cleanly</h2>
+      </div>
+      <div class="story-card">
+        <p>Optional couple story, portrait, gallery or video modules live here. In production, this whole section is omitted when no story content is supplied.</p>
+      </div>
+    </section>
+
+    <section class="rsvp" data-revealed hidden aria-labelledby="rsvp-title">
+      <div class="section-heading">
+        <p class="eyebrow">The RSVP hall</p>
+        <h2 id="rsvp-title">Will you celebrate with us?</h2>
+      </div>
+      <form class="rsvp-panel" data-rsvp-panel>
+        <fieldset>
+          <legend>Your attendance</legend>
+          <label><input type="radio" name="attendance" value="yes" required> Joyfully attending</label>
+          <label><input type="radio" name="attendance" value="no"> Celebrating from afar</label>
+        </fieldset>
+        <label>Party size <input type="number" name="partySize" min="1" max="8" value="1"></label>
+        <label>Food or accessibility note <textarea name="note" rows="3"></textarea></label>
+        <button type="submit">Save RSVP</button>
+        <p class="rsvp-panel__status" role="status" aria-live="polite" data-rsvp-status></p>
+      </form>
+    </section>
+
+    <section class="blessing" data-revealed hidden aria-labelledby="blessing-title">
+      <p class="eyebrow">The final courtyard</p>
+      <h2 id="blessing-title">Leave a blessing</h2>
+      <p>WishesWall is represented as an optional module; the production component can connect to the InviteLink data layer later.</p>
+    </section>
+
+    <nav class="utility-dock" aria-label="Invitation utilities" data-revealed hidden>
+      <a href="#rsvp-title" data-track="rsvp_start">RSVP</a>
+      <a href="https://maps.google.com/?q=Udaipur" target="_blank" rel="noopener" data-track="map_click">Directions</a>
+      <button type="button" data-share>Share</button>
+    </nav>
+  </main>
+</body>
+</html>
