@@ -4,6 +4,53 @@
     if (window.console) console.info('[InviteLink]', event, detail);
   };
 
+  const readConfig = () => {
+    const node = document.getElementById('invite-config');
+    try {
+      return JSON.parse(node?.textContent || '{}');
+    } catch (_) {
+      track('invite_config_error');
+      return {};
+    }
+  };
+
+  const applyOptionalModules = (config) => {
+    const params = new URLSearchParams(window.location.search);
+    const overrides = {
+      travel: params.has('demoTravel') ? params.get('demoTravel') !== '0' : undefined,
+      memory: params.has('demoMemory') ? params.get('demoMemory') === '1' : undefined
+    };
+
+    document.querySelectorAll('[data-optional-module]').forEach((node) => {
+      const key = node.dataset.optionalModule;
+      const configured = Boolean(config.optionalModules?.[key]);
+      const enabled = overrides[key] === undefined ? configured : overrides[key];
+      node.hidden = !enabled;
+      node.dataset.moduleState = enabled ? 'enabled' : 'omitted';
+      track('optional_module_state', { module: key, enabled });
+    });
+  };
+
+  const activatePhaseDeepLink = () => {
+    const params = new URLSearchParams(window.location.search);
+    const phase = params.get('phase');
+    if (!phase) return;
+
+    const targetId = { arrival: 'travel', travel: 'travel', memory: 'memory' }[phase];
+    const target = targetId ? document.getElementById(targetId) : null;
+    if (!target || target.hidden) {
+      track('phase_deep_link_unavailable', { phase });
+      return;
+    }
+
+    target.setAttribute('tabindex', '-1');
+    requestAnimationFrame(() => {
+      target.scrollIntoView({ block: 'start' });
+      target.focus({ preventScroll: true });
+    });
+    track('phase_deep_link', { phase });
+  };
+
   class PostcardDeck {
     constructor(root) {
       this.root = root;
@@ -72,12 +119,15 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     track('invite_open', { template: 'postcards-from-us' });
+    applyOptionalModules(readConfig());
+
     const deck = document.querySelector('[data-postcard-deck]');
     if (deck) new PostcardDeck(deck);
     document.querySelectorAll('[data-calendar]').forEach((link) => new CalendarAction(link));
     const rsvp = document.querySelector('[data-rsvp-panel]');
     if (rsvp) new RSVPPanel(rsvp);
     document.querySelectorAll('[data-track]').forEach((node) => node.addEventListener('click', () => track(node.dataset.track)));
+
     const share = document.querySelector('[data-share]');
     share?.addEventListener('click', async () => {
       track('share_click');
@@ -89,5 +139,14 @@
         share.textContent = 'Link copied';
       }
     });
+
+    const memoryAction = document.querySelector('[data-memory-action]');
+    memoryAction?.addEventListener('click', () => {
+      const status = document.querySelector('[data-memory-status]');
+      if (status) status.textContent = 'Prototype only — memory mode is enabled; no guest media is uploaded.';
+      track('memory_open');
+    });
+
+    activatePhaseDeepLink();
   });
 })();
