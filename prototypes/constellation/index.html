@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="InviteLink Constellation interaction prototype">
+  <title>Constellation — InviteLink Prototype</title>
+  <link rel="stylesheet" href="./constellation.css">
+  <script src="./constellation.js" defer></script>
+</head>
+<body>
+  <main class="invite" data-template="constellation">
+    <section class="hero" aria-labelledby="invite-title">
+      <p class="eyebrow">InviteLink · Constellation</p>
+      <h1 id="invite-title">Ira &amp; Neel</h1>
+      <p class="date-place">21 February 2027 · Hyderabad</p>
+      <p class="promise">A few moments became a story. Follow the points that brought us here.</p>
+
+      <div class="sky" data-reveal-controller aria-describedby="sky-help">
+        <svg class="sky__lines" viewBox="0 0 100 100" role="img" aria-label="A decorative constellation that appears as story points are selected" data-constellation-svg>
+          <path data-line="0" d="M18 64 L36 28" pathLength="1"></path>
+          <path data-line="1" d="M36 28 L58 48" pathLength="1"></path>
+          <path data-line="2" d="M58 48 L78 22" pathLength="1"></path>
+        </svg>
+        <div class="sky__points" role="group" aria-label="Relationship milestones">
+          <button type="button" class="star" style="--x:18%;--y:64%" data-star="0" aria-pressed="false"><span>2019</span><small>First hello</small></button>
+          <button type="button" class="star" style="--x:36%;--y:28%" data-star="1" aria-pressed="false"><span>2021</span><small>A city became home</small></button>
+          <button type="button" class="star" style="--x:58%;--y:48%" data-star="2" aria-pressed="false"><span>2024</span><small>The question</small></button>
+          <button type="button" class="star" style="--x:78%;--y:22%" data-star="3" aria-pressed="false"><span>2027</span><small>Celebrate with us</small></button>
+        </div>
+      </div>
+      <p id="sky-help" class="help">Select the story points in order. The lines are decorative; every detail is also available below.</p>
+      <button class="continue" type="button" data-continue>Continue to the celebration</button>
+      <p class="status" role="status" aria-live="polite" data-story-status></p>
+    </section>
+
+    <section id="story" class="story" aria-labelledby="story-title">
+      <div class="section-heading">
+        <p class="eyebrow">Our route</p>
+        <h2 id="story-title">Four small coordinates</h2>
+      </div>
+      <ol class="story-list">
+        <li><strong>2019</strong><span>We met through friends and stayed talking long after everyone left.</span></li>
+        <li><strong>2021</strong><span>Hyderabad became the place where ordinary weekends started to feel like ours.</span></li>
+        <li><strong>2024</strong><span>A quiet evening turned into a promise.</span></li>
+        <li><strong>2027</strong><span>Now the next point is the celebration we hope to share with you.</span></li>
+      </ol>
+    </section>
+
+    <section id="events" class="events" aria-labelledby="events-title" tabindex="-1" data-reveal-focus>
+      <div class="section-heading">
+        <p class="eyebrow">Celebration coordinates</p>
+        <h2 id="events-title">Where the constellation lands</h2>
+      </div>
+      <div class="event-grid">
+        <article class="event-card">
+          <p class="event-card__time">20 Feb · 7:00 PM</p>
+          <h3>Welcome Evening</h3>
+          <p>Courtyard House · Festive casual</p>
+          <div class="event-actions">
+            <a href="https://maps.google.com/?q=Hyderabad" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <button type="button" data-calendar="welcome">Add to calendar</button>
+          </div>
+        </article>
+        <article class="event-card">
+          <p class="event-card__time">21 Feb · 5:30 PM</p>
+          <h3>Wedding Ceremony</h3>
+          <p>Garden Pavilion · Festive formal</p>
+          <div class="event-actions">
+            <a href="https://maps.google.com/?q=Hyderabad" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <button type="button" data-calendar="wedding">Add to calendar</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="rsvp" aria-labelledby="rsvp-title">
+      <div class="section-heading">
+        <p class="eyebrow">RSVP</p>
+        <h2 id="rsvp-title">Will you join us?</h2>
+      </div>
+      <form data-rsvp-panel>
+        <label>Name <input name="name" autocomplete="name" required></label>
+        <fieldset>
+          <legend>Attendance</legend>
+          <label><input type="radio" name="attendance" value="yes" required> Yes, happily</label>
+          <label><input type="radio" name="attendance" value="no"> Unable to attend</label>
+        </fieldset>
+        <label>Party size <input type="number" name="partySize" min="1" max="8" value="1"></label>
+        <label>Dietary or accessibility note <textarea name="note" rows="3"></textarea></label>
+        <button type="submit">Save RSVP</button>
+        <p role="status" aria-live="polite" data-rsvp-status></p>
+      </form>
+    </section>
+
+    <section class="optional" data-optional-module="memory" hidden aria-labelledby="memory-title">
+      <div class="section-heading">
+        <p class="eyebrow">Optional memory layer</p>
+        <h2 id="memory-title">Photos and wishes</h2>
+      </div>
+      <p>This module is omitted unless enabled. It never adds required personalization fields.</p>
+    </section>
+
+    <footer class="closing">
+      <p class="eyebrow">The next point</p>
+      <h2>See you under the same sky.</h2>
+    </footer>
+
+    <nav class="utility-dock" aria-label="Invitation utilities">
+      <a href="#events">Events</a>
+      <a href="#rsvp-title">RSVP</a>
+      <a href="https://maps.google.com/?q=Hyderabad" target="_blank" rel="noopener">Map</a>
+      <button type="button" data-share>Share</button>
+    </nav>
+  </main>
+</body>
+</html>
