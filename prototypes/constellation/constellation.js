@@ -55,7 +55,7 @@
   continueButton?.addEventListener('click', () => {
     document.querySelector('#events')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     requestAnimationFrame(() => revealFocus?.focus({ preventScroll: true }));
-    track('constellation_complete', { completed_points: progress + 1 });
+    track('reveal_complete', { mechanic: 'constellation', completed_points: progress + 1 });
   });
 
   if ('IntersectionObserver' in window && eventCards.length) {
@@ -104,16 +104,16 @@
     rsvpStatus.textContent = form.get('attendance') === 'yes'
       ? 'RSVP saved for this prototype. Production will submit to InviteLink guest state.'
       : 'Response saved for this prototype. Production will submit to InviteLink guest state.';
-    track('rsvp_complete', { attendance: form.get('attendance') });
+    track('rsvp_submit', { attendance: form.get('attendance') });
   });
 
   shareButton?.addEventListener('click', async () => {
     try {
       if (navigator.share) await navigator.share({ title: document.title, url: location.href });
       else if (navigator.clipboard) await navigator.clipboard.writeText(location.href);
-      track('share');
+      track('share_tap');
     } catch (_) {}
   });
 
-  track('invite_open');
+  track('invitation_open');
 })();
