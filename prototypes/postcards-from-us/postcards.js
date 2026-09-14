@@ -51,6 +51,35 @@
     track('phase_deep_link', { phase });
   };
 
+  const trackItineraryView = () => {
+    const itinerary = document.querySelector('[data-itinerary]');
+    if (!itinerary) return;
+
+    if (!('IntersectionObserver' in window)) {
+      track('itinerary_view', { method: 'fallback' });
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      track('itinerary_view', { method: 'viewport' });
+      observer.disconnect();
+    }, { threshold: 0.35 });
+    observer.observe(itinerary);
+  };
+
+  const trackTravelOpens = () => {
+    const travel = document.querySelector('[data-optional-module="travel"]');
+    if (!travel || travel.hidden) return;
+    travel.querySelectorAll('details').forEach((details, index) => {
+      details.addEventListener('toggle', () => {
+        if (!details.open) return;
+        const summary = details.querySelector('summary')?.textContent?.trim() || `item-${index + 1}`;
+        track('travel_open', { item: summary });
+      });
+    });
+  };
+
   class PostcardDeck {
     constructor(root) {
       this.root = root;
@@ -128,6 +157,9 @@
     if (rsvp) new RSVPPanel(rsvp);
     document.querySelectorAll('[data-track]').forEach((node) => node.addEventListener('click', () => track(node.dataset.track)));
 
+    trackItineraryView();
+    trackTravelOpens();
+
     const share = document.querySelector('[data-share]');
     share?.addEventListener('click', async () => {
       track('share_click');
@@ -144,6 +176,7 @@
     memoryAction?.addEventListener('click', () => {
       const status = document.querySelector('[data-memory-status]');
       if (status) status.textContent = 'Prototype only — memory mode is enabled; no guest media is uploaded.';
+      track('gallery_open', { source: 'memory' });
       track('memory_open');
     });
 
