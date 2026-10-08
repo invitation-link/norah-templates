@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111b20">
+<title>Royal Procession · InviteLink Prototype</title>
+<meta name="description" content="Original abstract light-path invitation prototype.">
+<style>
+:root{color-scheme:dark;--ink:#111b20;--panel:#1a282c;--ivory:#f5f0e4;--muted:#c7d0c9;--metal:#a7bdad;--light:#f4ca86;--line:#52665f;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ink);color:var(--ivory);line-height:1.55}button,input,textarea{font:inherit}button,a{touch-action:manipulation}a{color:var(--light)}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--light);outline-offset:3px}button{cursor:pointer}button:disabled{opacity:.7;cursor:not-allowed}
+main{padding-bottom:5.5rem}.wrap{width:min(68rem,calc(100% - 2rem));margin:auto}.hero{min-height:82svh;display:grid;align-content:center;gap:1rem;padding:3.5rem 0 2rem}.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;font-weight:700;color:var(--light)}h1,h2,h3{font-family:Georgia,serif;line-height:1.15}h1{font-size:clamp(3rem,12vw,6rem);margin:0}h2{font-size:clamp(2rem,7vw,3.5rem);margin:.25rem 0 1.2rem}h3{font-size:1.5rem;margin:.4rem 0}.hero__date{font-size:clamp(1.05rem,3.8vw,1.5rem);color:var(--ivory)}.lead,.subtle{color:var(--muted);max-width:55ch}.action{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:1px solid var(--metal);border-radius:.7rem;background:#233337;color:var(--ivory);padding:.65rem 1rem;text-decoration:none;font-weight:650}.action:hover{background:#2c4245}.action--primary{background:var(--light);color:var(--ink);border-color:var(--light)}.action--primary:hover{background:#ffe1a6}.section{padding:3rem 0}.section-head{margin-bottom:1.5rem}.route{position:relative;display:grid;gap:1.1rem;padding-left:1.1rem}.route:before{content:"";position:absolute;top:1.5rem;bottom:1.5rem;left:1.25rem;width:2px;background:linear-gradient(var(--metal),var(--light),var(--line));opacity:.85}.stop{position:relative;padding-left:1.6rem}.stop:before{content:"";position:absolute;top:1.2rem;left:-.31rem;width:.8rem;height:.8rem;border:2px solid var(--light);border-radius:50%;background:var(--ink);box-shadow:0 0 0 5px var(--ink)}.stop.is-lit:before{background:var(--light);box-shadow:0 0 0 5px var(--ink),0 0 20px var(--light)}.stop__button{display:block;text-align:left;width:100%;min-height:52px;border:1px solid #647970;border-radius:1rem 1rem 0 0;padding:.9rem 1rem;background:var(--panel);color:var(--ivory)}.stop__button[aria-expanded=true]{border-color:var(--light)}.stop__index{display:block;color:var(--light);font-size:.72rem;text-transform:uppercase;letter-spacing:.14em}.stop__detail{border:1px solid #647970;border-top:0;border-radius:0 0 1rem 1rem;padding:1rem;background:#162428}.stop__detail[hidden]{display:none}.stop__meta{color:var(--muted)}.stop__actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}.notice{font-size:.9rem;color:var(--muted)}.panel{border:1px solid #52665f;background:var(--panel);border-radius:1rem;padding:1.2rem}.rsvp form{display:grid;gap:1rem;max-width:38rem}.field{display:grid;gap:.4rem}.field input,.field textarea{background:#0c161b;color:var(--ivory);border:1px solid #819188;border-radius:.6rem;min-height:44px;padding:.75rem;width:100%}fieldset{border:1px solid #819188;border-radius:.6rem;display:grid;gap:.6rem}fieldset label{display:flex;gap:.65rem;align-items:center}fieldset input{min-width:20px;min-height:20px}footer{padding:3rem 0 2rem}.utility{position:fixed;z-index:5;bottom:max(.6rem,env(safe-area-inset-bottom));left:.5rem;right:.5rem;background:#17252af5;border:1px solid #68796f;border-radius:1rem;padding:.5rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem}.utility .action{font-size:.9rem;padding:.5rem}.share-fallback{margin-top:1rem}.share-fallback input{width:100%;padding:.65rem;border-radius:.5rem;border:1px solid #8da498;background:#0c161b;color:var(--ivory)}
+@media(min-width:700px){.route{grid-template-columns:1fr 1fr;column-gap:2rem;padding-left:0}.route:before{left:50%;top:0;bottom:0}.stop:nth-child(even){margin-top:5rem}.stop:before{display:none}.utility{width:min(30rem,calc(100% - 2rem));left:50%;right:auto;transform:translateX(-50%)}}@media(max-width:340px){.route{padding-left:.6rem}.stop{padding-left:1.35rem}.stop__actions .action{width:100%}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(prefers-reduced-motion:no-preference){.stop.is-lit:before{animation:light-pulse 420ms ease-out}@keyframes light-pulse{from{box-shadow:0 0 0 5px var(--ink),0 0 0 var(--light)}to{box-shadow:0 0 0 5px var(--ink),0 0 20px var(--light)}}}
+</style>
+</head>
+<body>
+<script type="application/json" id="invite-data">
+{"names":"Asha & Dev","primaryDate":"2027-02-21","location":"Hyderabad, India","familyWelcome":"We would love to celebrate this next chapter with you.","events":[{"id":"welcome","name":"Welcome Gathering","start":"2027-02-20T19:00:00+05:30","end":"2027-02-20T21:00:00+05:30","venue":"Hyderabad, India","address":"","dress":"Festive casual"},{"id":"ceremony","name":"Wedding Ceremony","start":"2027-02-21T17:30:00+05:30","end":"2027-02-21T20:30:00+05:30","venue":"Hyderabad, India","address":"","dress":"Festive formal"}],"optional":{"story":"","photo":"","audio":""}}
+</script>
+<main>
+<section class="wrap hero" aria-labelledby="title">
+<p class="eyebrow">InviteLink · Original experience study</p>
+<h1 id="title" data-names></h1>
+<p class="hero__date" data-date></p>
+<p class="lead">A procession of moments, carried by light. Every celebration detail is available below without completing the opening interaction.</p>
+<div><button class="action action--primary" id="begin" type="button">Begin procession</button></div>
+<p role="status" aria-live="polite" id="progress" class="subtle">The route is ready. You can also go straight to Events or RSVP.</p>
+</section>
+<section class="wrap section" aria-labelledby="welcome-title"><p class="eyebrow">Welcome</p><h2 id="welcome-title">Together, we gather.</h2><p class="lead" data-welcome></p></section>
+<section class="wrap section" id="events" aria-labelledby="events-title"><div class="section-head"><p class="eyebrow">The procession</p><h2 id="events-title">Celebration waypoints</h2><p class="subtle">Choose any waypoint to read the event. No decorative step is required.</p></div><div class="route" id="route"></div></section>
+<section class="wrap section" id="story" hidden aria-labelledby="story-title"><p class="eyebrow">Optional chapter</p><h2 id="story-title">Our story</h2><p id="story-text"></p></section>
+<section class="wrap section rsvp" id="rsvp" aria-labelledby="rsvp-title"><p class="eyebrow">Your response</p><h2 id="rsvp-title">Will you join us?</h2><form class="panel" id="rsvp-form"><label class="field">Your name<input name="guest" required autocomplete="name" maxlength="120"></label><fieldset><legend>Attendance</legend><label><input type="radio" name="attendance" value="yes" required> Happily attending</label><label><input type="radio" name="attendance" value="no"> Unable to attend</label></fieldset><label class="field">Party size<input name="party" type="number" min="1" max="8" value="1"></label><label class="field">Dietary or accessibility note (optional)<textarea name="note" rows="2"></textarea></label><button class="action action--primary" type="submit">Save prototype response</button><p id="rsvp-status" role="status" aria-live="polite" class="notice">Prototype only: no guest information is sent to a server.</p></form></section>
+<footer class="wrap"><p class="eyebrow">Closing light</p><h2>We hope to see you there.</h2><button class="action" id="share" type="button">Share invitation</button><div id="share-fallback" class="share-fallback" hidden><p id="share-note" role="status"></p><label class="field">Invitation link<input type="url" id="share-url" readonly aria-label="Invitation link, select and copy"></label></div></footer>
+<nav class="utility" aria-label="Invitation utilities"><a class="action" href="#events">Events</a><a class="action" href="#rsvp">RSVP</a><button class="action" id="utility-share" type="button">Share</button></nav>
+</main>
+<script>
+(() => {
+  "use strict";
+  const config = JSON.parse(document.getElementById("invite-data").textContent);
+  const track = (event, detail = {}) => window.dispatchEvent(new CustomEvent("invitelink:analytics", {detail:{event,template:"royal-procession",...detail}}));
+  const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const dateLabel = date => new Intl.DateTimeFormat("en-IN",{dateStyle:"full"}).format(new Date(date+"T12:00:00+05:30"));
+  const eventLabel = date => new Intl.DateTimeFormat("en-IN",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Kolkata"}).format(new Date(date));
+  const icsDate = iso => new Date(iso).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+  const escapeICS = s => String(s).replace(/\\/g,"\\\\").replace(/,/g,"\\,").replace(/;/g,"\\;").replace(/\n/g,"\\n");
+  const text = (tag, cls, value) => {const el=document.createElement(tag);if(cls)el.className=cls;el.textContent=value;return el;};
+  document.querySelector("[data-names]").textContent=config.names;
+  document.querySelector("[data-date]").textContent=dateLabel(config.primaryDate)+" · "+config.location;
+  document.querySelector("[data-welcome]").textContent=config.familyWelcome||"Your presence would mean the world to us.";
+  const story=config.optional?.story;
+  if(story){document.getElementById("story").hidden=false;document.getElementById("story-text").textContent=story;}
+  const route=document.getElementById("route");
+  config.events.forEach((e,i)=>{
+    const stop=text("article","stop","");
+    const button=text("button","stop__button",e.name);
+    button.type="button";button.setAttribute("aria-expanded","false");
+    const detail=text("div","stop__detail","");
+    detail.hidden=true;
+    const detailId="waypoint-"+i;detail.id=detailId;button.setAttribute("aria-controls",detailId);
+    const index=text("span","stop__index","Waypoint "+(i+1));button.prepend(index);
+    detail.append(text("h3","",e.name),text("p","stop__meta",eventLabel(e.start)+" · "+e.venue));
+    if(e.dress)detail.append(text("p","stop__meta","Dress: "+e.dress));
+    const actions=text("div","stop__actions","");
+    const calendar=text("button","action","Add to calendar");calendar.type="button";
+    calendar.addEventListener("click",()=>{
+      const content=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//InviteLink//Original Prototype//EN","BEGIN:VEVENT","UID:"+e.id+"-royal-procession@invitelink.shop","SUMMARY:"+escapeICS(e.name),"DTSTART:"+icsDate(e.start),"DTEND:"+icsDate(e.end),"LOCATION:"+escapeICS(e.venue),"END:VEVENT","END:VCALENDAR",""].join("\r\n");
+      const url=URL.createObjectURL(new Blob([content],{type:"text/calendar;charset=utf-8"}));
+      const a=document.createElement("a");a.href=url;a.download=e.id+".ics";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);track("calendar_add",{event_id:e.id});
+    });
+    actions.append(calendar);
+    if(e.address&&e.address.trim()){
+      const map=text("a","action","Directions");map.href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(e.address);
+      map.target="_blank";map.rel="noopener noreferrer";map.addEventListener("click",()=>track("map_click",{event_id:e.id}));actions.append(map);
+    }else{const pending=text("button","action","Directions pending");pending.type="button";pending.disabled=true;pending.title="Exact venue address not yet provided";pending.setAttribute("aria-label","Directions unavailable until exact venue address is provided");actions.append(pending);}
+    detail.append(actions);
+    stop.append(button,detail);route.append(stop);
+    button.addEventListener("click",()=>{
+      const opening=detail.hidden;detail.hidden=!opening;button.setAttribute("aria-expanded",String(opening));
+      stop.classList.toggle("is-lit",opening);
+      if(opening){track("waypoint_view",{waypoint:i+1});track("event_view",{event_id:e.id});}
+    });
+  });
+  document.getElementById("begin").addEventListener("click",()=>{
+    const first=route.querySelector(".stop__button");if(first&&first.getAttribute("aria-expanded")==="false")first.click();
+    document.getElementById("progress").textContent="The procession has begun. Explore any celebration waypoint.";
+    document.getElementById("events").scrollIntoView({behavior:reduced()?"auto":"smooth"});
+    requestAnimationFrame(()=>first?.focus({preventScroll:true}));
+    track("procession_begin");
+  });
+  let started=false;
+  const form=document.getElementById("rsvp-form");
+  form.addEventListener("input",()=>{if(!started){started=true;track("rsvp_start");}});
+  form.addEventListener("submit",e=>{e.preventDefault();if(!form.reportValidity())return;document.getElementById("rsvp-status").textContent="Prototype response confirmed on this screen only. No server submission has occurred.";track("rsvp_complete",{prototype_only:true});});
+  async function share(){
+    track("share_click");
+    try{if(typeof navigator.share==="function"){await navigator.share({title:document.title,url:location.href});return;}}
+    catch(e){if(e?.name==="AbortError")return;}
+    const fallback=document.getElementById("share-fallback"),input=document.getElementById("share-url");
+    fallback.hidden=false;input.value=location.href;document.getElementById("share-note").textContent="Select this link and copy it manually.";
+    if(navigator.clipboard?.writeText){try{await navigator.clipboard.writeText(location.href);document.getElementById("share-note").textContent="Link copied. Manual selection is also available.";}catch(e){}}
+    fallback.scrollIntoView({behavior:reduced()?"auto":"smooth"});input.focus({preventScroll:true});input.select();
+  }
+  document.getElementById("share").addEventListener("click",share);
+  document.getElementById("utility-share").addEventListener("click",share);
+  track("invite_open");
+})();
+</script>
+</body>
+</html>
