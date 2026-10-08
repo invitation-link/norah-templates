@@ -26,7 +26,7 @@ const cards = data.events.map(e => {
   const address = e.address && String(e.address).trim()
     ? "<p>Directions: "+esc(e.address)+"</p>"
     : "<p>Venue directions pending a confirmed address.</p>";
-  return '<article class="stop"><h3>'+esc(e.name)+'</h3><p>'+esc(eventLabel(e.start))+' · '+esc(e.venue)+'</p>'+address+'</article>';
+  return '<article class="stop"><h3>'+esc(e.name)+'</h3><p>'+esc(eventLabel(e.start))+' – '+esc(eventLabel(e.end))+' · '+esc(e.venue)+'</p>'+address+'</article>';
 }).join("");
 const replacements = [
   [/(<h1 id="title" data-names>)[\s\S]*?(<\/h1>)/, "$1"+esc(data.names)+"$2"],
