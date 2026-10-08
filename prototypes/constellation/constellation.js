@@ -107,12 +107,50 @@
     track('rsvp_submit', { attendance: form.get('attendance') });
   });
 
+  function showShareFallback(message) {
+    let panel = document.querySelector('[data-share-fallback]');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.setAttribute('data-share-fallback', '');
+      const note = document.createElement('p');
+      note.setAttribute('role', 'status');
+      note.setAttribute('aria-live', 'polite');
+      note.setAttribute('data-share-note', '');
+      const label = document.createElement('label');
+      label.textContent = 'Invitation link';
+      const input = document.createElement('input');
+      input.type = 'url';
+      input.readOnly = true;
+      input.setAttribute('aria-label', 'Invitation link — select and copy');
+      input.setAttribute('data-share-url', '');
+      label.append(input);
+      panel.append(note, label);
+      document.querySelector('.closing')?.append(panel);
+    }
+    const input = panel.querySelector('[data-share-url]');
+    panel.querySelector('[data-share-note]').textContent = message;
+    input.value = location.href;
+    panel.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    input.focus({ preventScroll: true });
+    input.select();
+  }
+
   shareButton?.addEventListener('click', async () => {
+    track('share_tap');
     try {
-      if (navigator.share) await navigator.share({ title: document.title, url: location.href });
-      else if (navigator.clipboard) await navigator.clipboard.writeText(location.href);
-      track('share_tap');
-    } catch (_) {}
+      if (typeof navigator.share === 'function') {
+        await navigator.share({ title: document.title, url: location.href });
+        return;
+      }
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(location.href);
+        showShareFallback('Invitation link copied. You can also select it below.');
+        return;
+      }
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+    }
+    showShareFallback('Select the invitation link below and copy it manually.');
   });
 
   track('invitation_open');
