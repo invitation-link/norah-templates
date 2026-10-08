@@ -21,16 +21,16 @@ main{padding-bottom:5.5rem}.wrap{width:min(68rem,calc(100% - 2rem));margin:auto}
 <main>
 <section class="wrap hero" aria-labelledby="title">
 <p class="eyebrow">InviteLink · Original experience study</p>
-<h1 id="title" data-names></h1>
-<p class="hero__date" data-date></p>
+<h1 id="title" data-names>Asha &amp; Dev</h1>
+<p class="hero__date" data-date>Sunday, 21 February 2027 · Hyderabad, India</p>
 <p class="lead">A procession of moments, carried by light. Every celebration detail is available below without completing the opening interaction.</p>
-<div><button class="action action--primary" id="begin" type="button">Begin procession</button></div>
+<div><a class="action action--primary" id="begin" href="#events">Begin procession</a></div>
 <p role="status" aria-live="polite" id="progress" class="subtle">The route is ready. You can also go straight to Events or RSVP.</p>
 </section>
-<section class="wrap section" aria-labelledby="welcome-title"><p class="eyebrow">Welcome</p><h2 id="welcome-title">Together, we gather.</h2><p class="lead" data-welcome></p></section>
-<section class="wrap section" id="events" aria-labelledby="events-title"><div class="section-head"><p class="eyebrow">The procession</p><h2 id="events-title">Celebration waypoints</h2><p class="subtle">Choose any waypoint to read the event. No decorative step is required.</p></div><div class="route" id="route"></div></section>
+<section class="wrap section" aria-labelledby="welcome-title"><p class="eyebrow">Welcome</p><h2 id="welcome-title">Together, we gather.</h2><p class="lead" data-welcome>We would love to celebrate this next chapter with you.</p></section>
+<section class="wrap section" id="events" aria-labelledby="events-title"><div class="section-head"><p class="eyebrow">The procession</p><h2 id="events-title">Celebration waypoints</h2><p class="subtle">Choose any waypoint to read the event. No decorative step is required.</p></div><div class="route" id="route"><noscript><article class="stop"><h3>Welcome Gathering</h3><p>20 February 2027, 7:00–9:00 PM · Hyderabad, India</p><p>Venue directions pending a confirmed address.</p></article><article class="stop"><h3>Wedding Ceremony</h3><p>21 February 2027, 5:30–8:30 PM · Hyderabad, India</p><p>Venue directions pending a confirmed address.</p></article></noscript></div></section>
 <section class="wrap section" id="story" hidden aria-labelledby="story-title"><p class="eyebrow">Optional chapter</p><h2 id="story-title">Our story</h2><p id="story-text"></p></section>
-<section class="wrap section rsvp" id="rsvp" aria-labelledby="rsvp-title"><p class="eyebrow">Your response</p><h2 id="rsvp-title">Will you join us?</h2><form class="panel" id="rsvp-form"><label class="field">Your name<input name="guest" required autocomplete="name" maxlength="120"></label><fieldset><legend>Attendance</legend><label><input type="radio" name="attendance" value="yes" required> Happily attending</label><label><input type="radio" name="attendance" value="no"> Unable to attend</label></fieldset><label class="field">Party size<input name="party" type="number" min="1" max="8" value="1"></label><label class="field">Dietary or accessibility note (optional)<textarea name="note" rows="2"></textarea></label><button class="action action--primary" type="submit">Save prototype response</button><p id="rsvp-status" role="status" aria-live="polite" class="notice">Prototype only: no guest information is sent to a server.</p></form></section>
+<section class="wrap section rsvp" id="rsvp" aria-labelledby="rsvp-title"><p class="eyebrow">Your response</p><h2 id="rsvp-title">Will you join us?</h2><form class="panel" id="rsvp-form"><label class="field">Your name<input name="guest" required autocomplete="name" maxlength="120"></label><fieldset><legend>Attendance</legend><label><input type="radio" name="attendance" value="yes" required> Happily attending</label><label><input type="radio" name="attendance" value="no"> Unable to attend</label></fieldset><label class="field">Party size<input name="party" type="number" min="1" max="8" value="1"></label><label class="field">Dietary or accessibility note (optional)<textarea name="note" rows="2"></textarea></label><button class="action action--primary" id="rsvp-submit" type="submit" disabled aria-disabled="true">Save prototype response</button><p id="rsvp-status" role="status" aria-live="polite" class="notice">Prototype only: no guest information is sent to a server.</p><noscript><p class="notice" role="note">RSVP is unavailable in this preview without JavaScript. Please contact the hosts directly. No guest information will be submitted.</p></noscript></form></section>
 <footer class="wrap"><p class="eyebrow">Closing light</p><h2>We hope to see you there.</h2><button class="action" id="share" type="button">Share invitation</button><div id="share-fallback" class="share-fallback" hidden><p id="share-note" role="status"></p><label class="field">Invitation link<input type="url" id="share-url" readonly aria-label="Invitation link, select and copy"></label></div></footer>
 <nav class="utility" aria-label="Invitation utilities"><a class="action" href="#events">Events</a><a class="action" href="#rsvp">RSVP</a><button class="action" id="utility-share" type="button">Share</button></nav>
 </main>
@@ -81,7 +81,7 @@ main{padding-bottom:5.5rem}.wrap{width:min(68rem,calc(100% - 2rem));margin:auto}
       if(opening){track("waypoint_view",{waypoint:i+1});track("event_view",{event_id:e.id});}
     });
   });
-  document.getElementById("begin").addEventListener("click",()=>{
+  document.getElementById("begin").addEventListener("click",event=>{event.preventDefault();
     const first=route.querySelector(".stop__button");if(first&&first.getAttribute("aria-expanded")==="false")first.click();
     document.getElementById("progress").textContent="The procession has begun. Explore any celebration waypoint.";
     document.getElementById("events").scrollIntoView({behavior:reduced()?"auto":"smooth"});
@@ -92,6 +92,7 @@ main{padding-bottom:5.5rem}.wrap{width:min(68rem,calc(100% - 2rem));margin:auto}
   const form=document.getElementById("rsvp-form");
   form.addEventListener("input",()=>{if(!started){started=true;track("rsvp_start");}});
   form.addEventListener("submit",e=>{e.preventDefault();if(!form.reportValidity())return;document.getElementById("rsvp-status").textContent="Prototype response confirmed on this screen only. No server submission has occurred.";track("rsvp_complete",{prototype_only:true});});
+  const submit=document.getElementById("rsvp-submit");submit.disabled=false;submit.removeAttribute("aria-disabled");
   async function share(){
     track("share_click");
     try{if(typeof navigator.share==="function"){await navigator.share({title:document.title,url:location.href});return;}}
