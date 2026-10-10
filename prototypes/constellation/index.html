@@ -58,7 +58,7 @@
           <h3>Welcome Evening</h3>
           <p>Courtyard House · Festive casual</p>
           <div class="event-actions">
-            <a href="https://maps.google.com/?q=Hyderabad" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <span class="map-unavailable" role="note">Directions pending verified venue address</span>
             <button type="button" data-calendar="welcome">Add to calendar</button>
           </div>
         </article>
@@ -67,7 +67,7 @@
           <h3>Wedding Ceremony</h3>
           <p>Garden Pavilion · Festive formal</p>
           <div class="event-actions">
-            <a href="https://maps.google.com/?q=Hyderabad" target="_blank" rel="noopener" data-track="map_click">Map</a>
+            <span class="map-unavailable" role="note">Directions pending verified venue address</span>
             <button type="button" data-calendar="wedding">Add to calendar</button>
           </div>
         </article>
@@ -80,16 +80,17 @@
         <h2 id="rsvp-title">Will you join us?</h2>
       </div>
       <form data-rsvp-panel>
-        <label>Name <input name="name" autocomplete="name" required></label>
+        <label>Name <input disabled name="name" autocomplete="name" required></label>
         <fieldset>
           <legend>Attendance</legend>
-          <label><input type="radio" name="attendance" value="yes" required> Yes, happily</label>
-          <label><input type="radio" name="attendance" value="no"> Unable to attend</label>
+          <label><input disabled type="radio" name="attendance" value="yes" required> Yes, happily</label>
+          <label><input disabled type="radio" name="attendance" value="no"> Unable to attend</label>
         </fieldset>
-        <label>Party size <input type="number" name="partySize" min="1" max="8" value="1"></label>
-        <label>Dietary or accessibility note <textarea name="note" rows="3"></textarea></label>
-        <button type="submit">Save RSVP</button>
+        <label>Party size <input disabled type="number" name="partySize" min="1" max="8" value="1"></label>
+        <label>Dietary or accessibility note <textarea disabled name="note" rows="3"></textarea></label>
+        <button type="submit" disabled>Preview RSVP (not saved)</button>
         <p role="status" aria-live="polite" data-rsvp-status></p>
+        <noscript><p role="status">RSVP preview is unavailable without JavaScript. Please contact the host directly; no information is submitted from this prototype.</p></noscript>
       </form>
     </section>
 
@@ -109,7 +110,7 @@
     <nav class="utility-dock" aria-label="Invitation utilities">
       <a href="#events">Events</a>
       <a href="#rsvp-title">RSVP</a>
-      <a href="https://maps.google.com/?q=Hyderabad" target="_blank" rel="noopener">Map</a>
+      <span class="map-unavailable" role="note">Directions pending</span>
       <button type="button" data-share>Share</button>
     </nav>
   </main>
