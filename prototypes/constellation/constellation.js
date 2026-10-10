@@ -111,6 +111,13 @@
     track('rsvp_preview', { attendance: form.get('attendance') });
   });
 
+  // The static HTML starts with the preview RSVP controls disabled. Enable only
+  // after this script has installed its preventDefault preview-only handler.
+  // With JavaScript disabled or a load error, guest details cannot be submitted.
+  rsvpForm?.querySelectorAll('input, textarea, button').forEach((control) => {
+    control.disabled = false;
+  });
+
   function showShareFallback(message) {
     let panel = document.querySelector('[data-share-fallback]');
     if (!panel) {
