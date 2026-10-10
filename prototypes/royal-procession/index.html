@@ -64,7 +64,7 @@ main{padding-bottom:5.5rem}.wrap{width:min(68rem,calc(100% - 2rem));margin:auto}
     const actions=text("div","stop__actions","");
     const calendar=text("button","action","Add to calendar");calendar.type="button";
     calendar.addEventListener("click",()=>{
-      const content=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//InviteLink//Original Prototype//EN","BEGIN:VEVENT","UID:"+e.id+"-royal-procession@invitelink.shop","SUMMARY:"+escapeICS(e.name),"DTSTART:"+icsDate(e.start),"DTEND:"+icsDate(e.end),"LOCATION:"+escapeICS(e.venue),"END:VEVENT","END:VCALENDAR",""].join("\r\n");
+      const content=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//InviteLink//Original Prototype//EN","BEGIN:VEVENT","UID:"+e.id+"-royal-procession@invitelink.shop","SUMMARY:"+escapeICS(e.name),"DTSTAMP:"+icsDate(new Date().toISOString()),"DTSTART:"+icsDate(e.start),"DTEND:"+icsDate(e.end),...(e.address&&e.address.trim()?["LOCATION:"+escapeICS(e.address.trim())]:[]),"END:VEVENT","END:VCALENDAR",""].join("\r\n");
       const url=URL.createObjectURL(new Blob([content],{type:"text/calendar;charset=utf-8"}));
       const a=document.createElement("a");a.href=url;a.download=e.id+".ics";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);track("calendar_add",{event_id:e.id});
     });
