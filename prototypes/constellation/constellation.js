@@ -81,14 +81,20 @@
     const label = button.dataset.calendar === 'wedding' ? 'Wedding Ceremony' : 'Welcome Evening';
     const date = button.dataset.calendar === 'wedding' ? '20270221T120000Z' : '20270220T133000Z';
     const end = button.dataset.calendar === 'wedding' ? '20270221T150000Z' : '20270220T163000Z';
-    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${label}\nDTSTART:${date}\nDTEND:${end}\nLOCATION:Hyderabad\nEND:VEVENT\nEND:VCALENDAR`;
+    const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+    const ics = [
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//InviteLink//Constellation Prototype//EN',
+      'BEGIN:VEVENT', `UID:${button.dataset.calendar}-${date}@invitelink.shop`,
+      `DTSTAMP:${stamp}`, `DTSTART:${date}`, `DTEND:${end}`,
+      `SUMMARY:${label}`, 'END:VEVENT', 'END:VCALENDAR', ''
+    ].join('\r\n');
     const blob = new Blob([ics], { type: 'text/calendar' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = `${button.dataset.calendar}.ics`;
     link.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
     track('calendar_add', { event_id: button.dataset.calendar });
   }));
 
@@ -101,10 +107,8 @@
   rsvpForm?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = new FormData(rsvpForm);
-    rsvpStatus.textContent = form.get('attendance') === 'yes'
-      ? 'RSVP saved for this prototype. Production will submit to InviteLink guest state.'
-      : 'Response saved for this prototype. Production will submit to InviteLink guest state.';
-    track('rsvp_submit', { attendance: form.get('attendance') });
+    rsvpStatus.textContent = 'Preview only — this response was not saved or sent. Please contact the host to RSVP.';
+    track('rsvp_preview', { attendance: form.get('attendance') });
   });
 
   function showShareFallback(message) {
