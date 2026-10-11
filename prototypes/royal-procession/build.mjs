@@ -8,20 +8,30 @@ const file = fileURLToPath(new URL("./index.html", import.meta.url));
 const source = readFileSync(file, "utf8");
 const match = source.match(/<script type="application\/json" id="invite-data">\s*([\s\S]*?)\s*<\/script>/);
 if (!match) throw new Error("Missing canonical invite-data");
+// Embedded JSON must never contain literal '<': </script> would terminate the script.
+if (match[1].includes("<")) throw new Error("Unsafe embedded JSON: encode literal < as \\u003c before publishing");
 const data = JSON.parse(match[1]);
 if (typeof data.names !== "string" || !data.names.trim() ||
     !/^\d{4}-\d{2}-\d{2}$/.test(data.primaryDate) ||
+    !Number.isFinite(Date.parse(data.primaryDate+"T12:00:00+05:30")) ||
     typeof data.location !== "string" || !data.location.trim() ||
     !Array.isArray(data.events) || !data.events.length)
-  throw new Error("Required names/date/location/events missing");
+  throw new Error("Required names/date/location/events missing or invalid");
+const seenIds = new Set();
+for (const [i,event] of data.events.entries()) {
+  if (typeof event.id !== "string" || !/^[a-z0-9-]+$/.test(event.id) || seenIds.has(event.id))
+    throw new Error("Unsafe or duplicate event ID at index "+i);
+  seenIds.add(event.id);
+  if (typeof event.name !== "string" || !event.name.trim() ||
+      typeof event.venue !== "string" || !event.venue.trim() ||
+      !Number.isFinite(Date.parse(event.start)) ||
+      !Number.isFinite(Date.parse(event.end)) ||
+      Date.parse(event.end) <= Date.parse(event.start))
+    throw new Error("Missing event details or invalid start/end chronology at index "+i);
+}
 const esc = value => String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 const dateLabel = date => new Intl.DateTimeFormat("en-IN",{dateStyle:"full"}).format(new Date(date+"T12:00:00+05:30"));
 const eventLabel = date => new Intl.DateTimeFormat("en-IN",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Kolkata"}).format(new Date(date));
-for (const event of data.events) {
-  if (!event.id || !event.name || !event.start || !event.end || !event.venue ||
-      Number.isNaN(new Date(event.start).getTime()) || Number.isNaN(new Date(event.end).getTime()))
-    throw new Error("Event missing id/name/start/end/venue or invalid dates");
-}
 const cards = data.events.map(e => {
   const address = e.address && String(e.address).trim()
     ? "<p>Directions: "+esc(e.address)+"</p>"
