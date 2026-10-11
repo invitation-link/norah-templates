@@ -10,10 +10,15 @@ const match = source.match(/<script type="application\/json" id="invite-data">\s
 if (!match) throw new Error("Missing canonical invite-data");
 // Embedded JSON must never contain literal '<': </script> would terminate the script.
 if (match[1].includes("<")) throw new Error("Unsafe embedded JSON: encode literal < as \\u003c before publishing");
+const isGregorianDate = value => {
+  if (typeof value !== "string" || !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  return day <= [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30][month - 1];
+};
 const data = JSON.parse(match[1]);
 if (typeof data.names !== "string" || !data.names.trim() ||
-    !/^\d{4}-\d{2}-\d{2}$/.test(data.primaryDate) ||
-    !Number.isFinite(Date.parse(data.primaryDate+"T12:00:00+05:30")) ||
+    !isGregorianDate(data.primaryDate) ||
     typeof data.location !== "string" || !data.location.trim() ||
     !Array.isArray(data.events) || !data.events.length)
   throw new Error("Required names/date/location/events missing or invalid");
