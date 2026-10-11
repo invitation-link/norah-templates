@@ -44,6 +44,7 @@ main{padding-bottom:5.5rem}.wrap{width:min(68rem,calc(100% - 2rem));margin:auto}
   const eventLabel = date => new Intl.DateTimeFormat("en-IN",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Kolkata"}).format(new Date(date));
   const icsDate = iso => new Date(iso).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
   const escapeICS = s => String(s).replace(/\\/g,"\\\\").replace(/\r\n|\r|\n/g,"\\n").replace(/,/g,"\\,").replace(/;/g,"\\;");
+  const foldICS = line => {let out=[],part="",octets=0;for(const ch of line){const bytes=new TextEncoder().encode(ch).length;if(octets+bytes>75){out.push(part);part=" ";octets=1;}part+=ch;octets+=bytes;}out.push(part);return out.join("\r\n");};
   const text = (tag, cls, value) => {const el=document.createElement(tag);if(cls)el.className=cls;el.textContent=value;return el;};
   document.querySelector("[data-names]").textContent=config.names;
   document.querySelector("[data-date]").textContent=dateLabel(config.primaryDate)+" · "+config.location;
@@ -68,7 +69,7 @@ main{padding-bottom:5.5rem}.wrap{width:min(68rem,calc(100% - 2rem));margin:auto}
     if(!validCalendarId || !validCalendarDates){calendar.disabled=true;calendar.textContent="Calendar unavailable";calendar.title="A valid event ID and chronological start/end dates are required";}
     calendar.addEventListener("click",()=>{
       if(!validCalendarId || !validCalendarDates)return;
-      const content=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//InviteLink//Original Prototype//EN","BEGIN:VEVENT","UID:"+e.id+"-royal-procession@invitelink.shop","SUMMARY:"+escapeICS(e.name),"DTSTAMP:"+icsDate(new Date().toISOString()),"DTSTART:"+icsDate(e.start),"DTEND:"+icsDate(e.end),...(e.address&&e.address.trim()?["LOCATION:"+escapeICS(e.address.trim())]:[]),"END:VEVENT","END:VCALENDAR",""].join("\r\n");
+      const content=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//InviteLink//Original Prototype//EN","BEGIN:VEVENT","UID:"+e.id+"-royal-procession@invitelink.shop","SUMMARY:"+escapeICS(e.name),"DTSTAMP:"+icsDate(new Date().toISOString()),"DTSTART:"+icsDate(e.start),"DTEND:"+icsDate(e.end),...(e.address&&e.address.trim()?["LOCATION:"+escapeICS(e.address.trim())]:[]),"END:VEVENT","END:VCALENDAR",""].map(foldICS).join("\r\n");
       const url=URL.createObjectURL(new Blob([content],{type:"text/calendar;charset=utf-8"}));
       const a=document.createElement("a");a.href=url;a.download=e.id+".ics";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);track("calendar_add",{event_id:e.id});
     });
