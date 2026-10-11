@@ -5,6 +5,13 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 const html = readFileSync(fileURLToPath(new URL("./index.html", import.meta.url)), "utf8");
 const errors = [];
+const isGregorianDate = value => {
+  if (typeof value !== "string" || !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  return day <= [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30][month - 1];
+};
+
 const requireMatch = (re, message) => {
   const match = html.match(re);
   if (!match) errors.push(message);
@@ -21,7 +28,7 @@ if (script) {
     const textOf = re => html.match(re)?.[1] ?? null;
     const dateLabel = d => new Intl.DateTimeFormat("en-IN",{dateStyle:"full"}).format(new Date(d+"T12:00:00+05:30"));
     const eventLabel = d => new Intl.DateTimeFormat("en-IN",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Kolkata"}).format(new Date(d));
-    if (!data.names?.trim() || !data.location?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(data.primaryDate || "") || !Array.isArray(data.events) || !data.events.length) errors.push("Missing required core fields");
+    if (!data.names?.trim() || !data.location?.trim() || !isGregorianDate(data.primaryDate) || !Array.isArray(data.events) || !data.events.length) errors.push("Missing required core fields");
     else {
       if (textOf(/<h1 id="title" data-names>([\s\S]*?)<\/h1>/) !== esc(data.names)) errors.push("Names not synchronized");
       if (textOf(/<p class="hero__date" data-date>([\s\S]*?)<\/p>/) !== esc(dateLabel(data.primaryDate)+" · "+data.location)) errors.push("Date/location not synchronized");
