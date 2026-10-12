@@ -13,8 +13,16 @@ if (match[1].includes("<")) throw new Error("Unsafe embedded JSON: encode litera
 const isGregorianDate = value => {
   if (typeof value !== "string" || !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(value)) return false;
   const [year, month, day] = value.split("-").map(Number);
+  if (year < 1) return false;
   const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
-  return day <= [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30][month - 1];
+  return day <= [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1];
+};
+const isStrictEventTimestamp = value => {
+  if (typeof value !== "string") return false;
+  const m = /^(\d{4}-\d{2}-\d{2})T([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(?:\.\d{1,3})?(Z|[+-](?:0\d|1[0-4]):[0-5]\d)$/.exec(value);
+  if (!m || !isGregorianDate(m[1])) return false;
+  if (m[5] !== "Z" && Number(m[5].slice(1,3)) === 14 && m[5].slice(4) !== "00") return false;
+  return Number.isFinite(Date.parse(value));
 };
 const data = JSON.parse(match[1]);
 if (typeof data.names !== "string" || !data.names.trim() ||
@@ -29,8 +37,8 @@ for (const [i,event] of data.events.entries()) {
   seenIds.add(event.id);
   if (typeof event.name !== "string" || !event.name.trim() ||
       typeof event.venue !== "string" || !event.venue.trim() ||
-      !Number.isFinite(Date.parse(event.start)) ||
-      !Number.isFinite(Date.parse(event.end)) ||
+      !isStrictEventTimestamp(event.start) ||
+      !isStrictEventTimestamp(event.end) ||
       Date.parse(event.end) <= Date.parse(event.start))
     throw new Error("Missing event details or invalid start/end chronology at index "+i);
 }
